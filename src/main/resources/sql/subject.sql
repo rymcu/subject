@@ -100,7 +100,7 @@ CREATE TABLE `subject_question`  (
   `REMARK` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '备注',
   `QUESTION_URL` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '来源网站 网址',
   `QUESTION_URL_REMARK` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '来源描述 如：牛客网',
-  `SRC_TYPE` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '来源类型 0-默认，1-系统，2-管理员，3-用户，4-脚本',
+  `SRC_TYPE` int NOT NULL COMMENT '来源类型 0-默认，1-系统，2-管理员，3-用户，4-脚本',
   `CREATED_BY` bigint NULL DEFAULT NULL COMMENT '创建人',
   `CREATED_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `UPDATED_BY` bigint NULL DEFAULT NULL COMMENT '更新人',
