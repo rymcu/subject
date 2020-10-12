@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rymcu_subject?serverTimezone=UTC&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: rymcu_subject
+    password: 1234
+mybatis:
+  typeAliasesPackage: com.rymcu.subject.domain
+  mapperLocations: classpath:mapperxml/*.xml
+server:
+  port: 8089
