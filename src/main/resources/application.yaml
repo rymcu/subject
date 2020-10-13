@@ -1,9 +1,16 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/rymcu_subject?serverTimezone=UTC&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/rymcu_subject?serverTimezone=UTC&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
     username: rymcu_subject
     password: 1234
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
+    prefix: classpath:/templates/
+    # 禁用缓存
+    cache: false
+    enabled: true
 mybatis:
   typeAliasesPackage: com.rymcu.subject.domain
   mapperLocations: classpath:mapperxml/*.xml

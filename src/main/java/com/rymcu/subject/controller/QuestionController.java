@@ -22,4 +22,9 @@ public class QuestionController {
     public SubjectQuestion getQuestion(@PathVariable("id") Long id){
         return subjectQuestionService.selectByPrimaryKey(id);
     }
+
+    @GetMapping("/system/menu/menu")
+    public String getMenu(){
+        return  "/system/menu/menu";
+    }
 }
