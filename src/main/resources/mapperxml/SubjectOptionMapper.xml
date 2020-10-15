@@ -99,4 +99,6 @@
       IS_ANSWER = #{isAnswer,jdbcType=CHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="findAllByIdAndId"></select>
 </mapper>
