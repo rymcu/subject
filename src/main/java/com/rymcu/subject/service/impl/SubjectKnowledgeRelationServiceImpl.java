@@ -1,15 +1,18 @@
 package com.rymcu.subject.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
-import com.rymcu.subject.mapper.SubjectImportantRelationMapper;
-import com.rymcu.subject.domain.SubjectImportantRelation;
-import com.rymcu.subject.service.SubjectImportantRelationService;
+
+import com.rymcu.subject.mapper.SubjectKnowledgeRelationMapper;
+import com.rymcu.subject.domain.SubjectKnowledgeRelation;
+import com.rymcu.subject.service.SubjectKnowledgeRelationService;
+
 @Service
-public class SubjectImportantRelationServiceImpl implements SubjectImportantRelationService{
+public class SubjectKnowledgeRelationServiceImpl implements SubjectKnowledgeRelationService {
 
     @Resource
-    private SubjectImportantRelationMapper subjectImportantRelationMapper;
+    private SubjectKnowledgeRelationMapper subjectImportantRelationMapper;
 
     @Override
     public int deleteByPrimaryKey(Long id) {
@@ -17,27 +20,27 @@ public class SubjectImportantRelationServiceImpl implements SubjectImportantRela
     }
 
     @Override
-    public int insert(SubjectImportantRelation record) {
+    public int insert(SubjectKnowledgeRelation record) {
         return subjectImportantRelationMapper.insert(record);
     }
 
     @Override
-    public int insertSelective(SubjectImportantRelation record) {
+    public int insertSelective(SubjectKnowledgeRelation record) {
         return subjectImportantRelationMapper.insertSelective(record);
     }
 
     @Override
-    public SubjectImportantRelation selectByPrimaryKey(Long id) {
+    public SubjectKnowledgeRelation selectByPrimaryKey(Long id) {
         return subjectImportantRelationMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public int updateByPrimaryKeySelective(SubjectImportantRelation record) {
+    public int updateByPrimaryKeySelective(SubjectKnowledgeRelation record) {
         return subjectImportantRelationMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updateByPrimaryKey(SubjectImportantRelation record) {
+    public int updateByPrimaryKey(SubjectKnowledgeRelation record) {
         return subjectImportantRelationMapper.updateByPrimaryKey(record);
     }
 

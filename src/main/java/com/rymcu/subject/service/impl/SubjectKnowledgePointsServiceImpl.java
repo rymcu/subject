@@ -1,15 +1,18 @@
 package com.rymcu.subject.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
-import com.rymcu.subject.domain.SubjectImportantPoints;
-import com.rymcu.subject.mapper.SubjectImportantPointsMapper;
-import com.rymcu.subject.service.SubjectImportantPointsService;
+
+import com.rymcu.subject.domain.SubjectKnowledgePoints;
+import com.rymcu.subject.mapper.SubjectKnowledgePointsMapper;
+import com.rymcu.subject.service.SubjectKnowledgePointsService;
+
 @Service
-public class SubjectImportantPointsServiceImpl implements SubjectImportantPointsService{
+public class SubjectKnowledgePointsServiceImpl implements SubjectKnowledgePointsService {
 
     @Resource
-    private SubjectImportantPointsMapper subjectImportantPointsMapper;
+    private SubjectKnowledgePointsMapper subjectImportantPointsMapper;
 
     @Override
     public int deleteByPrimaryKey(Long id) {
@@ -17,27 +20,27 @@ public class SubjectImportantPointsServiceImpl implements SubjectImportantPoints
     }
 
     @Override
-    public int insert(SubjectImportantPoints record) {
+    public int insert(SubjectKnowledgePoints record) {
         return subjectImportantPointsMapper.insert(record);
     }
 
     @Override
-    public int insertSelective(SubjectImportantPoints record) {
+    public int insertSelective(SubjectKnowledgePoints record) {
         return subjectImportantPointsMapper.insertSelective(record);
     }
 
     @Override
-    public SubjectImportantPoints selectByPrimaryKey(Long id) {
+    public SubjectKnowledgePoints selectByPrimaryKey(Long id) {
         return subjectImportantPointsMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public int updateByPrimaryKeySelective(SubjectImportantPoints record) {
+    public int updateByPrimaryKeySelective(SubjectKnowledgePoints record) {
         return subjectImportantPointsMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updateByPrimaryKey(SubjectImportantPoints record) {
+    public int updateByPrimaryKey(SubjectKnowledgePoints record) {
         return subjectImportantPointsMapper.updateByPrimaryKey(record);
     }
 

@@ -1,12 +1,13 @@
 package com.rymcu.subject.mapper;
 
-import com.rymcu.subject.domain.SubjectImportantPoints;
+import com.rymcu.subject.domain.SubjectKnowledgePoints;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SubjectImportantPointsMapper {
+public interface SubjectKnowledgePointsMapper {
     /**
      * delete by primary key
+     *
      * @param id primaryKey
      * @return deleteCount
      */
@@ -14,36 +15,41 @@ public interface SubjectImportantPointsMapper {
 
     /**
      * insert record to table
+     *
      * @param record the record
      * @return insert count
      */
-    int insert(SubjectImportantPoints record);
+    int insert(SubjectKnowledgePoints record);
 
     /**
      * insert record to table selective
+     *
      * @param record the record
      * @return insert count
      */
-    int insertSelective(SubjectImportantPoints record);
+    int insertSelective(SubjectKnowledgePoints record);
 
     /**
      * select by primary key
+     *
      * @param id primary key
      * @return object by primary key
      */
-    SubjectImportantPoints selectByPrimaryKey(Long id);
+    SubjectKnowledgePoints selectByPrimaryKey(Long id);
 
     /**
      * update record selective
+     *
      * @param record the updated record
      * @return update count
      */
-    int updateByPrimaryKeySelective(SubjectImportantPoints record);
+    int updateByPrimaryKeySelective(SubjectKnowledgePoints record);
 
     /**
      * update record
+     *
      * @param record the updated record
      * @return update count
      */
-    int updateByPrimaryKey(SubjectImportantPoints record);
+    int updateByPrimaryKey(SubjectKnowledgePoints record);
 }
