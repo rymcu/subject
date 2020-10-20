@@ -45,8 +45,8 @@ CREATE TABLE `subject_collection`  (
 -- ----------------------------
 -- Table structure for subject_important_points
 -- ----------------------------
-DROP TABLE IF EXISTS `subject_important_points`;
-CREATE TABLE `subject_important_points`  (
+DROP TABLE IF EXISTS `subject_knowledge_points`;
+CREATE TABLE `subject_knowledge_points`  (
   `ID` bigint NOT NULL AUTO_INCREMENT COMMENT 'id 主键',
   `CONTENT` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '知识点内容',
   `TITLE` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '知识点标题',
@@ -60,13 +60,13 @@ CREATE TABLE `subject_important_points`  (
 -- ----------------------------
 -- Table structure for subject_important_relation
 -- ----------------------------
-DROP TABLE IF EXISTS `subject_important_relation`;
-CREATE TABLE `subject_important_relation`  (
+DROP TABLE IF EXISTS `subject_knowledge_relation`;
+CREATE TABLE `subject_knowledge_relation`  (
   `ID` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `SUBJECT_QUESTION_ID` bigint NULL DEFAULT NULL COMMENT '题目表ID',
   `SUBJECT_KNOWLEDGE_POINTS_ID` bigint NULL DEFAULT NULL COMMENT '知识点表ID',
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '题目要点关联表 ' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '题目知识点关联表 ' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for subject_option
