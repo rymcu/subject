@@ -8,47 +8,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
-    * 题目表 题目表
+    * 题目标签表 
     */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubjectQuestion implements Serializable {
+public class SubjectTag implements Serializable {
     /**
-    * 主键id
+    * ID
     */
     private Long id;
 
     /**
-    * 题目类型 1-单选；2-多选;3-填空;4-问答
+    * 标签名
     */
-    private Integer questionType;
+    private String tagName;
 
     /**
-    * 难易程度 1-100
+    * 标签描述
     */
-    private Integer questionLevel;
+    private String tagDescription;
 
     /**
-    * 备注
+    * 标签URI
     */
-    private String remark;
-
-    /**
-    * 来源网站 网址
-    */
-    private String questionUrl;
-
-    /**
-    * 来源描述 如：牛客网
-    */
-    private String questionUrlRemark;
-
-    /**
-    * 来源类型 0-默认，1-系统，2-管理员，3-用户，4-脚本
-    */
-    private String srcType;
+    private String tagUri;
 
     /**
     * 创建人
@@ -69,8 +54,6 @@ public class SubjectQuestion implements Serializable {
     * 更新时间
     */
     private Date updatedTime;
-
-    private String questionContent;
 
     private static final long serialVersionUID = 1L;
 }

@@ -1,10 +1,10 @@
 package com.rymcu.subject.mapper;
 
-import com.rymcu.subject.domain.SubjectQuestion;
+import com.rymcu.subject.domain.SubjectAnswerRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SubjectQuestionMapper {
+public interface SubjectAnswerRecordMapper {
     /**
      * delete by primary key
      * @param id primaryKey
@@ -17,33 +17,33 @@ public interface SubjectQuestionMapper {
      * @param record the record
      * @return insert count
      */
-    int insert(SubjectQuestion record);
+    int insert(SubjectAnswerRecord record);
 
     /**
      * insert record to table selective
      * @param record the record
      * @return insert count
      */
-    int insertSelective(SubjectQuestion record);
+    int insertSelective(SubjectAnswerRecord record);
 
     /**
      * select by primary key
      * @param id primary key
      * @return object by primary key
      */
-    SubjectQuestion selectByPrimaryKey(Long id);
+    SubjectAnswerRecord selectByPrimaryKey(Long id);
 
     /**
      * update record selective
      * @param record the updated record
      * @return update count
      */
-    int updateByPrimaryKeySelective(SubjectQuestion record);
+    int updateByPrimaryKeySelective(SubjectAnswerRecord record);
 
     /**
      * update record
      * @param record the updated record
      * @return update count
      */
-    int updateByPrimaryKey(SubjectQuestion record);
+    int updateByPrimaryKey(SubjectAnswerRecord record);
 }

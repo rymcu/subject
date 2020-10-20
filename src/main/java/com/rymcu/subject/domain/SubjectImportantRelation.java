@@ -7,37 +7,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
-    * 题目选项表 题目选项表、答案表
+    * 题目要点关联表 
     */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubjectOption implements Serializable {
+public class SubjectImportantRelation implements Serializable {
     /**
-    * 主键
+    * ID
     */
     private Long id;
 
     /**
-    * 题目表编号 题目表编号
+    * 题目表ID
     */
     private Long subjectQuestionId;
 
     /**
-    * 选项名 选项：ABCDEFG，or答案
+    * 知识点表ID
     */
-    private String optionName;
-
-    /**
-    * 选项内容
-    */
-    private String optionContent;
-
-    /**
-    * 是否是答案 1-正确选项，0-正常选项
-    */
-    private String isAnswer;
+    private Long subjectKnowledgePointsId;
 
     private static final long serialVersionUID = 1L;
 }

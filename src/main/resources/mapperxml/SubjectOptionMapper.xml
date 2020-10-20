@@ -26,20 +26,17 @@
     delete from rymcu_subject.subject_option
     where ID = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.rymcu.subject.domain.SubjectOption">
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectOption" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into rymcu_subject.subject_option (ID, SUBJECT_QUESTION_ID, OPTION_NAME, 
-      OPTION_CONTENT, IS_ANSWER)
-    values (#{id,jdbcType=BIGINT}, #{subjectQuestionId,jdbcType=BIGINT}, #{optionName,jdbcType=VARCHAR}, 
-      #{optionContent,jdbcType=VARCHAR}, #{isAnswer,jdbcType=CHAR})
+    insert into rymcu_subject.subject_option (SUBJECT_QUESTION_ID, OPTION_NAME, OPTION_CONTENT, 
+      IS_ANSWER)
+    values (#{subjectQuestionId,jdbcType=BIGINT}, #{optionName,jdbcType=VARCHAR}, #{optionContent,jdbcType=VARCHAR}, 
+      #{isAnswer,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.rymcu.subject.domain.SubjectOption">
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectOption" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into rymcu_subject.subject_option
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
       <if test="subjectQuestionId != null">
         SUBJECT_QUESTION_ID,
       </if>
@@ -54,9 +51,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="subjectQuestionId != null">
         #{subjectQuestionId,jdbcType=BIGINT},
       </if>
@@ -99,6 +93,4 @@
       IS_ANSWER = #{isAnswer,jdbcType=CHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
-
-  <select id="findAllByIdAndId"></select>
 </mapper>

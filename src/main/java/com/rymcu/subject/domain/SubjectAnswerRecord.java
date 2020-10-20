@@ -1,43 +1,44 @@
 package com.rymcu.subject.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
-    * 题目选项表 题目选项表、答案表
+    * 答题记录表 
     */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubjectOption implements Serializable {
+public class SubjectAnswerRecord implements Serializable {
     /**
-    * 主键
+    * ID
     */
     private Long id;
 
     /**
-    * 题目表编号 题目表编号
+    * 题目编号
     */
     private Long subjectQuestionId;
 
     /**
-    * 选项名 选项：ABCDEFG，or答案
+    * 我的答案 如abcd，填空值，or简答题的答案
     */
-    private String optionName;
+    private String answer;
 
     /**
-    * 选项内容
+    * 答题时间
     */
-    private String optionContent;
+    private Date createdTime;
 
     /**
-    * 是否是答案 1-正确选项，0-正常选项
+    * 答题人
     */
-    private String isAnswer;
+    private Long createdBy;
 
     private static final long serialVersionUID = 1L;
 }

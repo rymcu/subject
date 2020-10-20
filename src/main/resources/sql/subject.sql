@@ -11,16 +11,8 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 12/10/2020 17:12:29
+ Date: 19/10/2020 16:54:33
 */
--- 创建数据库
-CREATE DATABASE `rymcu_subject` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci';
-
--- 创建用户
-CREATE USER 'rymcu_subject' @'%' IDENTIFIED BY '1234';
-
--- 用户授权
-GRANT ALL ON rymcu_subject.* TO 'rymcu_subject' @'%';
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -87,7 +79,7 @@ CREATE TABLE `subject_option`  (
   `OPTION_CONTENT` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '选项内容',
   `IS_ANSWER` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '是否是答案 1-正确选项，0-正常选项',
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '题目选项表 题目选项表、答案表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 282 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '题目选项表 题目选项表、答案表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for subject_question
@@ -100,14 +92,14 @@ CREATE TABLE `subject_question`  (
   `REMARK` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '备注',
   `QUESTION_URL` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '来源网站 网址',
   `QUESTION_URL_REMARK` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '来源描述 如：牛客网',
-  `SRC_TYPE` int NOT NULL COMMENT '来源类型 0-默认，1-系统，2-管理员，3-用户，4-脚本',
+  `SRC_TYPE` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '来源类型 0-默认，1-系统，2-管理员，3-用户，4-脚本',
   `CREATED_BY` bigint NULL DEFAULT NULL COMMENT '创建人',
   `CREATED_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `UPDATED_BY` bigint NULL DEFAULT NULL COMMENT '更新人',
   `UPDATED_TIME` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `QUESTION_CONTENT` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '题目表 题目表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '题目表 题目表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for subject_tag
