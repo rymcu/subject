@@ -1,0 +1,28 @@
+<configuration scan="true">
+    <property scope="local" name="appName" value="esign"/>
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/${appName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>log/${appName}-%d{yyyyMMdd}-%i.log</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <maxHistory>100</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ssZ} [%-5p] %c{40} \(%F:%L\) - %m%n</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+    <root level="info">
+        <appender-ref ref="RollingFile"/>
+    </root>
+    <logger name="org.springframework.util" level="info"/>
+    <logger name="org.springframework.security.web.access.ExceptionTranslationFilter" level="info"/>
+    <logger name="org.springframework.security.web.util" level="info"/>
+    <logger name="org.springframework.security.web.header" level="info"/>
+    <logger name="org.springframework.web.servlet.mvc" level="info"/>
+    <logger name="org.springframework.security.web.FilterChainProxy" level="info"/>
+    <logger name="org.springframework.web.servlet.DispatcherServlet" level="info"/>
+    <logger name="com.rymcu.subject" level="trace"/>
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+</configuration>

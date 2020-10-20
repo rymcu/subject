@@ -41,4 +41,10 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService{
         return subjectQuestionMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public SubjectQuestion getNextByUserId(Long userId) {
+        final var nextOrder = Math.next
+        return null;
+    }
+
 }

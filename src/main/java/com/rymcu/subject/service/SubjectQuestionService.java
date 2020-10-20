@@ -16,4 +16,6 @@ public interface SubjectQuestionService{
 
     int updateByPrimaryKey(SubjectQuestion record);
 
+    SubjectQuestion getNextByUserId(Long userId);
+
 }
