@@ -1,7 +1,8 @@
 package com.rymcu.subject.service;
 
 import com.rymcu.subject.domain.SubjectOption;
-public interface SubjectOptionService{
+
+public interface SubjectOptionService {
 
 
     int deleteByPrimaryKey(Long id);

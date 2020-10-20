@@ -1,12 +1,15 @@
 package com.rymcu.subject.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
+
 import com.rymcu.subject.domain.SubjectTagKnowledgePointsId;
 import com.rymcu.subject.mapper.SubjectTagKnowledgePointsIdMapper;
 import com.rymcu.subject.service.SubjectTagKnowledgePointsIdService;
+
 @Service
-public class SubjectTagKnowledgePointsIdServiceImpl implements SubjectTagKnowledgePointsIdService{
+public class SubjectTagKnowledgePointsIdServiceImpl implements SubjectTagKnowledgePointsIdService {
 
     @Resource
     private SubjectTagKnowledgePointsIdMapper subjectTagKnowledgePointsIdMapper;

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 题库系统控制服务
- * @author 🐛
  *
+ * @author 🐛
  */
 @Controller
 @RequestMapping("/question")
@@ -30,32 +30,33 @@ public class QuestionController {
 
     /**
      * 随机出题
+     *
      * @return
      */
-    @GetMapping({"/get/next-question/{user-id:\\d+}","/get/next-question"})
+    @GetMapping({"/get/next-question/{user-id:\\d+}", "/get/next-question"})
     @ResponseBody
     public GlobalResult getQuestion(
-            @PathVariable(name = "user-id",required = false)Long userId
-    ){
+            @PathVariable(name = "user-id", required = false) Long userId
+    ) {
 
         return GlobalResultGenerator.genSuccessResult(subjectQuestionService.getNextByUserId(userId));
     }
 
     /**
      * 获取试题
+     *
      * @return
      */
-    @GetMapping({"/get/question/{sq-id:\\d+}","/get/question"})
+    @GetMapping({"/get/question/{sq-id:\\d+}", "/get/question"})
     @ResponseBody
     public GlobalResult getQuestionBySqId(
-            @PathVariable(name = "sq-id", required = false) Long sqId)
-    {
+            @PathVariable(name = "sq-id", required = false) Long sqId) {
         return GlobalResultGenerator.genSuccessResult(subjectQuestionService.selectByPrimaryKey(sqId));
     }
 
     @GetMapping("/system/menu/menu")
-    public String getMenu(Model model){
-        model.addAttribute("qwer","qwesad");
-        return  "/system/menu/menu";
+    public String getMenu(Model model) {
+        model.addAttribute("qwer", "qwesad");
+        return "/system/menu/menu";
     }
 }

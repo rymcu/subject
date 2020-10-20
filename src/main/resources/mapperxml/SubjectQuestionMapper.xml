@@ -1,178 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rymcu.subject.mapper.SubjectQuestionMapper">
-  <resultMap id="BaseResultMap" type="com.rymcu.subject.domain.SubjectQuestion">
-    <!--@mbg.generated-->
-    <!--@Table rymcu_subject.subject_question-->
-    <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="QUESTION_TYPE" jdbcType="INTEGER" property="questionType" />
-    <result column="QUESTION_LEVEL" jdbcType="INTEGER" property="questionLevel" />
-    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
-    <result column="QUESTION_URL" jdbcType="VARCHAR" property="questionUrl" />
-    <result column="QUESTION_URL_REMARK" jdbcType="VARCHAR" property="questionUrlRemark" />
-    <result column="SRC_TYPE" jdbcType="VARCHAR" property="srcType" />
-    <result column="CREATED_BY" jdbcType="BIGINT" property="createdBy" />
-    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
-    <result column="UPDATED_BY" jdbcType="BIGINT" property="updatedBy" />
-    <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
-    <result column="QUESTION_CONTENT" jdbcType="VARCHAR" property="questionContent" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    ID, QUESTION_TYPE, QUESTION_LEVEL, REMARK, QUESTION_URL, QUESTION_URL_REMARK, SRC_TYPE, 
-    CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME, QUESTION_CONTENT
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from rymcu_subject.subject_question
-    where ID = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    <!--@mbg.generated-->
-    delete from rymcu_subject.subject_question
-    where ID = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectQuestion" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into rymcu_subject.subject_question (QUESTION_TYPE, QUESTION_LEVEL, REMARK, 
-      QUESTION_URL, QUESTION_URL_REMARK, SRC_TYPE, 
-      CREATED_BY, CREATED_TIME, UPDATED_BY, 
-      UPDATED_TIME, QUESTION_CONTENT)
-    values (#{questionType,jdbcType=INTEGER}, #{questionLevel,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{questionUrl,jdbcType=VARCHAR}, #{questionUrlRemark,jdbcType=VARCHAR}, #{srcType,jdbcType=VARCHAR}, 
-      #{createdBy,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT}, 
-      #{updatedTime,jdbcType=TIMESTAMP}, #{questionContent,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectQuestion" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into rymcu_subject.subject_question
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="questionType != null">
-        QUESTION_TYPE,
-      </if>
-      <if test="questionLevel != null">
-        QUESTION_LEVEL,
-      </if>
-      <if test="remark != null">
-        REMARK,
-      </if>
-      <if test="questionUrl != null">
-        QUESTION_URL,
-      </if>
-      <if test="questionUrlRemark != null">
-        QUESTION_URL_REMARK,
-      </if>
-      <if test="srcType != null">
-        SRC_TYPE,
-      </if>
-      <if test="createdBy != null">
-        CREATED_BY,
-      </if>
-      <if test="createdTime != null">
-        CREATED_TIME,
-      </if>
-      <if test="updatedBy != null">
-        UPDATED_BY,
-      </if>
-      <if test="updatedTime != null">
-        UPDATED_TIME,
-      </if>
-      <if test="questionContent != null">
-        QUESTION_CONTENT,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="questionType != null">
-        #{questionType,jdbcType=INTEGER},
-      </if>
-      <if test="questionLevel != null">
-        #{questionLevel,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="questionUrl != null">
-        #{questionUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="questionUrlRemark != null">
-        #{questionUrlRemark,jdbcType=VARCHAR},
-      </if>
-      <if test="srcType != null">
-        #{srcType,jdbcType=VARCHAR},
-      </if>
-      <if test="createdBy != null">
-        #{createdBy,jdbcType=BIGINT},
-      </if>
-      <if test="createdTime != null">
-        #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedBy != null">
-        #{updatedBy,jdbcType=BIGINT},
-      </if>
-      <if test="updatedTime != null">
-        #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="questionContent != null">
-        #{questionContent,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.domain.SubjectQuestion">
-    <!--@mbg.generated-->
-    update rymcu_subject.subject_question
-    <set>
-      <if test="questionType != null">
-        QUESTION_TYPE = #{questionType,jdbcType=INTEGER},
-      </if>
-      <if test="questionLevel != null">
+    <resultMap id="BaseResultMap" type="com.rymcu.subject.domain.SubjectQuestion">
+        <!--@mbg.generated-->
+        <!--@Table rymcu_subject.subject_question-->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="QUESTION_TYPE" jdbcType="INTEGER" property="questionType"/>
+        <result column="QUESTION_LEVEL" jdbcType="INTEGER" property="questionLevel"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="QUESTION_URL" jdbcType="VARCHAR" property="questionUrl"/>
+        <result column="QUESTION_URL_REMARK" jdbcType="VARCHAR" property="questionUrlRemark"/>
+        <result column="SRC_TYPE" jdbcType="VARCHAR" property="srcType"/>
+        <result column="CREATED_BY" jdbcType="BIGINT" property="createdBy"/>
+        <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="UPDATED_BY" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime"/>
+        <result column="QUESTION_CONTENT" jdbcType="VARCHAR" property="questionContent"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        ID, QUESTION_TYPE, QUESTION_LEVEL, REMARK, QUESTION_URL, QUESTION_URL_REMARK, SRC_TYPE,
+        CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME, QUESTION_CONTENT
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from rymcu_subject.subject_question
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from rymcu_subject.subject_question
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectQuestion"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into rymcu_subject.subject_question (QUESTION_TYPE, QUESTION_LEVEL, REMARK,
+        QUESTION_URL, QUESTION_URL_REMARK, SRC_TYPE,
+        CREATED_BY, CREATED_TIME, UPDATED_BY,
+        UPDATED_TIME, QUESTION_CONTENT)
+        values (#{questionType,jdbcType=INTEGER}, #{questionLevel,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+        #{questionUrl,jdbcType=VARCHAR}, #{questionUrlRemark,jdbcType=VARCHAR}, #{srcType,jdbcType=VARCHAR},
+        #{createdBy,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
+        #{updatedTime,jdbcType=TIMESTAMP}, #{questionContent,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="ID" keyProperty="id"
+            parameterType="com.rymcu.subject.domain.SubjectQuestion" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into rymcu_subject.subject_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="questionType != null">
+                QUESTION_TYPE,
+            </if>
+            <if test="questionLevel != null">
+                QUESTION_LEVEL,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="questionUrl != null">
+                QUESTION_URL,
+            </if>
+            <if test="questionUrlRemark != null">
+                QUESTION_URL_REMARK,
+            </if>
+            <if test="srcType != null">
+                SRC_TYPE,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="createdTime != null">
+                CREATED_TIME,
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY,
+            </if>
+            <if test="updatedTime != null">
+                UPDATED_TIME,
+            </if>
+            <if test="questionContent != null">
+                QUESTION_CONTENT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="questionType != null">
+                #{questionType,jdbcType=INTEGER},
+            </if>
+            <if test="questionLevel != null">
+                #{questionLevel,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="questionUrl != null">
+                #{questionUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="questionUrlRemark != null">
+                #{questionUrlRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="srcType != null">
+                #{srcType,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=BIGINT},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="questionContent != null">
+                #{questionContent,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.domain.SubjectQuestion">
+        <!--@mbg.generated-->
+        update rymcu_subject.subject_question
+        <set>
+            <if test="questionType != null">
+                QUESTION_TYPE = #{questionType,jdbcType=INTEGER},
+            </if>
+            <if test="questionLevel != null">
+                QUESTION_LEVEL = #{questionLevel,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="questionUrl != null">
+                QUESTION_URL = #{questionUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="questionUrlRemark != null">
+                QUESTION_URL_REMARK = #{questionUrlRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="srcType != null">
+                SRC_TYPE = #{srcType,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY = #{createdBy,jdbcType=BIGINT},
+            </if>
+            <if test="createdTime != null">
+                CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="updatedTime != null">
+                UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="questionContent != null">
+                QUESTION_CONTENT = #{questionContent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.domain.SubjectQuestion">
+        <!--@mbg.generated-->
+        update rymcu_subject.subject_question
+        set QUESTION_TYPE = #{questionType,jdbcType=INTEGER},
         QUESTION_LEVEL = #{questionLevel,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null">
         REMARK = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="questionUrl != null">
         QUESTION_URL = #{questionUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="questionUrlRemark != null">
         QUESTION_URL_REMARK = #{questionUrlRemark,jdbcType=VARCHAR},
-      </if>
-      <if test="srcType != null">
         SRC_TYPE = #{srcType,jdbcType=VARCHAR},
-      </if>
-      <if test="createdBy != null">
         CREATED_BY = #{createdBy,jdbcType=BIGINT},
-      </if>
-      <if test="createdTime != null">
         CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedBy != null">
         UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
-      </if>
-      <if test="updatedTime != null">
         UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="questionContent != null">
-        QUESTION_CONTENT = #{questionContent,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.domain.SubjectQuestion">
-    <!--@mbg.generated-->
-    update rymcu_subject.subject_question
-    set QUESTION_TYPE = #{questionType,jdbcType=INTEGER},
-      QUESTION_LEVEL = #{questionLevel,jdbcType=INTEGER},
-      REMARK = #{remark,jdbcType=VARCHAR},
-      QUESTION_URL = #{questionUrl,jdbcType=VARCHAR},
-      QUESTION_URL_REMARK = #{questionUrlRemark,jdbcType=VARCHAR},
-      SRC_TYPE = #{srcType,jdbcType=VARCHAR},
-      CREATED_BY = #{createdBy,jdbcType=BIGINT},
-      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
-      UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
-      UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
-      QUESTION_CONTENT = #{questionContent,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=BIGINT}
-  </update>
+        QUESTION_CONTENT = #{questionContent,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

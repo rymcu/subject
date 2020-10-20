@@ -1,131 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rymcu.subject.mapper.SubjectTagMapper">
-  <resultMap id="BaseResultMap" type="com.rymcu.subject.domain.SubjectTag">
-    <!--@mbg.generated-->
-    <!--@Table rymcu_subject.subject_tag-->
-    <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="TAG_NAME" jdbcType="VARCHAR" property="tagName" />
-    <result column="TAG_DESCRIPTION" jdbcType="VARCHAR" property="tagDescription" />
-    <result column="TAG_URI" jdbcType="VARCHAR" property="tagUri" />
-    <result column="CREATED_BY" jdbcType="BIGINT" property="createdBy" />
-    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
-    <result column="UPDATED_BY" jdbcType="BIGINT" property="updatedBy" />
-    <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    ID, TAG_NAME, TAG_DESCRIPTION, TAG_URI, CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from rymcu_subject.subject_tag
-    where ID = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    <!--@mbg.generated-->
-    delete from rymcu_subject.subject_tag
-    where ID = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectTag" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into rymcu_subject.subject_tag (TAG_NAME, TAG_DESCRIPTION, TAG_URI, 
-      CREATED_BY, CREATED_TIME, UPDATED_BY, 
-      UPDATED_TIME)
-    values (#{tagName,jdbcType=VARCHAR}, #{tagDescription,jdbcType=VARCHAR}, #{tagUri,jdbcType=VARCHAR}, 
-      #{createdBy,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT}, 
-      #{updatedTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectTag" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into rymcu_subject.subject_tag
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="tagName != null">
-        TAG_NAME,
-      </if>
-      <if test="tagDescription != null">
-        TAG_DESCRIPTION,
-      </if>
-      <if test="tagUri != null">
-        TAG_URI,
-      </if>
-      <if test="createdBy != null">
-        CREATED_BY,
-      </if>
-      <if test="createdTime != null">
-        CREATED_TIME,
-      </if>
-      <if test="updatedBy != null">
-        UPDATED_BY,
-      </if>
-      <if test="updatedTime != null">
-        UPDATED_TIME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="tagName != null">
-        #{tagName,jdbcType=VARCHAR},
-      </if>
-      <if test="tagDescription != null">
-        #{tagDescription,jdbcType=VARCHAR},
-      </if>
-      <if test="tagUri != null">
-        #{tagUri,jdbcType=VARCHAR},
-      </if>
-      <if test="createdBy != null">
-        #{createdBy,jdbcType=BIGINT},
-      </if>
-      <if test="createdTime != null">
-        #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedBy != null">
-        #{updatedBy,jdbcType=BIGINT},
-      </if>
-      <if test="updatedTime != null">
-        #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.domain.SubjectTag">
-    <!--@mbg.generated-->
-    update rymcu_subject.subject_tag
-    <set>
-      <if test="tagName != null">
-        TAG_NAME = #{tagName,jdbcType=VARCHAR},
-      </if>
-      <if test="tagDescription != null">
+    <resultMap id="BaseResultMap" type="com.rymcu.subject.domain.SubjectTag">
+        <!--@mbg.generated-->
+        <!--@Table rymcu_subject.subject_tag-->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="TAG_NAME" jdbcType="VARCHAR" property="tagName"/>
+        <result column="TAG_DESCRIPTION" jdbcType="VARCHAR" property="tagDescription"/>
+        <result column="TAG_URI" jdbcType="VARCHAR" property="tagUri"/>
+        <result column="CREATED_BY" jdbcType="BIGINT" property="createdBy"/>
+        <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="UPDATED_BY" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        ID, TAG_NAME, TAG_DESCRIPTION, TAG_URI, CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from rymcu_subject.subject_tag
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from rymcu_subject.subject_tag
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectTag"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into rymcu_subject.subject_tag (TAG_NAME, TAG_DESCRIPTION, TAG_URI,
+        CREATED_BY, CREATED_TIME, UPDATED_BY,
+        UPDATED_TIME)
+        values (#{tagName,jdbcType=VARCHAR}, #{tagDescription,jdbcType=VARCHAR}, #{tagUri,jdbcType=VARCHAR},
+        #{createdBy,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
+        #{updatedTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectTag"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into rymcu_subject.subject_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagName != null">
+                TAG_NAME,
+            </if>
+            <if test="tagDescription != null">
+                TAG_DESCRIPTION,
+            </if>
+            <if test="tagUri != null">
+                TAG_URI,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="createdTime != null">
+                CREATED_TIME,
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY,
+            </if>
+            <if test="updatedTime != null">
+                UPDATED_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagName != null">
+                #{tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="tagDescription != null">
+                #{tagDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="tagUri != null">
+                #{tagUri,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=BIGINT},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.domain.SubjectTag">
+        <!--@mbg.generated-->
+        update rymcu_subject.subject_tag
+        <set>
+            <if test="tagName != null">
+                TAG_NAME = #{tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="tagDescription != null">
+                TAG_DESCRIPTION = #{tagDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="tagUri != null">
+                TAG_URI = #{tagUri,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY = #{createdBy,jdbcType=BIGINT},
+            </if>
+            <if test="createdTime != null">
+                CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="updatedTime != null">
+                UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.domain.SubjectTag">
+        <!--@mbg.generated-->
+        update rymcu_subject.subject_tag
+        set TAG_NAME = #{tagName,jdbcType=VARCHAR},
         TAG_DESCRIPTION = #{tagDescription,jdbcType=VARCHAR},
-      </if>
-      <if test="tagUri != null">
         TAG_URI = #{tagUri,jdbcType=VARCHAR},
-      </if>
-      <if test="createdBy != null">
         CREATED_BY = #{createdBy,jdbcType=BIGINT},
-      </if>
-      <if test="createdTime != null">
         CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedBy != null">
         UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
-      </if>
-      <if test="updatedTime != null">
-        UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.domain.SubjectTag">
-    <!--@mbg.generated-->
-    update rymcu_subject.subject_tag
-    set TAG_NAME = #{tagName,jdbcType=VARCHAR},
-      TAG_DESCRIPTION = #{tagDescription,jdbcType=VARCHAR},
-      TAG_URI = #{tagUri,jdbcType=VARCHAR},
-      CREATED_BY = #{createdBy,jdbcType=BIGINT},
-      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
-      UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
-      UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP}
-    where ID = #{id,jdbcType=BIGINT}
-  </update>
+        UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP}
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

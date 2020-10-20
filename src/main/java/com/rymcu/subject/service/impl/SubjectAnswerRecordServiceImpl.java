@@ -1,12 +1,15 @@
 package com.rymcu.subject.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
+
 import com.rymcu.subject.mapper.SubjectAnswerRecordMapper;
 import com.rymcu.subject.domain.SubjectAnswerRecord;
 import com.rymcu.subject.service.SubjectAnswerRecordService;
+
 @Service
-public class SubjectAnswerRecordServiceImpl implements SubjectAnswerRecordService{
+public class SubjectAnswerRecordServiceImpl implements SubjectAnswerRecordService {
 
     @Resource
     private SubjectAnswerRecordMapper subjectAnswerRecordMapper;

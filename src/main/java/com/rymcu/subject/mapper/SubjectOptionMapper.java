@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SubjectOptionMapper {
     /**
      * delete by primary key
+     *
      * @param id primaryKey
      * @return deleteCount
      */
@@ -14,6 +15,7 @@ public interface SubjectOptionMapper {
 
     /**
      * insert record to table
+     *
      * @param record the record
      * @return insert count
      */
@@ -21,6 +23,7 @@ public interface SubjectOptionMapper {
 
     /**
      * insert record to table selective
+     *
      * @param record the record
      * @return insert count
      */
@@ -28,6 +31,7 @@ public interface SubjectOptionMapper {
 
     /**
      * select by primary key
+     *
      * @param id primary key
      * @return object by primary key
      */
@@ -35,6 +39,7 @@ public interface SubjectOptionMapper {
 
     /**
      * update record selective
+     *
      * @param record the updated record
      * @return update count
      */
@@ -42,6 +47,7 @@ public interface SubjectOptionMapper {
 
     /**
      * update record
+     *
      * @param record the updated record
      * @return update count
      */

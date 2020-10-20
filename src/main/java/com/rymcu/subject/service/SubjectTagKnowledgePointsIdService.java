@@ -1,7 +1,8 @@
 package com.rymcu.subject.service;
 
 import com.rymcu.subject.domain.SubjectTagKnowledgePointsId;
-public interface SubjectTagKnowledgePointsIdService{
+
+public interface SubjectTagKnowledgePointsIdService {
 
 
     int deleteByPrimaryKey(Long id);

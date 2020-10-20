@@ -1,37 +1,38 @@
 package com.rymcu.subject.domain;
 
 import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
-    * 题目收藏表 题目收藏表
-    */
+ * 题目收藏表 题目收藏表
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubjectCollection implements Serializable {
     /**
-    * ID
-    */
+     * ID
+     */
     private Long id;
 
     /**
-    * 题目编号
-    */
+     * 题目编号
+     */
     private Long subjectQuestionId;
 
     /**
-    * 收藏者
-    */
+     * 收藏者
+     */
     private String createdBy;
 
     /**
-    * 收藏时间
-    */
+     * 收藏时间
+     */
     private String createdTime;
 
     private static final long serialVersionUID = 1L;

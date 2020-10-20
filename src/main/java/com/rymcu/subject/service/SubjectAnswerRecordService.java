@@ -1,7 +1,8 @@
 package com.rymcu.subject.service;
 
 import com.rymcu.subject.domain.SubjectAnswerRecord;
-public interface SubjectAnswerRecordService{
+
+public interface SubjectAnswerRecordService {
 
 
     int deleteByPrimaryKey(Long id);

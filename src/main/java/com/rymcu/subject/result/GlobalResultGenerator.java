@@ -8,6 +8,7 @@ public class GlobalResultGenerator {
 
     /**
      * normal
+     *
      * @param success
      * @param data
      * @param message
@@ -27,6 +28,7 @@ public class GlobalResultGenerator {
 
     /**
      * success
+     *
      * @param data
      * @param <T>
      * @return
@@ -38,6 +40,7 @@ public class GlobalResultGenerator {
 
     /**
      * error message
+     *
      * @param message error message
      * @param <T>
      * @return
@@ -49,6 +52,7 @@ public class GlobalResultGenerator {
 
     /**
      * success no message
+     *
      * @return
      */
     public static GlobalResult genSuccessResult() {
@@ -57,6 +61,7 @@ public class GlobalResultGenerator {
 
     /**
      * success
+     *
      * @param <T>
      * @return
      */
