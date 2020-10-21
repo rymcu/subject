@@ -15,6 +15,7 @@ dev_db = pymysql.connect("localhost", "rymcu_subject", "1234", "rymcu_subject")
 rymcu_test_db = pymysql.connect(
     "120.26.175.127", "maomaochong", "maomaochong.MMC", "subject")
 db = rymcu_test_db
+last_subject_url_list = [""]
 question_types = {
     "单选题": 1,
     "多选题": 2,
@@ -79,7 +80,8 @@ def save_md(question, selection_lsit, answer, index, question_type_str):
 def save_mysql(question, selection_list, answer, question_type_str, subject_question_url):
     cursor = db.cursor()
     question_type_int = question_types.get(question_type_str)
-    cursor.execute(sql_insert_subject_question,(question_type_int, 10, '脚本生成测试',subject_question_url, "考试宝", 4, question, 0, datetime.datetime.now()))
+    cursor.execute(sql_insert_subject_question, (question_type_int, 10, '脚本生成测试',
+                                                 subject_question_url, "考试宝", 4, question, 0, datetime.datetime.now()))
 
     # 最后插入行的主键id
     subject_question_id = cursor.lastrowid
@@ -97,7 +99,8 @@ def save_mysql(question, selection_list, answer, question_type_str, subject_ques
 # 加载题目、选项、答案
 
 
-def load_subject(url_page_source, index, have_next, url):
+def load_subject(url_page_source, index, have_next):
+    subject_url = browser.current_url
     tree_one = etree.HTML(url_page_source)
     question_xpath = tree_one.xpath(
         '/html/body/div[2]/div/div/section/div/div[1]/div[2]/div[1]/div/div[1]/div/span[1]/text()')
@@ -114,19 +117,20 @@ def load_subject(url_page_source, index, have_next, url):
     selection_list = format_selection_list(selections)
     save_md(question, selection_list, answer, index, question_type)
     save_mysql(question, selection_list, answer,
-               question_type, browser.current_url)
+               question_type, subject_url)
     print('题号: ', index, '类型', question_type, answer)
     time.sleep(2)
     index_and_count_str = tree_one.xpath(
         '/html/body/div[2]/div/div/section/div/div[1]/div[2]/div[1]/div/div[1]/div/span[2]/text()')[0].strip('\n')
     index_and_count_array = re.findall(
         '\d+', index_and_count_str.strip("、").split()[0])
+    last_subject_url_list[0] = subject_url
     return index_and_count_array[0] != index_and_count_array[1]
 
 # 保存并加载题目
 
 
-def save_and_load_subject(url, pageCurrentUrl):
+def save_and_load_subject():
     index = 1
     have_next = True
     # 获取点击下一题按钮
@@ -134,24 +138,27 @@ def save_and_load_subject(url, pageCurrentUrl):
         '#body > div > div.layout-container.prative-page > div.prative-box > div.topic.no-select > div > div.next-preve > button:nth-child(2)')
     # 如果存在下一题按钮，则继续加载题目
     while have_next:
-        have_next = load_subject(browser.page_source, index, have_next, url)
         try:
-            next_button.click()
+            next_subject_button_click(next_button)
+            have_next = load_subject(browser.page_source, index, have_next)
+
         except:
-            get_subject(url, browser.current_url)
+            get_subject(browser.current_url)
         # 加载题目
         index = index + 1
     return
 
+
+def next_subject_button_click(next_button):
+    while browser.current_url == last_subject_url_list[0]:
+        next_button.click()
+        time.sleep(1)
 # 加载题库
 
 
-def get_subject(url, pageCurrentUrl):
-    # 访问题库链接
-    if pageCurrentUrl:
-        browser.get(pageCurrentUrl)
-    else:
-        browser.get(url)
+def get_subject(url):
+
+    browser.get(url)
 
     # # 等待浏览器加载
     # time.sleep(1)
@@ -171,7 +178,7 @@ def get_subject(url, pageCurrentUrl):
         browser.find_element_by_css_selector(
             '#body > div > div.layout-container.prative-page > div.prative-box > div.practice-ctrl > div > span:nth-child(8) > span').click()
 
-    save_and_load_subject(url, pageCurrentUrl)
+    save_and_load_subject()
 
 # 读取题库链接文本获取题库url
 
@@ -189,7 +196,7 @@ def load_url_list(url_file_name):
 def main(url_file_name):
     url_list = load_url_list(url_file_name)
     for url in url_list:
-        get_subject(url, None)
+        get_subject(url)
     f.close()
 
 

@@ -177,4 +177,27 @@
         QUESTION_CONTENT = #{questionContent,jdbcType=VARCHAR}
         where ID = #{id,jdbcType=BIGINT}
     </update>
+
+    <select id="getAllCount" resultType="long">
+        SELECT COUNT(*) FROM SUBJECT_QUESTION
+    </select>
+
+    <select id="getSqIdByNextOrder" resultType="long" >
+        SELECT ID  FROM SUBJECT_QUESTION LIMIT  #{nextOrder} ,1
+    </select>
+
+
+    <select id="isRepeatBySqIdAndUserId" resultType="boolean" >
+        SELECT
+            CASE WHEN
+                (
+                    SELECT COUNT(*) FROM SUBJECT_ANSWER_RECORD WHERE SUBJECT_QESTION_ID = #{sqId}
+                        AND CREATED_BY = #{userId}
+                ) = (
+                     SELECT MAX(COUNT(*)) FROM SUBJECT_ANSWER_RECORD WHERE CREATED_BY = #{userId} GROUP BY SUBJECT_QUESTION_ID
+                )
+            THEN 1
+            ELSE 0 END
+        FROM DUAL
+    </select>
 </mapper>

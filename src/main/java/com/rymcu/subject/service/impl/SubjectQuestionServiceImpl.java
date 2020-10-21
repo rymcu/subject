@@ -44,10 +44,31 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
         return subjectQuestionMapper.updateByPrimaryKey(record);
     }
 
+    /**
+     * get next subject_question
+     * @param userId user id
+     * @return next subject_question
+     */
     @Override
     public SubjectQuestion getNextByUserId(Long userId) {
-        final var nextOrder = Math.next
-        return null;
+        final long  sqId = this.getSqId(userId);
+        return this.subjectQuestionMapper.selectByPrimaryKey(sqId);
+    }
+
+    /**
+     * get question id
+     * @param userId
+     * @return
+     */
+    private long getSqId(long userId){
+        final long count = this.subjectQuestionMapper.getAllCount();
+        final long nextOrder = (long) (Math.random()*count) + 1L;
+        final long sqId = this.subjectQuestionMapper.getSqIdByNextOrder(nextOrder);
+        final boolean isRepeat = this.subjectQuestionMapper.isRepeatBySqIdAndUserId(sqId,userId);
+        while (isRepeat){
+            getSqId(userId);
+        }
+        return sqId;
     }
 
 }
