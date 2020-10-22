@@ -1,6 +1,9 @@
 package com.rymcu.subject.service;
 
-import com.rymcu.subject.domain.SubjectOption;
+import com.rymcu.subject.dto.SubjectOptionDTO;
+import com.rymcu.subject.entity.SubjectOption;
+
+import java.util.List;
 
 public interface SubjectOptionService {
 
@@ -17,4 +20,7 @@ public interface SubjectOptionService {
 
     int updateByPrimaryKey(SubjectOption record);
 
+    List<SubjectOptionDTO> queryListBySqId(Long id);
+
+    List<SubjectOptionDTO> getSubjectAnswer(Long sqId);
 }

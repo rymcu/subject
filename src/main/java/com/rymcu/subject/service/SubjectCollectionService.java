@@ -1,6 +1,6 @@
 package com.rymcu.subject.service;
 
-import com.rymcu.subject.domain.SubjectCollection;
+import com.rymcu.subject.entity.SubjectCollection;
 
 public interface SubjectCollectionService {
 

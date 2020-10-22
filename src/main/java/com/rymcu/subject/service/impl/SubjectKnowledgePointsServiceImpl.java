@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import com.rymcu.subject.domain.SubjectKnowledgePoints;
+import com.rymcu.subject.entity.SubjectKnowledgePoints;
 import com.rymcu.subject.mapper.SubjectKnowledgePointsMapper;
 import com.rymcu.subject.service.SubjectKnowledgePointsService;
 

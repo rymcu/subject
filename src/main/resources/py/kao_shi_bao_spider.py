@@ -7,14 +7,12 @@ from lxml import etree
 import pymysql
 import sys
 import os
+import random
 import re
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 # 打开数据库连接
-dev_db = pymysql.connect("localhost", "rymcu_subject", "1234", "rymcu_subject")
-rymcu_test_db = pymysql.connect(
-    "120.26.175.127", "maomaochong", "maomaochong.MMC", "subject")
-db = rymcu_test_db
+db = pymysql.connect("localhost", "rymcu_subject", "1234", "rymcu_subject")
 last_subject_url_list = [""]
 question_types = {
     "单选题": 1,
@@ -39,7 +37,7 @@ values( %s, %s ,%s ,%s)
 '''
 
 sql_exists_by_question_url = '''
-SELECT CASE 
+SELECT CASE
 WHEN EXISTS (SELECT 1 FROM subject_question WHERE QUESTION_URL = %s)
     THEN 1
     ELSE 0
@@ -129,7 +127,7 @@ def load_subject(url_page_source, index, have_next):
     save_mysql(question, selection_list, answer,
                question_type, subject_url)
     print('题号: ', index, '类型', question_type, answer)
-    time.sleep(2)
+    time.sleep(random.randint(1,9))
     index_and_count_str = tree_one.xpath(
         '/html/body/div[2]/div/div/section/div/div[1]/div[2]/div[1]/div/div[1]/div/span[2]/text()')[0].strip('\n')
     index_and_count_array = re.findall(
@@ -165,7 +163,7 @@ def next_subject_button_click(next_button):
     '''
     1. 检查数据库是否存在
     2. 判断当前链接是否为上一题链接
-    3. 同时成立则再次点击下一题按钮
+    3. 同时成立则再次点击
     '''
     cursor = db.cursor()
     page_current_url = browser.current_url
@@ -175,7 +173,7 @@ def next_subject_button_click(next_button):
     exists = cursor.fetchone()[0]
     if (page_current_url == last_subject_url_list[0]) or exists:
         next_button.click()
-        time.sleep(1)
+        time.sleep(random.randint(1,9))
         next_subject_button_click(next_button)
 # 加载题库
 
@@ -183,7 +181,7 @@ def next_subject_button_click(next_button):
 def get_subject(url):
     browser.get(url)
     # 等待浏览器加载
-    time.sleep(2)
+    time.sleep(random.randint(1,9))
     try:
         # 点击确认继续答题按钮，可能没有这个按钮
         browser.find_element_by_css_selector(

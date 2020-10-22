@@ -1,6 +1,6 @@
 package com.rymcu.subject.service;
 
-import com.rymcu.subject.domain.SubjectQuestion;
+import com.rymcu.subject.entity.SubjectQuestion;
 
 public interface SubjectQuestionService {
 
@@ -18,5 +18,7 @@ public interface SubjectQuestionService {
     int updateByPrimaryKey(SubjectQuestion record);
 
     SubjectQuestion getNextByUserId(Long userId);
+
+    SubjectQuestion getNext();
 
 }

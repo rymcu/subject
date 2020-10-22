@@ -1,12 +1,13 @@
 package com.rymcu.subject.service.impl;
 
+import com.rymcu.subject.dto.SubjectOptionDTO;
+import com.rymcu.subject.entity.SubjectOption;
+import com.rymcu.subject.mapper.SubjectOptionMapper;
+import com.rymcu.subject.service.SubjectOptionService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
-import com.rymcu.subject.domain.SubjectOption;
-import com.rymcu.subject.mapper.SubjectOptionMapper;
-import com.rymcu.subject.service.SubjectOptionService;
+import java.util.List;
 
 @Service
 public class SubjectOptionServiceImpl implements SubjectOptionService {
@@ -42,6 +43,16 @@ public class SubjectOptionServiceImpl implements SubjectOptionService {
     @Override
     public int updateByPrimaryKey(SubjectOption record) {
         return subjectOptionMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<SubjectOptionDTO> queryListBySqId(Long sqId) {
+        return subjectOptionMapper.queryListBySqId(sqId);
+    }
+
+    @Override
+    public List<SubjectOptionDTO> getSubjectAnswer(Long sqId) {
+        return subjectOptionMapper.getSubjectAnswer(sqId);
     }
 
 }

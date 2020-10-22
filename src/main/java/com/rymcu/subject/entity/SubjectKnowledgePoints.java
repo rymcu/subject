@@ -1,4 +1,4 @@
-package com.rymcu.subject.domain;
+package com.rymcu.subject.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,32 +9,37 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 题目标签表
+ * 知识点
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubjectTag implements Serializable {
+public class SubjectKnowledgePoints implements Serializable {
     /**
-     * ID
+     * id 主键
      */
     private Long id;
 
     /**
-     * 标签名
+     * 知识点内容
      */
-    private String tagName;
+    private String content;
 
     /**
-     * 标签描述
+     * 知识点标题
      */
-    private String tagDescription;
+    private String title;
 
     /**
-     * 标签URI
+     * 来源类型 0-未知，1-系统脚本，2-管理员，3-用户
      */
-    private String tagUri;
+    private Integer srcType;
+
+    /**
+     * 审核过关 0-不过关，1-过关
+     */
+    private String flag;
 
     /**
      * 创建人
@@ -45,16 +50,6 @@ public class SubjectTag implements Serializable {
      * 创建时间
      */
     private Date createdTime;
-
-    /**
-     * 更新人
-     */
-    private Long updatedBy;
-
-    /**
-     * 更新时间
-     */
-    private Date updatedTime;
 
     private static final long serialVersionUID = 1L;
 }

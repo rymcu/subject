@@ -1,5 +1,5 @@
 <configuration scan="true">
-    <property scope="local" name="appName" value="esign"/>
+    <property scope="local" name="appName" value="subject"/>
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>log/${appName}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">

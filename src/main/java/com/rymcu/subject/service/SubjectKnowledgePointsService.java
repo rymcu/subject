@@ -1,6 +1,6 @@
 package com.rymcu.subject.service;
 
-import com.rymcu.subject.domain.SubjectKnowledgePoints;
+import com.rymcu.subject.entity.SubjectKnowledgePoints;
 
 public interface SubjectKnowledgePointsService {
 

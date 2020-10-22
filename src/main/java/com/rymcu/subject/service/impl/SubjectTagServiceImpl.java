@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import com.rymcu.subject.domain.SubjectTag;
+import com.rymcu.subject.entity.SubjectTag;
 import com.rymcu.subject.mapper.SubjectTagMapper;
 import com.rymcu.subject.service.SubjectTagService;
 

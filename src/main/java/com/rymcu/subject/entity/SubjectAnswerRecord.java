@@ -1,6 +1,7 @@
-package com.rymcu.subject.domain;
+package com.rymcu.subject.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,13 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 题目收藏表 题目收藏表
+ * 答题记录表
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubjectCollection implements Serializable {
+public class SubjectAnswerRecord implements Serializable {
     /**
      * ID
      */
@@ -26,14 +27,19 @@ public class SubjectCollection implements Serializable {
     private Long subjectQuestionId;
 
     /**
-     * 收藏者
+     * 我的答案 如abcd，填空值，or简答题的答案
      */
-    private String createdBy;
+    private String answer;
 
     /**
-     * 收藏时间
+     * 答题时间
      */
-    private String createdTime;
+    private Date createdTime;
+
+    /**
+     * 答题人
+     */
+    private Long createdBy;
 
     private static final long serialVersionUID = 1L;
 }

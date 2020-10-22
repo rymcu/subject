@@ -1,6 +1,6 @@
 package com.rymcu.subject.service;
 
-import com.rymcu.subject.domain.SubjectTagKnowledgePointsId;
+import com.rymcu.subject.entity.SubjectTagKnowledgePointsId;
 
 public interface SubjectTagKnowledgePointsIdService {
 

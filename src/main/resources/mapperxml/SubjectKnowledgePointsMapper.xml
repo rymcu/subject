@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rymcu.subject.mapper.SubjectKnowledgePointsMapper">
-    <resultMap id="BaseResultMap" type="com.rymcu.subject.domain.SubjectKnowledgePoints">
-        <!--@mbg.generated-->
-        <!--@Table rymcu_subject.subject_important_points-->
+    <resultMap id="BaseResultMap" type="com.rymcu.subject.entity.SubjectKnowledgePoints">
+
+        <!--@Table subject_important_points-->
         <id column="ID" jdbcType="BIGINT" property="id"/>
         <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
         <result column="TITLE" jdbcType="VARCHAR" property="title"/>
@@ -13,25 +13,25 @@
         <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        <!--@mbg.generated-->
+
         ID, CONTENT, TITLE, SRC_TYPE, FlAG, CREATED_BY, CREATED_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
+
         select
         <include refid="Base_Column_List"/>
-        from rymcu_subject.subject_important_points
+        from subject_important_points
         where ID = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        <!--@mbg.generated-->
-        delete from rymcu_subject.subject_important_points
+
+        delete from subject_important_points
         where ID = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectKnowledgePoints"
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.entity.SubjectKnowledgePoints"
             useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into rymcu_subject.subject_important_points (CONTENT, TITLE, SRC_TYPE,
+
+        insert into subject_important_points (CONTENT, TITLE, SRC_TYPE,
         FlAG, CREATED_BY, CREATED_TIME
         )
         values (#{content,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{srcType,jdbcType=INTEGER},
@@ -39,9 +39,9 @@
         )
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id"
-            parameterType="com.rymcu.subject.domain.SubjectKnowledgePoints" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into rymcu_subject.subject_important_points
+            parameterType="com.rymcu.subject.entity.SubjectKnowledgePoints" useGeneratedKeys="true">
+
+        insert into subject_important_points
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="content != null">
                 CONTENT,
@@ -83,9 +83,9 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.domain.SubjectKnowledgePoints">
-        <!--@mbg.generated-->
-        update rymcu_subject.subject_important_points
+    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.entity.SubjectKnowledgePoints">
+
+        update subject_important_points
         <set>
             <if test="content != null">
                 CONTENT = #{content,jdbcType=VARCHAR},
@@ -108,9 +108,9 @@
         </set>
         where ID = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.domain.SubjectKnowledgePoints">
-        <!--@mbg.generated-->
-        update rymcu_subject.subject_important_points
+    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.entity.SubjectKnowledgePoints">
+
+        update subject_important_points
         set CONTENT = #{content,jdbcType=VARCHAR},
         TITLE = #{title,jdbcType=VARCHAR},
         SRC_TYPE = #{srcType,jdbcType=INTEGER},

@@ -1,6 +1,6 @@
 package com.rymcu.subject.service;
 
-import com.rymcu.subject.domain.SubjectTag;
+import com.rymcu.subject.entity.SubjectTag;
 
 public interface SubjectTagService {
 

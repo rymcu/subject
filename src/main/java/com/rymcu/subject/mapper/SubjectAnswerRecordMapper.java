@@ -1,6 +1,6 @@
 package com.rymcu.subject.mapper;
 
-import com.rymcu.subject.domain.SubjectAnswerRecord;
+import com.rymcu.subject.entity.SubjectAnswerRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

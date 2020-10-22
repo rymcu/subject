@@ -1,6 +1,6 @@
 package com.rymcu.subject.service;
 
-import com.rymcu.subject.domain.SubjectAnswerRecord;
+import com.rymcu.subject.entity.SubjectAnswerRecord;
 
 public interface SubjectAnswerRecordService {
 

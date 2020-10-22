@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rymcu.subject.mapper.SubjectOptionMapper">
-    <resultMap id="BaseResultMap" type="com.rymcu.subject.domain.SubjectOption">
-        <!--@mbg.generated-->
-        <!--@Table rymcu_subject.subject_option-->
+    <resultMap id="BaseResultMap" type="com.rymcu.subject.entity.SubjectOption">
+
+        <!--@Table subject_option-->
         <id column="ID" jdbcType="BIGINT" property="id"/>
         <result column="SUBJECT_QUESTION_ID" jdbcType="BIGINT" property="subjectQuestionId"/>
         <result column="OPTION_NAME" jdbcType="VARCHAR" property="optionName"/>
         <result column="OPTION_CONTENT" jdbcType="VARCHAR" property="optionContent"/>
-        <result column="IS_ANSWER" jdbcType="CHAR" property="isAnswer"/>
+        <result column="IS_ANSWER" jdbcType="CHAR" property="answerFlag"/>
     </resultMap>
+
     <sql id="Base_Column_List">
-        <!--@mbg.generated-->
+
         ID, SUBJECT_QUESTION_ID, OPTION_NAME, OPTION_CONTENT, IS_ANSWER
     </sql>
+
+    <sql id="DTO_Column_List">
+
+        OPTION_NAME, OPTION_CONTENT
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
+
         select
         <include refid="Base_Column_List"/>
-        from rymcu_subject.subject_option
+        from subject_option
         where ID = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        <!--@mbg.generated-->
-        delete from rymcu_subject.subject_option
+
+        delete from subject_option
         where ID = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectOption"
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.entity.SubjectOption"
             useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into rymcu_subject.subject_option (SUBJECT_QUESTION_ID, OPTION_NAME, OPTION_CONTENT,
+
+        insert into subject_option (SUBJECT_QUESTION_ID, OPTION_NAME, OPTION_CONTENT,
         IS_ANSWER)
         values (#{subjectQuestionId,jdbcType=BIGINT}, #{optionName,jdbcType=VARCHAR}, #{optionContent,jdbcType=VARCHAR},
-        #{isAnswer,jdbcType=CHAR})
+        #{answerFlag,jdbcType=CHAR})
     </insert>
-    <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectOption"
+    <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.entity.SubjectOption"
             useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into rymcu_subject.subject_option
+
+        insert into subject_option
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="subjectQuestionId != null">
                 SUBJECT_QUESTION_ID,
@@ -48,7 +54,7 @@
             <if test="optionContent != null">
                 OPTION_CONTENT,
             </if>
-            <if test="isAnswer != null">
+            <if test="answerFlag != null">
                 IS_ANSWER,
             </if>
         </trim>
@@ -62,14 +68,14 @@
             <if test="optionContent != null">
                 #{optionContent,jdbcType=VARCHAR},
             </if>
-            <if test="isAnswer != null">
-                #{isAnswer,jdbcType=CHAR},
+            <if test="answerFlag != null">
+                #{answerFlag,jdbcType=CHAR},
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.domain.SubjectOption">
-        <!--@mbg.generated-->
-        update rymcu_subject.subject_option
+    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.entity.SubjectOption">
+
+        update subject_option
         <set>
             <if test="subjectQuestionId != null">
                 SUBJECT_QUESTION_ID = #{subjectQuestionId,jdbcType=BIGINT},
@@ -80,19 +86,33 @@
             <if test="optionContent != null">
                 OPTION_CONTENT = #{optionContent,jdbcType=VARCHAR},
             </if>
-            <if test="isAnswer != null">
-                IS_ANSWER = #{isAnswer,jdbcType=CHAR},
+            <if test="answerFlag != null">
+                IS_ANSWER = #{answerFlag,jdbcType=CHAR},
             </if>
         </set>
         where ID = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.domain.SubjectOption">
-        <!--@mbg.generated-->
-        update rymcu_subject.subject_option
+    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.entity.SubjectOption">
+        update subject_option
         set SUBJECT_QUESTION_ID = #{subjectQuestionId,jdbcType=BIGINT},
         OPTION_NAME = #{optionName,jdbcType=VARCHAR},
         OPTION_CONTENT = #{optionContent,jdbcType=VARCHAR},
-        IS_ANSWER = #{isAnswer,jdbcType=CHAR}
+        IS_ANSWER = #{answerFlag,jdbcType=CHAR}
         where ID = #{id,jdbcType=BIGINT}
     </update>
+
+    <select id="queryListBySqId" resultType="com.rymcu.subject.dto.SubjectOptionDTO">
+        select
+        <include refid="DTO_Column_List"/>
+        from subject_option
+        where subject_question_id = #{sqId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getSubjectAnswer" resultType="com.rymcu.subject.dto.SubjectOptionDTO">
+        select
+        <include refid="DTO_Column_List"/>
+        from subject_option
+        where subject_question_id = #{sqId,jdbcType=BIGINT} and is_answer = 1 order by option_name
+    </select>
+
 </mapper>

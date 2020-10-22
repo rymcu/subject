@@ -1,4 +1,4 @@
-package com.rymcu.subject.domain;
+package com.rymcu.subject.entity;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 import com.rymcu.subject.mapper.SubjectAnswerRecordMapper;
-import com.rymcu.subject.domain.SubjectAnswerRecord;
+import com.rymcu.subject.entity.SubjectAnswerRecord;
 import com.rymcu.subject.service.SubjectAnswerRecordService;
 
 @Service

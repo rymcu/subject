@@ -1,14 +1,18 @@
 package com.rymcu.subject.mapper;
 
-import com.rymcu.subject.domain.SubjectOption;
+import com.rymcu.subject.dto.SubjectOptionDTO;
+import com.rymcu.subject.entity.SubjectOption;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface SubjectOptionMapper {
     /**
      * delete by primary key
      *
-     * @param id primaryKey
+     * @param id
+     *         primaryKey
      * @return deleteCount
      */
     int deleteByPrimaryKey(Long id);
@@ -16,7 +20,8 @@ public interface SubjectOptionMapper {
     /**
      * insert record to table
      *
-     * @param record the record
+     * @param record
+     *         the record
      * @return insert count
      */
     int insert(SubjectOption record);
@@ -24,7 +29,8 @@ public interface SubjectOptionMapper {
     /**
      * insert record to table selective
      *
-     * @param record the record
+     * @param record
+     *         the record
      * @return insert count
      */
     int insertSelective(SubjectOption record);
@@ -32,7 +38,8 @@ public interface SubjectOptionMapper {
     /**
      * select by primary key
      *
-     * @param id primary key
+     * @param id
+     *         primary key
      * @return object by primary key
      */
     SubjectOption selectByPrimaryKey(Long id);
@@ -40,7 +47,8 @@ public interface SubjectOptionMapper {
     /**
      * update record selective
      *
-     * @param record the updated record
+     * @param record
+     *         the updated record
      * @return update count
      */
     int updateByPrimaryKeySelective(SubjectOption record);
@@ -48,8 +56,13 @@ public interface SubjectOptionMapper {
     /**
      * update record
      *
-     * @param record the updated record
+     * @param record
+     *         the updated record
      * @return update count
      */
     int updateByPrimaryKey(SubjectOption record);
+
+    List<SubjectOptionDTO> queryListBySqId(Long sqId);
+
+    List<SubjectOptionDTO> getSubjectAnswer(Long sqId);
 }

@@ -1,6 +1,6 @@
 package com.rymcu.subject.service;
 
-import com.rymcu.subject.domain.SubjectKnowledgeRelation;
+import com.rymcu.subject.entity.SubjectKnowledgeRelation;
 
 public interface SubjectKnowledgeRelationService {
 

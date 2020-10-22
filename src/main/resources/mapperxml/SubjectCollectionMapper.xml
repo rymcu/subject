@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rymcu.subject.mapper.SubjectCollectionMapper">
-    <resultMap id="BaseResultMap" type="com.rymcu.subject.domain.SubjectCollection">
-        <!--@mbg.generated-->
-        <!--@Table rymcu_subject.subject_collection-->
+    <resultMap id="BaseResultMap" type="com.rymcu.subject.entity.SubjectCollection">
+
+        <!--@Table subject_collection-->
         <id column="ID" jdbcType="BIGINT" property="id"/>
         <result column="SUBJECT_QUESTION_ID" jdbcType="BIGINT" property="subjectQuestionId"/>
         <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy"/>
         <result column="CREATED_TIME" jdbcType="VARCHAR" property="createdTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        <!--@mbg.generated-->
+
         ID, SUBJECT_QUESTION_ID, CREATED_BY, CREATED_TIME
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
+
         select
         <include refid="Base_Column_List"/>
-        from rymcu_subject.subject_collection
+        from subject_collection
         where ID = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        <!--@mbg.generated-->
-        delete from rymcu_subject.subject_collection
+
+        delete from subject_collection
         where ID = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.domain.SubjectCollection"
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.entity.SubjectCollection"
             useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into rymcu_subject.subject_collection (SUBJECT_QUESTION_ID, CREATED_BY, CREATED_TIME
+
+        insert into subject_collection (SUBJECT_QUESTION_ID, CREATED_BY, CREATED_TIME
         )
         values (#{subjectQuestionId,jdbcType=BIGINT}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id"
-            parameterType="com.rymcu.subject.domain.SubjectCollection" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into rymcu_subject.subject_collection
+            parameterType="com.rymcu.subject.entity.SubjectCollection" useGeneratedKeys="true">
+
+        insert into subject_collection
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="subjectQuestionId != null">
                 SUBJECT_QUESTION_ID,
@@ -60,9 +60,9 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.domain.SubjectCollection">
-        <!--@mbg.generated-->
-        update rymcu_subject.subject_collection
+    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.entity.SubjectCollection">
+
+        update subject_collection
         <set>
             <if test="subjectQuestionId != null">
                 SUBJECT_QUESTION_ID = #{subjectQuestionId,jdbcType=BIGINT},
@@ -76,9 +76,9 @@
         </set>
         where ID = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.domain.SubjectCollection">
-        <!--@mbg.generated-->
-        update rymcu_subject.subject_collection
+    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.entity.SubjectCollection">
+
+        update subject_collection
         set SUBJECT_QUESTION_ID = #{subjectQuestionId,jdbcType=BIGINT},
         CREATED_BY = #{createdBy,jdbcType=VARCHAR},
         CREATED_TIME = #{createdTime,jdbcType=VARCHAR}

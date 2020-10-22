@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 import com.rymcu.subject.mapper.SubjectKnowledgeRelationMapper;
-import com.rymcu.subject.domain.SubjectKnowledgeRelation;
+import com.rymcu.subject.entity.SubjectKnowledgeRelation;
 import com.rymcu.subject.service.SubjectKnowledgeRelationService;
 
 @Service

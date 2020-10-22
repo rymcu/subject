@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rymcu.subject.mapper.SubjectTagKnowledgePointsIdMapper">
-    <resultMap id="BaseResultMap" type="com.rymcu.subject.domain.SubjectTagKnowledgePointsId">
-        <!--@mbg.generated-->
-        <!--@Table rymcu_subject.subject_tag_knowledge_points_id-->
+    <resultMap id="BaseResultMap" type="com.rymcu.subject.entity.SubjectTagKnowledgePointsId">
+
+        <!--@Table subject_tag_knowledge_points_id-->
         <id column="ID" jdbcType="BIGINT" property="id"/>
         <result column="SUBJECT_TAG_ID" jdbcType="BIGINT" property="subjectTagId"/>
         <result column="SUBJECT_KNOWLEDGE_POINTS_ID" jdbcType="BIGINT" property="subjectKnowledgePointsId"/>
     </resultMap>
     <sql id="Base_Column_List">
-        <!--@mbg.generated-->
+
         ID, SUBJECT_TAG_ID, SUBJECT_KNOWLEDGE_POINTS_ID
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
+
         select
         <include refid="Base_Column_List"/>
-        from rymcu_subject.subject_tag_knowledge_points_id
+        from subject_tag_knowledge_points_id
         where ID = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        <!--@mbg.generated-->
-        delete from rymcu_subject.subject_tag_knowledge_points_id
+
+        delete from subject_tag_knowledge_points_id
         where ID = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" keyColumn="ID" keyProperty="id"
-            parameterType="com.rymcu.subject.domain.SubjectTagKnowledgePointsId" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into rymcu_subject.subject_tag_knowledge_points_id (SUBJECT_TAG_ID, SUBJECT_KNOWLEDGE_POINTS_ID
+            parameterType="com.rymcu.subject.entity.SubjectTagKnowledgePointsId" useGeneratedKeys="true">
+
+        insert into subject_tag_knowledge_points_id (SUBJECT_TAG_ID, SUBJECT_KNOWLEDGE_POINTS_ID
         )
         values (#{subjectTagId,jdbcType=BIGINT}, #{subjectKnowledgePointsId,jdbcType=BIGINT}
         )
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id"
-            parameterType="com.rymcu.subject.domain.SubjectTagKnowledgePointsId" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into rymcu_subject.subject_tag_knowledge_points_id
+            parameterType="com.rymcu.subject.entity.SubjectTagKnowledgePointsId" useGeneratedKeys="true">
+
+        insert into subject_tag_knowledge_points_id
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="subjectTagId != null">
                 SUBJECT_TAG_ID,
@@ -53,9 +53,9 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.domain.SubjectTagKnowledgePointsId">
-        <!--@mbg.generated-->
-        update rymcu_subject.subject_tag_knowledge_points_id
+    <update id="updateByPrimaryKeySelective" parameterType="com.rymcu.subject.entity.SubjectTagKnowledgePointsId">
+
+        update subject_tag_knowledge_points_id
         <set>
             <if test="subjectTagId != null">
                 SUBJECT_TAG_ID = #{subjectTagId,jdbcType=BIGINT},
@@ -66,9 +66,9 @@
         </set>
         where ID = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.domain.SubjectTagKnowledgePointsId">
-        <!--@mbg.generated-->
-        update rymcu_subject.subject_tag_knowledge_points_id
+    <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.entity.SubjectTagKnowledgePointsId">
+
+        update subject_tag_knowledge_points_id
         set SUBJECT_TAG_ID = #{subjectTagId,jdbcType=BIGINT},
         SUBJECT_KNOWLEDGE_POINTS_ID = #{subjectKnowledgePointsId,jdbcType=BIGINT}
         where ID = #{id,jdbcType=BIGINT}

@@ -1,6 +1,6 @@
 package com.rymcu.subject.mapper;
 
-import com.rymcu.subject.domain.SubjectKnowledgePoints;
+import com.rymcu.subject.entity.SubjectKnowledgePoints;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
