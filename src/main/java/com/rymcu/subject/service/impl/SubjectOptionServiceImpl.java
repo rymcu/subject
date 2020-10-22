@@ -1,5 +1,6 @@
 package com.rymcu.subject.service.impl;
 
+import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.entity.SubjectOption;
 import com.rymcu.subject.mapper.SubjectOptionMapper;
@@ -51,7 +52,7 @@ public class SubjectOptionServiceImpl implements SubjectOptionService {
     }
 
     @Override
-    public List<SubjectOptionDTO> getSubjectAnswer(Long sqId) {
+    public List<AnswerOptionDTO> getSubjectAnswer(Long sqId) {
         return subjectOptionMapper.getSubjectAnswer(sqId);
     }
 

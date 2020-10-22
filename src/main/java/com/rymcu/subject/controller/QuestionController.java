@@ -1,5 +1,6 @@
 package com.rymcu.subject.controller;
 
+import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.entity.SubjectQuestion;
 import com.rymcu.subject.result.GlobalResult;
@@ -97,20 +98,44 @@ public class QuestionController {
             return GlobalResultGenerator.genErrorResult("回答错误");
         }
 
-        final List<SubjectOptionDTO> answerOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
-        if (answerOptionList.size() == 1) {
-            if (answer.equals(answerOptionList.get(0).getOptionContent())) {
+        final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
+        if (questionOptionList.size() == 1) {
+            if (answer.equals(questionOptionList.get(0).getOptionContent())) {
                 GlobalResultGenerator.genSuccessResult("回答正确");
             }
         }
-        if (answerOptionList.size() > 1) {
+        if (questionOptionList.size() > 1) {
             String[] subjectAnswer = {""};
-            answerOptionList.forEach(answerOption -> subjectAnswer[0] = subjectAnswer[0] + answerOption.getOptionName());
+            questionOptionList.stream()
+                              .filter(AnswerOptionDTO::isAnswerFlag)
+                              .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
             if (answer.equals(subjectAnswer[0])) {
                 GlobalResultGenerator.genSuccessResult("回答正确");
             }
         }
         return GlobalResultGenerator.genErrorResult("回答错误");
+    }
+
+    /**
+     * 查看答案
+     */
+    @GetMapping("/show-answer/{sq-id:\\d+}")
+    @ResponseBody
+    public GlobalResult getAnswer(
+            @PathVariable(name = "sq-id") Long sqId
+    ) {
+        final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
+        if (questionOptionList.size() == 1) {
+            return GlobalResultGenerator.genSuccessResult(questionOptionList.get(0).getOptionContent());
+        }
+        if (questionOptionList.size() > 1) {
+            String[] subjectAnswer = {""};
+            questionOptionList.stream()
+                              .filter(AnswerOptionDTO::isAnswerFlag)
+                              .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
+            return GlobalResultGenerator.genSuccessResult(subjectAnswer[0]);
+        }
+        return  GlobalResultGenerator.genErrorResult("unknown  error");
     }
 
     @GetMapping("/system/menu/menu")

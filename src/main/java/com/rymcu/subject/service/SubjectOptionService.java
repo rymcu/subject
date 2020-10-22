@@ -1,5 +1,6 @@
 package com.rymcu.subject.service;
 
+import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.entity.SubjectOption;
 
@@ -22,5 +23,5 @@ public interface SubjectOptionService {
 
     List<SubjectOptionDTO> queryListBySqId(Long id);
 
-    List<SubjectOptionDTO> getSubjectAnswer(Long sqId);
+    List<AnswerOptionDTO> getSubjectAnswer(Long sqId);
 }

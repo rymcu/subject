@@ -1,5 +1,6 @@
 package com.rymcu.subject.mapper;
 
+import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.entity.SubjectOption;
 import org.apache.ibatis.annotations.Mapper;
@@ -64,5 +65,5 @@ public interface SubjectOptionMapper {
 
     List<SubjectOptionDTO> queryListBySqId(Long sqId);
 
-    List<SubjectOptionDTO> getSubjectAnswer(Long sqId);
+    List<AnswerOptionDTO> getSubjectAnswer(Long sqId);
 }
