@@ -38,6 +38,15 @@ insert into subject_option( SUBJECT_QUESTION_ID,OPTION_NAME,OPTION_CONTENT,IS_AN
 values( %s, %s ,%s ,%s)
 '''
 
+sql_exists_by_question_url = '''
+SELECT CASE 
+WHEN EXISTS (SELECT 1 FROM subject_question WHERE QUESTION_URL = %s)
+    THEN 1
+    ELSE 0
+END
+FROM DUAL
+'''
+
 # chromedriver
 chromeDriverPath = 'C:\Program Files\Google\Chrome\Application/chromedriver.exe'
 options = webdriver.ChromeOptions()
@@ -60,6 +69,7 @@ def format_selection_list(old_selection_list: list):
         selection_value = old_selection_list[old_selection_index + 2].strip()
         selection_index = selection_index + 1
         new_selection_list.append([selection_name, selection_value])
+
     return new_selection_list
 
 # 存储为md格式
@@ -148,22 +158,30 @@ def save_and_load_subject():
         index = index + 1
     return
 
+# 点击下一题按钮
+
 
 def next_subject_button_click(next_button):
-    while browser.current_url == last_subject_url_list[0]:
+    '''
+    1. 检查数据库是否存在
+    2. 判断当前链接是否为上一题链接
+    3. 同时成立则再次点击下一题按钮
+    '''
+    cursor = db.cursor()
+    page_current_url = browser.current_url
+    cursor.execute(sql_exists_by_question_url, page_current_url)
+    exists = cursor.fetchone()[0]
+    cursor.execute(sql_exists_by_question_url, page_current_url)
+    exists = cursor.fetchone()[0]
+    if (page_current_url == last_subject_url_list[0]) or exists:
         next_button.click()
         time.sleep(1)
+        next_subject_button_click(next_button)
 # 加载题库
 
 
 def get_subject(url):
-
     browser.get(url)
-
-    # # 等待浏览器加载
-    # time.sleep(1)
-    # # 点击顺序答题按钮
-    # browser.find_element_by_xpath('/html/body/div[2]/div/div/section/div/div/div[1]/div[2]/div[1]/div/a[1]').click()
     # 等待浏览器加载
     time.sleep(2)
     try:
@@ -201,6 +219,7 @@ def main(url_file_name):
 
 
 if __name__ == '__main__':
-    # 题库链接文件
+
+    #           题库链接文件
     url_file_name = "kao_shi_bao_url.txt"
     main(url_file_name)
