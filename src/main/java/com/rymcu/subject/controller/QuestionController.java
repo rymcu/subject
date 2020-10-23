@@ -2,9 +2,11 @@ package com.rymcu.subject.controller;
 
 import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
+import com.rymcu.subject.entity.SubjectAnswerRecord;
 import com.rymcu.subject.entity.SubjectQuestion;
 import com.rymcu.subject.result.GlobalResult;
 import com.rymcu.subject.result.GlobalResultGenerator;
+import com.rymcu.subject.service.SubjectAnswerRecordService;
 import com.rymcu.subject.service.SubjectOptionService;
 import com.rymcu.subject.service.SubjectQuestionService;
 import org.slf4j.Logger;
@@ -15,8 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -37,6 +39,9 @@ public class QuestionController {
 
     @Autowired
     private SubjectOptionService subjectOptionService;
+
+    @Autowired
+    private SubjectAnswerRecordService subjectAnswerRecordService;
 
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
@@ -86,18 +91,18 @@ public class QuestionController {
     /**
      * 答题
      */
-    @PostMapping("/answer/{sq-id:\\d+}")
+    @PostMapping("/answer/{user-id:\\d+}")
     @ResponseBody
     public GlobalResult answerQuestion(
-            @PathVariable(name = "sq-id") Long sqId,
-            @RequestParam(value = "answer",
-                          defaultValue = "") String answer
-
+            @RequestBody SubjectAnswerRecord subjectAnswerRecord
     ) {
+        final String answer = subjectAnswerRecord.getAnswer();
+        final long sqId = subjectAnswerRecord.getSubjectQuestionId();
         if (answer.isBlank()) {
-            return GlobalResultGenerator.genErrorResult("回答错误");
+            return GlobalResultGenerator.genErrorResult("格式错误");
         }
 
+        this.subjectAnswerRecordService.insertSelective(subjectAnswerRecord);
         final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
         if (questionOptionList.size() == 1) {
             if (answer.equals(questionOptionList.get(0).getOptionContent())) {
@@ -135,7 +140,7 @@ public class QuestionController {
                               .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
             return GlobalResultGenerator.genSuccessResult(subjectAnswer[0]);
         }
-        return  GlobalResultGenerator.genErrorResult("unknown  error");
+        return GlobalResultGenerator.genErrorResult("unknown  error");
     }
 
     @GetMapping("/system/menu/menu")
