@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class SubjectApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void foo() {
+        System.err.println("foo ！！！");
     }
 
 }
