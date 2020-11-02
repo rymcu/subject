@@ -18,6 +18,11 @@
         <result column="IS_ANSWER" jdbcType="CHAR" property="answerFlag"/>
     </resultMap>
 
+    <resultMap id="SubjectOptionDTO" type="com.rymcu.subject.dto.SubjectOptionDTO">
+        <result column="OPTION_NAME" jdbcType="VARCHAR" property="optionName"/>
+        <result column="OPTION_CONTENT" jdbcType="VARCHAR" property="optionContent"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
 
         ID, SUBJECT_QUESTION_ID, OPTION_NAME, OPTION_CONTENT, IS_ANSWER
@@ -104,9 +109,9 @@
         where ID = #{id,jdbcType=BIGINT}
     </update>
 
-    <select id="queryListBySqId" resultType="com.rymcu.subject.dto.SubjectOptionDTO">
+    <select id="queryListBySqId" resultMap="SubjectOptionDTO">
         select
-            OPTION_NAME, OPTION_CONTENT
+        OPTION_NAME, OPTION_CONTENT
         from subject_option
         where subject_question_id = #{sqId,jdbcType=BIGINT}
     </select>
@@ -117,5 +122,4 @@
         from subject_option
         where subject_question_id = #{sqId,jdbcType=BIGINT} order by option_name
     </select>
-
 </mapper>

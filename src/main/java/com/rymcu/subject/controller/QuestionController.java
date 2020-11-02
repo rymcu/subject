@@ -160,6 +160,7 @@ public class QuestionController {
             map.put("subjectOptionList", null);
         } else {
             subjectOptionList = subjectOptionService.queryListBySqId(subjectQuestion.getId());
+            System.err.println(subjectOptionList.toString());
             if (subjectOptionList.size() < 2) {
                 map.put("subjectOptionList", null);
             }
