@@ -26,8 +26,8 @@ public class Swagger3Config{
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Swagger3接口文档")
-                .description("更多请咨询服务开发者Ray。")
-                .contact(new Contact("Ray。", "http://www.ruiyeclub.cn", "ruiyeclub@foxmail.com"))
+                .description("毛毛虫")
+                .contact(new Contact("毛毛虫", "http://www.rymcu.com", "support@rymcu.com"))
                 .version("1.0")
                 .build();
     }
