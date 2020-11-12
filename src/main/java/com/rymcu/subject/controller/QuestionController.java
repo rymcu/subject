@@ -9,6 +9,8 @@ import com.rymcu.subject.result.GlobalResultGenerator;
 import com.rymcu.subject.service.SubjectAnswerRecordService;
 import com.rymcu.subject.service.SubjectOptionService;
 import com.rymcu.subject.service.SubjectQuestionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,7 @@ import java.util.Map;
  *
  * @author 🐛
  */
+@Api(tags = "题库服务")
 @Controller
 @RequestMapping("/question")
 public class QuestionController {
@@ -48,7 +51,8 @@ public class QuestionController {
     /**
      * 随机出题
      */
-    @GetMapping({"/get/next-question/{user-id:\\d+}", "/get/next-question"})
+    @ApiOperation("随机出题")
+    @GetMapping({"/next/{user-id:\\d+}", "/next"})
     @ResponseBody
     public GlobalResult getQuestion(
             @PathVariable(name = "user-id",
@@ -69,7 +73,7 @@ public class QuestionController {
     /**
      * 通过试题编号获取试题
      */
-    @GetMapping({"/get/question/{sq-id:\\d+}", "/get/question"})
+    @GetMapping({"/by/{sq-id:\\d+}", "/by"})
     @ResponseBody
     public GlobalResult getQuestionBySqId(
             @PathVariable(name = "sq-id",
@@ -91,7 +95,7 @@ public class QuestionController {
     /**
      * 答题
      */
-    @PostMapping("/answer/{user-id:\\d+}")
+    @PostMapping("/answer")
     @ResponseBody
     public GlobalResult answerQuestion(
             @RequestBody SubjectAnswerRecord subjectAnswerRecord
