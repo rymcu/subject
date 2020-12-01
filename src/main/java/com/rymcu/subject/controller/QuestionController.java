@@ -81,6 +81,7 @@ public class QuestionController {
     /**
      * 通过试题编号获取试题
      */
+    @ApiOperation("通过试题编号获取试题")
     @GetMapping({"/by/{sq-id:\\d+}", "/by"})
     @ResponseBody
     public GlobalResult getQuestionBySqId(
@@ -102,8 +103,10 @@ public class QuestionController {
      * @param subjectAnswerRecord 答题vo
      * @return 回答结果：正确or错误
      */
+
     @PostMapping("/answer")
     @ResponseBody
+    @ApiOperation("进行答题")
     public GlobalResult answerQuestion(
             @RequestBody SubjectAnswerRecord subjectAnswerRecord
     ) {
@@ -140,6 +143,7 @@ public class QuestionController {
     /**
      * 查看答案
      */
+    @ApiOperation("查看答案")
     @GetMapping("/show-answer/{sq-id:\\d+}")
     @ResponseBody
     public GlobalResult getAnswer(
@@ -160,8 +164,9 @@ public class QuestionController {
     }
 
     /**
-     * 答题记录表
+     * 答题记录
      */
+    @ApiOperation("查看答题记录or随机出题")
     @PostMapping("/record/{user-id:\\d+}\"")
     @ResponseBody
     public GlobalResult answerRecord(
