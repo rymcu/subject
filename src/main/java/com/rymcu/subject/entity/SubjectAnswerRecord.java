@@ -39,7 +39,7 @@ public class SubjectAnswerRecord implements Serializable {
     /**
      * 答题人
      */
-    private Long createdBy;
+    private Long userId;
 
     private static final long serialVersionUID = 1L;
 }

@@ -8,7 +8,7 @@
         <result column="TAG_NAME" jdbcType="VARCHAR" property="tagName"/>
         <result column="TAG_DESCRIPTION" jdbcType="VARCHAR" property="tagDescription"/>
         <result column="TAG_URI" jdbcType="VARCHAR" property="tagUri"/>
-        <result column="CREATED_BY" jdbcType="BIGINT" property="createdBy"/>
+        <result column="CREATED_BY" jdbcType="BIGINT" property="userId"/>
         <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime"/>
         <result column="UPDATED_BY" jdbcType="BIGINT" property="updatedBy"/>
         <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime"/>
@@ -36,7 +36,7 @@
         CREATED_BY, CREATED_TIME, UPDATED_BY,
         UPDATED_TIME)
         values (#{tagName,jdbcType=VARCHAR}, #{tagDescription,jdbcType=VARCHAR}, #{tagUri,jdbcType=VARCHAR},
-        #{createdBy,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
+        #{userId,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
         #{updatedTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.entity.SubjectTag"
@@ -53,7 +53,7 @@
             <if test="tagUri != null">
                 TAG_URI,
             </if>
-            <if test="createdBy != null">
+            <if test="userId != null">
                 CREATED_BY,
             </if>
             <if test="createdTime != null">
@@ -76,8 +76,8 @@
             <if test="tagUri != null">
                 #{tagUri,jdbcType=VARCHAR},
             </if>
-            <if test="createdBy != null">
-                #{createdBy,jdbcType=BIGINT},
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
             </if>
             <if test="createdTime != null">
                 #{createdTime,jdbcType=TIMESTAMP},
@@ -103,8 +103,8 @@
             <if test="tagUri != null">
                 TAG_URI = #{tagUri,jdbcType=VARCHAR},
             </if>
-            <if test="createdBy != null">
-                CREATED_BY = #{createdBy,jdbcType=BIGINT},
+            <if test="userId != null">
+                CREATED_BY = #{userId,jdbcType=BIGINT},
             </if>
             <if test="createdTime != null">
                 CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
@@ -124,7 +124,7 @@
         set TAG_NAME = #{tagName,jdbcType=VARCHAR},
         TAG_DESCRIPTION = #{tagDescription,jdbcType=VARCHAR},
         TAG_URI = #{tagUri,jdbcType=VARCHAR},
-        CREATED_BY = #{createdBy,jdbcType=BIGINT},
+        CREATED_BY = #{userId,jdbcType=BIGINT},
         CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
         UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
         UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP}

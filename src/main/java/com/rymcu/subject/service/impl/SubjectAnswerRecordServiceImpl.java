@@ -1,5 +1,6 @@
 package com.rymcu.subject.service.impl;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -7,6 +8,9 @@ import javax.annotation.Resource;
 import com.rymcu.subject.mapper.SubjectAnswerRecordMapper;
 import com.rymcu.subject.entity.SubjectAnswerRecord;
 import com.rymcu.subject.service.SubjectAnswerRecordService;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class SubjectAnswerRecordServiceImpl implements SubjectAnswerRecordService {
@@ -42,6 +46,11 @@ public class SubjectAnswerRecordServiceImpl implements SubjectAnswerRecordServic
     @Override
     public int updateByPrimaryKey(SubjectAnswerRecord record) {
         return subjectAnswerRecordMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now) {
+        return subjectAnswerRecordMapper.getTodayAnswerRecord(userId, now);
     }
 
 }

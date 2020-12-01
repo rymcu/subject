@@ -8,7 +8,7 @@
         <result column="SUBJECT_QUESTION_ID" jdbcType="BIGINT" property="subjectQuestionId"/>
         <result column="ANSWER" jdbcType="VARCHAR" property="answer"/>
         <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime"/>
-        <result column="CREATED_BY" jdbcType="BIGINT" property="createdBy"/>
+        <result column="CREATED_BY" jdbcType="BIGINT" property="userId"/>
     </resultMap>
     <sql id="Base_Column_List">
 
@@ -21,6 +21,15 @@
         from subject_answer_record
         where ID = #{id,jdbcType=BIGINT}
     </select>
+
+    <select id="getTodayAnswerRecord" resultType="com.rymcu.subject.entity.SubjectAnswerRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from subject_answer_record
+        where CREATED_BY = #{userId,jdbcType=BIGINT}
+        AND DATE_FORMAT(CREATED_TIME,"yyyyMMdd") = DATE_FORMAT(#{now,jdbcType=TIMESTAMP},"yyyyMMdd")
+
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 
         delete from subject_answer_record
@@ -32,7 +41,7 @@
         insert into subject_answer_record (SUBJECT_QUESTION_ID, ANSWER, CREATED_TIME,
         CREATED_BY)
         values (#{subjectQuestionId,jdbcType=BIGINT}, #{answer,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP},
-        #{createdBy,jdbcType=BIGINT})
+        #{userId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id"
             parameterType="com.rymcu.subject.entity.SubjectAnswerRecord" useGeneratedKeys="true">
@@ -48,7 +57,7 @@
             <if test="createdTime != null">
                 CREATED_TIME,
             </if>
-            <if test="createdBy != null">
+            <if test="userId != null">
                 CREATED_BY,
             </if>
         </trim>
@@ -62,8 +71,8 @@
             <if test="createdTime != null">
                 #{createdTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="createdBy != null">
-                #{createdBy,jdbcType=BIGINT},
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -80,8 +89,8 @@
             <if test="createdTime != null">
                 CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="createdBy != null">
-                CREATED_BY = #{createdBy,jdbcType=BIGINT},
+            <if test="userId != null">
+                CREATED_BY = #{userId,jdbcType=BIGINT},
             </if>
         </set>
         where ID = #{id,jdbcType=BIGINT}
@@ -92,7 +101,7 @@
         set SUBJECT_QUESTION_ID = #{subjectQuestionId,jdbcType=BIGINT},
         ANSWER = #{answer,jdbcType=VARCHAR},
         CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
-        CREATED_BY = #{createdBy,jdbcType=BIGINT}
+        CREATED_BY = #{userId,jdbcType=BIGINT}
         where ID = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

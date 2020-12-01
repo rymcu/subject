@@ -44,7 +44,7 @@ public class SubjectKnowledgePoints implements Serializable {
     /**
      * 创建人
      */
-    private Long createdBy;
+    private Long userId;
 
     /**
      * 创建时间

@@ -28,7 +28,7 @@ public class SubjectCollection implements Serializable {
     /**
      * 收藏者
      */
-    private String createdBy;
+    private String userId;
 
     /**
      * 收藏时间

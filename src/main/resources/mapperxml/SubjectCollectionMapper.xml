@@ -6,7 +6,7 @@
         <!--@Table subject_collection-->
         <id column="ID" jdbcType="BIGINT" property="id"/>
         <result column="SUBJECT_QUESTION_ID" jdbcType="BIGINT" property="subjectQuestionId"/>
-        <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="CREATED_BY" jdbcType="VARCHAR" property="userId"/>
         <result column="CREATED_TIME" jdbcType="VARCHAR" property="createdTime"/>
     </resultMap>
     <sql id="Base_Column_List">
@@ -30,7 +30,7 @@
 
         insert into subject_collection (SUBJECT_QUESTION_ID, CREATED_BY, CREATED_TIME
         )
-        values (#{subjectQuestionId,jdbcType=BIGINT}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=VARCHAR}
+        values (#{subjectQuestionId,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{createdTime,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id"
@@ -41,7 +41,7 @@
             <if test="subjectQuestionId != null">
                 SUBJECT_QUESTION_ID,
             </if>
-            <if test="createdBy != null">
+            <if test="userId != null">
                 CREATED_BY,
             </if>
             <if test="createdTime != null">
@@ -52,8 +52,8 @@
             <if test="subjectQuestionId != null">
                 #{subjectQuestionId,jdbcType=BIGINT},
             </if>
-            <if test="createdBy != null">
-                #{createdBy,jdbcType=VARCHAR},
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
             </if>
             <if test="createdTime != null">
                 #{createdTime,jdbcType=VARCHAR},
@@ -67,8 +67,8 @@
             <if test="subjectQuestionId != null">
                 SUBJECT_QUESTION_ID = #{subjectQuestionId,jdbcType=BIGINT},
             </if>
-            <if test="createdBy != null">
-                CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+            <if test="userId != null">
+                CREATED_BY = #{userId,jdbcType=VARCHAR},
             </if>
             <if test="createdTime != null">
                 CREATED_TIME = #{createdTime,jdbcType=VARCHAR},
@@ -80,7 +80,7 @@
 
         update subject_collection
         set SUBJECT_QUESTION_ID = #{subjectQuestionId,jdbcType=BIGINT},
-        CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+        CREATED_BY = #{userId,jdbcType=VARCHAR},
         CREATED_TIME = #{createdTime,jdbcType=VARCHAR}
         where ID = #{id,jdbcType=BIGINT}
     </update>

@@ -1,7 +1,10 @@
 package com.rymcu.subject.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
+import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.SubjectAnswerRecord;
 import com.rymcu.subject.entity.SubjectQuestion;
 import com.rymcu.subject.result.GlobalResult;
@@ -14,18 +17,13 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.websocket.server.PathParam;
+import java.util.*;
 
 /**
  * 题库系统控制服务
@@ -48,6 +46,17 @@ public class QuestionController {
 
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
+    public static Map<String, Object> getAnswerRecordGlobalResult(PageInfo<SubjectQuestionDTO> pageInfo) {
+        Map<String, Object> map = new HashMap(2);
+        map.put("answerRecords", pageInfo.getList());
+        Map<String, Object> pagination = new HashMap(4);
+        pagination.put("pageSize", pageInfo.getPageSize());
+        pagination.put("total", pageInfo.getTotal());
+        pagination.put("currentPage", pageInfo.getPageNum());
+        map.put("pagination", pagination);
+        return map;
+    }
+
     /**
      * 随机出题
      */
@@ -56,18 +65,17 @@ public class QuestionController {
     @ResponseBody
     public GlobalResult getQuestion(
             @PathVariable(name = "user-id",
-                          required = false) Long userId
+                    required = false) Long userId
     ) {
-        SubjectQuestion subjectQuestion = null;
+        SubjectQuestionDTO subjectQuestionDTO;
         Map<String, Object> map = new HashMap<>();
         if (userId == null) {
-            subjectQuestion = subjectQuestionService.getNext();
+            subjectQuestionDTO = subjectQuestionService.getNext();
         } else {
-            subjectQuestion = subjectQuestionService.getNextByUserId(userId);
+            subjectQuestionDTO = subjectQuestionService.getNextByUserId(userId);
         }
-        this.setQuestionOption(map, subjectQuestion);
-        map.put("subjectQuestion", subjectQuestion);
-        return GlobalResultGenerator.genSuccessResult(map);
+        setQuestionOption(subjectQuestionDTO);
+        return GlobalResultGenerator.genSuccessResult(subjectQuestionDTO);
     }
 
     /**
@@ -77,31 +85,35 @@ public class QuestionController {
     @ResponseBody
     public GlobalResult getQuestionBySqId(
             @PathVariable(name = "sq-id",
-                          required = false) Long sqId
+                    required = false) Long sqId
     ) {
-        SubjectQuestion subjectQuestion = null;
-        Map<String, Object> map = new HashMap<>();
+        SubjectQuestionDTO subjectQuestionDto = null;
         if (sqId == null) {
-            subjectQuestion = subjectQuestionService.getNext();
+            subjectQuestionDto = subjectQuestionService.getNext();
         } else {
-            subjectQuestion = subjectQuestionService.selectByPrimaryKey(sqId);
+            subjectQuestionDto = subjectQuestionService.selectByPrimaryKey(sqId);
         }
-        this.setQuestionOption(map, subjectQuestion);
+        this.setQuestionOption(subjectQuestionDto);
 
-        map.put("subjectQuestion", subjectQuestion);
-        return GlobalResultGenerator.genSuccessResult(map);
+        return GlobalResultGenerator.genSuccessResult(subjectQuestionDto);
     }
 
     /**
-     * 答题
+     * @param subjectAnswerRecord 答题vo
+     * @return 回答结果：正确or错误
      */
     @PostMapping("/answer")
     @ResponseBody
     public GlobalResult answerQuestion(
             @RequestBody SubjectAnswerRecord subjectAnswerRecord
     ) {
-        final String answer = subjectAnswerRecord.getAnswer();
+        final var answer = subjectAnswerRecord.getAnswer();
+        final var userId = subjectAnswerRecord.getUserId();
+        subjectAnswerRecord.setCreatedTime(new Date());
         final long sqId = subjectAnswerRecord.getSubjectQuestionId();
+        if (userId == null || userId == 0L) {
+            return GlobalResultGenerator.genErrorResult("答题用户编号不能为空");
+        }
         if (answer.isBlank()) {
             return GlobalResultGenerator.genErrorResult("格式错误");
         }
@@ -116,8 +128,8 @@ public class QuestionController {
         if (questionOptionList.size() > 1) {
             String[] subjectAnswer = {""};
             questionOptionList.stream()
-                              .filter(AnswerOptionDTO::isAnswerFlag)
-                              .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
+                    .filter(AnswerOptionDTO::isAnswerFlag)
+                    .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
             if (answer.equals(subjectAnswer[0])) {
                 GlobalResultGenerator.genSuccessResult("回答正确");
             }
@@ -140,35 +152,60 @@ public class QuestionController {
         if (questionOptionList.size() > 1) {
             String[] subjectAnswer = {""};
             questionOptionList.stream()
-                              .filter(AnswerOptionDTO::isAnswerFlag)
-                              .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
+                    .filter(AnswerOptionDTO::isAnswerFlag)
+                    .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
             return GlobalResultGenerator.genSuccessResult(subjectAnswer[0]);
         }
         return GlobalResultGenerator.genErrorResult("unknown  error");
     }
 
-    @GetMapping("/system/menu/menu")
-    public String getMenu(Model model) {
-        model.addAttribute("qwer", "qwesad");
-        return "/system/menu/menu";
+    /**
+     * 答题记录表
+     */
+    @PostMapping("/record/{user-id:\\d+}\"")
+    @ResponseBody
+    public GlobalResult answerRecord(
+            @PathVariable("user-id") long userId,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer rows
+    ) {
+        final var now = new Date();
+        final var todayAnswerRecordList = this.subjectAnswerRecordService.getTodayAnswerRecord(userId, now);
+        final var notExists = null == todayAnswerRecordList || todayAnswerRecordList.isEmpty();
+        List<SubjectQuestionDTO> subjectQuestionDtoList = new ArrayList<>();
+        if (notExists) {
+            final var subjectQuestionDto = subjectQuestionService.getNextByUserId(userId);
+            setQuestionOption(subjectQuestionDto);
+            subjectQuestionDtoList.add(subjectQuestionDto);
+        } else {
+            todayAnswerRecordList.forEach(answerRecord -> {
+                final var subjectQuestionDto = this.subjectQuestionService.selectByPrimaryKey(answerRecord.getSubjectQuestionId());
+                setQuestionOption(subjectQuestionDto);
+                subjectQuestionDto.setAnswer(answerRecord.getAnswer());
+                subjectQuestionDtoList.add(subjectQuestionDto);
+            });
+        }
+        final var pageInfo = new PageInfo(subjectQuestionDtoList);
+        PageHelper.startPage(page, rows);
+        final var map = getAnswerRecordGlobalResult(pageInfo);
+        map.put("notExists", notExists);
+        return GlobalResultGenerator.genSuccessResult(map);
     }
 
-
     private void setQuestionOption(
-            Map<String, Object> map,
-            SubjectQuestion subjectQuestion
+            SubjectQuestionDTO subjectQuestionDto
     ) {
-        List<SubjectOptionDTO> subjectOptionList = null;
-        final int questionType = subjectQuestion.getQuestionType();
+        List<SubjectOptionDTO> subjectOptionList;
+        final int questionType = subjectQuestionDto.getQuestionType();
         if (questionType == 5 || questionType == 4) {
-            map.put("subjectOptionList", null);
+            subjectQuestionDto.setSubjectOptionDTOList(null);
         } else {
-            subjectOptionList = subjectOptionService.queryListBySqId(subjectQuestion.getId());
+            subjectOptionList = subjectOptionService.queryListBySqId(subjectQuestionDto.getId());
             System.err.println(subjectOptionList.toString());
             if (subjectOptionList.size() < 2) {
-                map.put("subjectOptionList", null);
+                subjectQuestionDto.setSubjectOptionDTOList(null);
             }
-            map.put("subjectOptionList", subjectOptionList);
+            subjectQuestionDto.setSubjectOptionDTOList(subjectOptionList);
         }
     }
 }

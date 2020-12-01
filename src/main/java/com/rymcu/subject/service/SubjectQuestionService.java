@@ -1,5 +1,6 @@
 package com.rymcu.subject.service;
 
+import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.SubjectQuestion;
 
 public interface SubjectQuestionService {
@@ -11,14 +12,14 @@ public interface SubjectQuestionService {
 
     int insertSelective(SubjectQuestion record);
 
-    SubjectQuestion selectByPrimaryKey(Long id);
+    SubjectQuestionDTO selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(SubjectQuestion record);
 
     int updateByPrimaryKey(SubjectQuestion record);
 
-    SubjectQuestion getNextByUserId(Long userId);
+    SubjectQuestionDTO getNextByUserId(Long userId);
 
-    SubjectQuestion getNext();
+    SubjectQuestionDTO getNext();
 
 }

@@ -1,5 +1,6 @@
 package com.rymcu.subject.mapper;
 
+import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.SubjectQuestion;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -36,7 +37,7 @@ public interface SubjectQuestionMapper {
      * @param id primary key
      * @return object by primary key
      */
-    SubjectQuestion selectByPrimaryKey(Long id);
+    SubjectQuestionDTO selectByPrimaryKey(Long id);
 
     /**
      * update record selective

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rymcu.subject.mapper.SubjectQuestionMapper">
-    <resultMap id="BaseResultMap" type="com.rymcu.subject.entity.SubjectQuestion">
+    <resultMap id="BaseResultMap" type="com.rymcu.subject.dto.SubjectQuestionDTO">
 
         <!--@Table subject_question-->
         <id column="ID" jdbcType="BIGINT" property="id"/>
@@ -11,7 +11,7 @@
         <result column="QUESTION_URL" jdbcType="VARCHAR" property="questionUrl"/>
         <result column="QUESTION_URL_REMARK" jdbcType="VARCHAR" property="questionUrlRemark"/>
         <result column="SRC_TYPE" jdbcType="VARCHAR" property="srcType"/>
-        <result column="CREATED_BY" jdbcType="BIGINT" property="createdBy"/>
+        <result column="CREATED_BY" jdbcType="BIGINT" property="userId"/>
         <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime"/>
         <result column="UPDATED_BY" jdbcType="BIGINT" property="updatedBy"/>
         <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime"/>
@@ -43,7 +43,7 @@
         UPDATED_TIME, QUESTION_CONTENT)
         values (#{questionType,jdbcType=INTEGER}, #{questionLevel,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
         #{questionUrl,jdbcType=VARCHAR}, #{questionUrlRemark,jdbcType=VARCHAR}, #{srcType,jdbcType=VARCHAR},
-        #{createdBy,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
+        #{userId,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
         #{updatedTime,jdbcType=TIMESTAMP}, #{questionContent,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id"
@@ -69,7 +69,7 @@
             <if test="srcType != null">
                 SRC_TYPE,
             </if>
-            <if test="createdBy != null">
+            <if test="userId != null">
                 CREATED_BY,
             </if>
             <if test="createdTime != null">
@@ -104,8 +104,8 @@
             <if test="srcType != null">
                 #{srcType,jdbcType=VARCHAR},
             </if>
-            <if test="createdBy != null">
-                #{createdBy,jdbcType=BIGINT},
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
             </if>
             <if test="createdTime != null">
                 #{createdTime,jdbcType=TIMESTAMP},
@@ -143,8 +143,8 @@
             <if test="srcType != null">
                 SRC_TYPE = #{srcType,jdbcType=VARCHAR},
             </if>
-            <if test="createdBy != null">
-                CREATED_BY = #{createdBy,jdbcType=BIGINT},
+            <if test="userId != null">
+                CREATED_BY = #{userId,jdbcType=BIGINT},
             </if>
             <if test="createdTime != null">
                 CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
@@ -170,7 +170,7 @@
         QUESTION_URL = #{questionUrl,jdbcType=VARCHAR},
         QUESTION_URL_REMARK = #{questionUrlRemark,jdbcType=VARCHAR},
         SRC_TYPE = #{srcType,jdbcType=VARCHAR},
-        CREATED_BY = #{createdBy,jdbcType=BIGINT},
+        CREATED_BY = #{userId,jdbcType=BIGINT},
         CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
         UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
         UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},

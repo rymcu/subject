@@ -1,5 +1,6 @@
 package com.rymcu.subject.service.impl;
 
+import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.SubjectQuestion;
 import com.rymcu.subject.mapper.SubjectQuestionMapper;
 import com.rymcu.subject.service.SubjectQuestionService;
@@ -29,7 +30,7 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
     }
 
     @Override
-    public SubjectQuestion selectByPrimaryKey(Long id) {
+    public SubjectQuestionDTO selectByPrimaryKey(Long id) {
         return subjectQuestionMapper.selectByPrimaryKey(id);
     }
 
@@ -51,7 +52,7 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
      * @return next subject_question
      */
     @Override
-    public SubjectQuestion getNextByUserId(Long userId) {
+    public SubjectQuestionDTO getNextByUserId(Long userId) {
         final long sqId = this.getSqId(userId);
         return this.subjectQuestionMapper.selectByPrimaryKey(sqId);
     }
@@ -62,7 +63,7 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
      * @return SubjectQuestion
      */
     @Override
-    public SubjectQuestion getNext() {
+    public SubjectQuestionDTO getNext() {
         final long nextSqId = this.getNextSqId();
         return this.subjectQuestionMapper.selectByPrimaryKey(nextSqId);
     }

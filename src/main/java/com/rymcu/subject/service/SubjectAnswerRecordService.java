@@ -2,6 +2,9 @@ package com.rymcu.subject.service;
 
 import com.rymcu.subject.entity.SubjectAnswerRecord;
 
+import java.util.Date;
+import java.util.List;
+
 public interface SubjectAnswerRecordService {
 
 
@@ -17,4 +20,5 @@ public interface SubjectAnswerRecordService {
 
     int updateByPrimaryKey(SubjectAnswerRecord record);
 
+    List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now);
 }

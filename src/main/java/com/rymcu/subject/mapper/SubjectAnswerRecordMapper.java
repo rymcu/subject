@@ -2,6 +2,10 @@ package com.rymcu.subject.mapper;
 
 import com.rymcu.subject.entity.SubjectAnswerRecord;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
 
 @Mapper
 public interface SubjectAnswerRecordMapper {
@@ -52,4 +56,6 @@ public interface SubjectAnswerRecordMapper {
      * @return update count
      */
     int updateByPrimaryKey(SubjectAnswerRecord record);
+
+    List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now);
 }
