@@ -104,7 +104,7 @@ public class QuestionController {
      * @return 回答结果：正确or错误
      */
 
-    @PostMapping("/answer")
+    @GetMapping("/answer")
     @ResponseBody
     @ApiOperation("进行答题")
     public GlobalResult answerQuestion(
@@ -206,7 +206,6 @@ public class QuestionController {
             subjectQuestionDto.setSubjectOptionDTOList(null);
         } else {
             subjectOptionList = subjectOptionService.queryListBySqId(subjectQuestionDto.getId());
-            System.err.println(subjectOptionList.toString());
             if (subjectOptionList.size() < 2) {
                 subjectQuestionDto.setSubjectOptionDTOList(null);
             }

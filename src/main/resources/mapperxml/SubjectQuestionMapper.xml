@@ -188,16 +188,24 @@
 
 
     <select id="isRepeatBySqIdAndUserId" resultType="boolean" >
-        SELECT
-            CASE WHEN
-                (
-                    SELECT COUNT(*) FROM subject_answer_record WHERE SUBJECT_QESTION_ID = #{sqId}
-                        AND CREATED_BY = #{userId}
-                ) = (
-                     SELECT MAX(COUNT(*)) FROM subject_answer_record WHERE CREATED_BY = #{userId} GROUP BY SUBJECT_QUESTION_ID
-                )
-            THEN 1
-            ELSE 0 END
+        SELECT CASE
+                   WHEN
+                           (
+                               SELECT COUNT(*)
+                               FROM subject_answer_record
+                               WHERE subject_question_id = #{sqId}
+                                 AND CREATED_BY = #{userId}
+                           ) = (
+                               SELECT max(t.count_record)
+                               from (
+                                        SELECT COUNT(1) count_record
+                                        FROM subject_answer_record
+                                        WHERE created_by = #{userId}
+                                        GROUP BY subject_question_id
+                                    ) t
+                           )
+                       THEN 1
+                   ELSE 0 END
         FROM DUAL
     </select>
 </mapper>
