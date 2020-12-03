@@ -224,10 +224,14 @@ public class QuestionController {
         }
         List<SubjectOptionDTO> subjectOptionList = null;
         final int questionType = subjectQuestionDto.getQuestionType();
-        if (questionType == 5 || questionType == 4 || subjectOptionList.size() < 2) {
+        if (questionType == 5 || questionType == 4) {
             subjectQuestionDto.setSubjectOptionDTOList(null);
         } else {
             subjectOptionList = subjectOptionService.queryListBySqId(subjectQuestionDto.getId());
+            if (subjectOptionList.size() < 2) {
+                subjectQuestionDto.setSubjectOptionDTOList(null);
+                return;
+            }
             subjectQuestionDto.setSubjectOptionDTOList(subjectOptionList);
         }
     }
