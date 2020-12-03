@@ -129,16 +129,15 @@ public class QuestionController {
         if (answer.isBlank()) {
             return GlobalResultGenerator.genErrorResult("格式错误");
         }
-
-        this.subjectAnswerRecordService.insertSelective(subjectAnswerRecord);
         final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
+        if (questionOptionList.isEmpty()) {
+            return GlobalResultGenerator.genErrorResult("题库此题记录异常");
+        }
+        this.subjectAnswerRecordService.insertSelective(subjectAnswerRecord);
         if (questionOptionList.size() == 1) {
             if (answer.equals(questionOptionList.get(0).getOptionContent())) {
-                GlobalResultGenerator.genSuccessResult("回答正确");
+                return GlobalResultGenerator.genSuccessResult("回答正确");
             }
-        }
-        if (questionOptionList.isEmpty()) {
-            GlobalResultGenerator.genErrorResult("异常");
         }
         if (questionOptionList.size() > 1) {
             final var subjectAnswer = new String[]{""};
@@ -163,6 +162,9 @@ public class QuestionController {
             @PathVariable(name = "sq-id") Long sqId
     ) {
         final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
+        if (questionOptionList.isEmpty()) {
+            return GlobalResultGenerator.genErrorResult("该题不存在");
+        }
         if (questionOptionList.size() == 1) {
             return GlobalResultGenerator.genSuccessResult(questionOptionList.get(0).getOptionContent());
         }
