@@ -6,7 +6,6 @@ import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.SubjectAnswerRecord;
-import com.rymcu.subject.entity.SubjectQuestion;
 import com.rymcu.subject.result.GlobalResult;
 import com.rymcu.subject.result.GlobalResultGenerator;
 import com.rymcu.subject.service.SubjectAnswerRecordService;
@@ -17,13 +16,21 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.websocket.server.PathParam;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 题库系统控制服务
@@ -65,7 +72,7 @@ public class QuestionController {
     @ResponseBody
     public GlobalResult getQuestion(
             @PathVariable(name = "user-id",
-                    required = false) Long userId
+                          required = false) Long userId
     ) {
         SubjectQuestionDTO subjectQuestionDTO;
         Map<String, Object> map = new HashMap<>();
@@ -86,7 +93,7 @@ public class QuestionController {
     @ResponseBody
     public GlobalResult getQuestionBySqId(
             @PathVariable(name = "sq-id",
-                    required = false) Long sqId
+                          required = false) Long sqId
     ) {
         SubjectQuestionDTO subjectQuestionDto = null;
         if (sqId == null) {
@@ -100,13 +107,15 @@ public class QuestionController {
     }
 
     /**
-     * @param subjectAnswerRecord 答题vo
+     * @param subjectAnswerRecord
+     *         答题vo
      * @return 回答结果：正确or错误
      */
 
-    @GetMapping("/answer")
+    @PostMapping("/answer")
     @ResponseBody
     @ApiOperation("进行答题")
+    @Transactional
     public GlobalResult answerQuestion(
             @RequestBody SubjectAnswerRecord subjectAnswerRecord
     ) {
@@ -128,16 +137,20 @@ public class QuestionController {
                 GlobalResultGenerator.genSuccessResult("回答正确");
             }
         }
+        if (questionOptionList.isEmpty()) {
+            GlobalResultGenerator.genErrorResult("异常");
+        }
         if (questionOptionList.size() > 1) {
-            String[] subjectAnswer = {""};
+            final var subjectAnswer = new String[]{""};
             questionOptionList.stream()
-                    .filter(AnswerOptionDTO::isAnswerFlag)
-                    .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
+                              .filter(AnswerOptionDTO::isAnswerFlag)
+                              .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
             if (answer.equals(subjectAnswer[0])) {
-                GlobalResultGenerator.genSuccessResult("回答正确");
+                return GlobalResultGenerator.genSuccessResult("回答正确");
             }
         }
-        return GlobalResultGenerator.genErrorResult("回答错误");
+        return GlobalResultGenerator.genSuccessResult(answer.equals(questionOptionList.get(0).getOptionContent()) ?
+                                                              "回答正确" : "回答错误");
     }
 
     /**
@@ -156,8 +169,8 @@ public class QuestionController {
         if (questionOptionList.size() > 1) {
             String[] subjectAnswer = {""};
             questionOptionList.stream()
-                    .filter(AnswerOptionDTO::isAnswerFlag)
-                    .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
+                              .filter(AnswerOptionDTO::isAnswerFlag)
+                              .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
             return GlobalResultGenerator.genSuccessResult(subjectAnswer[0]);
         }
         return GlobalResultGenerator.genErrorResult("unknown  error");
@@ -167,7 +180,7 @@ public class QuestionController {
      * 答题记录
      */
     @ApiOperation("查看答题记录or随机出题")
-    @PostMapping("/record/{user-id:\\d+}\"")
+    @GetMapping("/record/{user-id:\\d+}")
     @ResponseBody
     public GlobalResult answerRecord(
             @PathVariable("user-id") long userId,
@@ -185,9 +198,15 @@ public class QuestionController {
         } else {
             todayAnswerRecordList.forEach(answerRecord -> {
                 final var subjectQuestionDto = this.subjectQuestionService.selectByPrimaryKey(answerRecord.getSubjectQuestionId());
-                setQuestionOption(subjectQuestionDto);
-                subjectQuestionDto.setAnswer(answerRecord.getAnswer());
-                subjectQuestionDtoList.add(subjectQuestionDto);
+                if (null == subjectQuestionDto) {
+
+                } else {
+                    setQuestionOption(subjectQuestionDto);
+                    subjectQuestionDto.setAnswer(answerRecord.getAnswer());
+                    subjectQuestionDtoList.add(subjectQuestionDto);
+                }
+
+
             });
         }
         final var pageInfo = new PageInfo(subjectQuestionDtoList);
@@ -200,15 +219,15 @@ public class QuestionController {
     private void setQuestionOption(
             SubjectQuestionDTO subjectQuestionDto
     ) {
-        List<SubjectOptionDTO> subjectOptionList;
+        if (subjectQuestionDto == null) {
+            return;
+        }
+        List<SubjectOptionDTO> subjectOptionList = null;
         final int questionType = subjectQuestionDto.getQuestionType();
-        if (questionType == 5 || questionType == 4) {
+        if (questionType == 5 || questionType == 4 || subjectOptionList.size() < 2) {
             subjectQuestionDto.setSubjectOptionDTOList(null);
         } else {
             subjectOptionList = subjectOptionService.queryListBySqId(subjectQuestionDto.getId());
-            if (subjectOptionList.size() < 2) {
-                subjectQuestionDto.setSubjectOptionDTOList(null);
-            }
             subjectQuestionDto.setSubjectOptionDTOList(subjectOptionList);
         }
     }

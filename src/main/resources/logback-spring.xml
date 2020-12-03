@@ -23,6 +23,7 @@
     <logger name="org.springframework.web.servlet.mvc" level="info"/>
     <logger name="org.springframework.security.web.FilterChainProxy" level="info"/>
     <logger name="org.springframework.web.servlet.DispatcherServlet" level="info"/>
+    <logger name="com.rymcu.subject.mapper" level="debug"/>
     <logger name="com.rymcu.subject" level="trace"/>
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
 </configuration>

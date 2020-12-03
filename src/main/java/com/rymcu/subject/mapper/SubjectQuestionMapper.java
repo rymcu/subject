@@ -34,10 +34,11 @@ public interface SubjectQuestionMapper {
     /**
      * select by primary key
      *
-     * @param id primary key
+     * @param id
+     *         primary key
      * @return object by primary key
      */
-    SubjectQuestionDTO selectByPrimaryKey(Long id);
+    SubjectQuestionDTO selectByPrimaryKey(@Param("id") Long id);
 
     /**
      * update record selective

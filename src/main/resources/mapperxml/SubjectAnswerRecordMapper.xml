@@ -22,7 +22,7 @@
         where ID = #{id,jdbcType=BIGINT}
     </select>
 
-    <select id="getTodayAnswerRecord" resultType="com.rymcu.subject.entity.SubjectAnswerRecord">
+    <select id="getTodayAnswerRecord" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from subject_answer_record
