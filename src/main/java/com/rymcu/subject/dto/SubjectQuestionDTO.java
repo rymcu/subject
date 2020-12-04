@@ -31,38 +31,12 @@ public class SubjectQuestionDTO implements Serializable {
      * 难易程度 1-100
      */
     private Integer questionLevel;
-    /**
-     * 备注
-     */
-    private String remark;
-    /**
-     * 来源网站 网址
-     */
-    private String questionUrl;
-    /**
-     * 来源描述 如：牛客网
-     */
-    private String questionUrlRemark;
+
     /**
      * 来源类型 0-默认，1-系统，2-管理员，3-用户，4-脚本
      */
     private String srcType;
-    /**
-     * 创建人
-     */
-    private Long userId;
-    /**
-     * 创建时间
-     */
-    private Date createdTime;
-    /**
-     * 更新人
-     */
-    private Long updatedBy;
-    /**
-     * 更新时间
-     */
-    private Date updatedTime;
+
     private String questionContent;
     private List<SubjectOptionDTO> subjectOptionDTOList;
 

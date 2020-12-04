@@ -7,20 +7,13 @@
         <id column="ID" jdbcType="BIGINT" property="id"/>
         <result column="QUESTION_TYPE" jdbcType="INTEGER" property="questionType"/>
         <result column="QUESTION_LEVEL" jdbcType="INTEGER" property="questionLevel"/>
-        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
-        <result column="QUESTION_URL" jdbcType="VARCHAR" property="questionUrl"/>
-        <result column="QUESTION_URL_REMARK" jdbcType="VARCHAR" property="questionUrlRemark"/>
         <result column="SRC_TYPE" jdbcType="VARCHAR" property="srcType"/>
-        <result column="CREATED_BY" jdbcType="BIGINT" property="userId"/>
-        <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime"/>
-        <result column="UPDATED_BY" jdbcType="BIGINT" property="updatedBy"/>
-        <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime"/>
         <result column="QUESTION_CONTENT" jdbcType="VARCHAR" property="questionContent"/>
     </resultMap>
     <sql id="Base_Column_List">
 
-        ID, QUESTION_TYPE, QUESTION_LEVEL, REMARK, QUESTION_URL, QUESTION_URL_REMARK, SRC_TYPE,
-        CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME, QUESTION_CONTENT
+        ID
+        , QUESTION_TYPE, QUESTION_LEVEL, SRC_TYPE, QUESTION_CONTENT
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
 
