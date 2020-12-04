@@ -1,5 +1,6 @@
 package com.rymcu.subject.dto;
 
+import com.rymcu.subject.entity.SubjectAnswerRecord;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -65,5 +66,5 @@ public class SubjectQuestionDTO implements Serializable {
     private String questionContent;
     private List<SubjectOptionDTO> subjectOptionDTOList;
 
-    private String answer;
+    private SubjectAnswerRecord subjectAnswerRecord;
 }

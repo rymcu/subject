@@ -119,37 +119,30 @@ public class QuestionController {
     public GlobalResult answerQuestion(
             @RequestBody SubjectAnswerRecord subjectAnswerRecord
     ) {
-        final var answer = subjectAnswerRecord.getAnswer();
-        final var userId = subjectAnswerRecord.getUserId();
-        subjectAnswerRecord.setCreatedTime(new Date());
-        final long sqId = subjectAnswerRecord.getSubjectQuestionId();
-        if (userId == null || userId == 0L) {
-            return GlobalResultGenerator.genErrorResult("答题用户编号不能为空");
+        return this.doAnswer(subjectAnswerRecord);
+    }
+
+    /**
+     * @param subjectAnswerRecord
+     *         答题vo
+     * @return 回答结果：正确or错误
+     */
+
+    @PostMapping("/answer/everyday")
+    @ResponseBody
+    @ApiOperation("进行答题")
+    @Transactional
+    public GlobalResult answerEverydayQuestion(
+            @RequestBody SubjectAnswerRecord subjectAnswerRecord
+    ) {
+        final var now = new Date();
+        final var todayAnswerRecordList = this.subjectAnswerRecordService
+                .getTodayAnswerRecord(subjectAnswerRecord.getUserId(), now);
+        final var notExists = null == todayAnswerRecordList || todayAnswerRecordList.isEmpty();
+        if (!notExists) {
+            return GlobalResultGenerator.genErrorResult("今日已进行答题，不可重复进行答题签到");
         }
-        if (answer.isBlank()) {
-            return GlobalResultGenerator.genErrorResult("格式错误");
-        }
-        final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
-        if (questionOptionList.isEmpty()) {
-            return GlobalResultGenerator.genErrorResult("题库此题记录异常");
-        }
-        this.subjectAnswerRecordService.insertSelective(subjectAnswerRecord);
-        if (questionOptionList.size() == 1) {
-            if (answer.equals(questionOptionList.get(0).getOptionContent())) {
-                return GlobalResultGenerator.genSuccessResult("回答正确");
-            }
-        }
-        if (questionOptionList.size() > 1) {
-            final var subjectAnswer = new String[]{""};
-            questionOptionList.stream()
-                              .filter(AnswerOptionDTO::isAnswerFlag)
-                              .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
-            if (answer.equals(subjectAnswer[0])) {
-                return GlobalResultGenerator.genSuccessResult("回答正确");
-            }
-        }
-        return GlobalResultGenerator.genSuccessResult(answer.equals(questionOptionList.get(0).getOptionContent()) ?
-                                                              "回答正确" : "回答错误");
+        return this.doAnswer(subjectAnswerRecord);
     }
 
     /**
@@ -204,7 +197,7 @@ public class QuestionController {
 
                 } else {
                     setQuestionOption(subjectQuestionDto);
-                    subjectQuestionDto.setAnswer(answerRecord.getAnswer());
+                    subjectQuestionDto.setSubjectAnswerRecord(answerRecord);
                     subjectQuestionDtoList.add(subjectQuestionDto);
                 }
 
@@ -236,5 +229,40 @@ public class QuestionController {
             }
             subjectQuestionDto.setSubjectOptionDTOList(subjectOptionList);
         }
+    }
+
+    private GlobalResult doAnswer(SubjectAnswerRecord subjectAnswerRecord) {
+        final var answer = subjectAnswerRecord.getAnswer();
+        final var userId = subjectAnswerRecord.getUserId();
+        subjectAnswerRecord.setCreatedTime(new Date());
+        final long sqId = subjectAnswerRecord.getSubjectQuestionId();
+        if (userId == null || userId == 0L) {
+            return GlobalResultGenerator.genErrorResult("答题用户编号不能为空");
+        }
+        if (answer.isBlank()) {
+            return GlobalResultGenerator.genErrorResult("格式错误");
+        }
+        final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
+        if (questionOptionList.isEmpty()) {
+            return GlobalResultGenerator.genErrorResult("题库此题记录异常");
+        }
+        this.subjectAnswerRecordService.insertSelective(subjectAnswerRecord);
+        if (questionOptionList.size() == 1) {
+            if (answer.equals(questionOptionList.get(0).getOptionContent())) {
+                return GlobalResultGenerator.genSuccessResult("回答正确");
+            }
+        }
+        if (questionOptionList.size() > 1) {
+            final var subjectAnswer = new String[]{""};
+            questionOptionList.stream()
+                              .filter(AnswerOptionDTO::isAnswerFlag)
+                              .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
+            if (answer.equals(subjectAnswer[0])) {
+                return GlobalResultGenerator.genSuccessResult("回答正确");
+            }
+        }
+        return GlobalResultGenerator.genSuccessResult(answer.equals(questionOptionList.get(0).getOptionContent()) ?
+                                                              "回答正确" : "回答错误");
+
     }
 }

@@ -2,9 +2,12 @@ spring:
   datasource:
     platform: mysql
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/rymcu_subject?autoReconnect=true&useSSL=false
-    username: rymcu_subject
+    url: jdbc:mysql://local:3306/subject?autoReconnect=true&useSSL=false&serverTimezone=GMT%2b8&initConnectionSqls
+    =UTF8mb4
+    username: subject
     password: 1234
+  jackson:
+    time-zone: GMT+8
 mybatis:
   typeAliasesPackage: com.rymcu.subject.domain
   mapperLocations: classpath:mapperxml/*.xml
