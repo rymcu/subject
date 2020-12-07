@@ -27,7 +27,7 @@
         <include refid="Base_Column_List"/>
         from subject_answer_record
         where CREATED_BY = #{userId,jdbcType=BIGINT}
-        AND DATE_FORMAT(CREATED_TIME,"yyyyMMdd") = DATE_FORMAT(#{now,jdbcType=TIMESTAMP},"yyyyMMdd")
+        AND DATE_FORMAT(CREATED_TIME,"%Y%m%d") = DATE_FORMAT(#{now,jdbcType=TIMESTAMP},"%Y%m%d")
 
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
