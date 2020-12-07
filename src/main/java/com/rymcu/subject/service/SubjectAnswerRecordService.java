@@ -20,5 +20,9 @@ public interface SubjectAnswerRecordService {
 
     int updateByPrimaryKey(SubjectAnswerRecord record);
 
-    List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now);
+    List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now, boolean everydayFlag);
+
+    List<SubjectAnswerRecord> getAnswerRecord(long userId, Date now);
+
+    void insertEveryDayAnswer(SubjectAnswerRecord subjectAnswerRecord, boolean everydayFlag);
 }

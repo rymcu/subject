@@ -40,5 +40,7 @@ public class SubjectQuestionDTO implements Serializable {
     private String questionContent;
     private List<SubjectOptionDTO> subjectOptionDTOList;
 
-    private SubjectAnswerRecord subjectAnswerRecord;
+    private String correctAnswer;
+
+    private List<SubjectAnswerRecord> subjectAnswerRecords;
 }

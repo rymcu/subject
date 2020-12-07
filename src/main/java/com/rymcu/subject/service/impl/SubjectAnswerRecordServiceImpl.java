@@ -1,6 +1,5 @@
 package com.rymcu.subject.service.impl;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,8 +48,18 @@ public class SubjectAnswerRecordServiceImpl implements SubjectAnswerRecordServic
     }
 
     @Override
-    public List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now) {
-        return subjectAnswerRecordMapper.getTodayAnswerRecord(userId, now);
+    public List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now, boolean everydayFlag) {
+        return subjectAnswerRecordMapper.getTodayAnswerRecord(userId, now,everydayFlag);
+    }
+
+    @Override
+    public List<SubjectAnswerRecord> getAnswerRecord(long userId, Date now) {
+        return subjectAnswerRecordMapper.getAnswerRecord(userId, now);
+    }
+
+    @Override
+    public void insertEveryDayAnswer(SubjectAnswerRecord subjectAnswerRecord, boolean everydayFlag) {
+        subjectAnswerRecordMapper.insertEveryDayAnswer(subjectAnswerRecord,everydayFlag);
     }
 
 }

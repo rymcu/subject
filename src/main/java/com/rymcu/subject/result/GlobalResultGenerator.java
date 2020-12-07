@@ -70,4 +70,15 @@ public class GlobalResultGenerator {
         return genResult(true, null, message);
     }
 
+    /**
+     * success
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> GlobalResult<T> genSuccessResult(T data, String message) {
+
+        return genResult(true, data, message);
+    }
+
 }
