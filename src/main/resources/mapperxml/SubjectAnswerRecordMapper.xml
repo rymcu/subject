@@ -56,8 +56,7 @@
         values (#{subjectQuestionId,jdbcType=BIGINT}, #{answer,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP},
         #{userId,jdbcType=BIGINT})
     </insert>
-    <insert id="insertSelective" keyColumn="ID" keyProperty="id"
-            parameterType="com.rymcu.subject.entity.SubjectAnswerRecord" useGeneratedKeys="true">
+    <insert id="insertSelective" keyColumn="ID" keyProperty="id" useGeneratedKeys="true">
 
         insert into subject_answer_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -89,7 +88,8 @@
             </if>
         </trim>
     </insert>
-    <insert id="insertEveryDayAnswer">
+    <insert id="insertEveryDayAnswer" keyColumn="ID" keyProperty="id"
+        parameterType="com.rymcu.subject.entity.SubjectAnswerRecord" useGeneratedKeys="true">
         insert into subject_answer_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="subjectQuestionId != null">
@@ -104,7 +104,7 @@
             <if test="userId != null">
                 CREATED_BY,
             </if>
-            <if test="everydayFlag != null">
+            <if test="1 == 1">
                 EVERYDAY_FLAG,
             </if>
         </trim>
@@ -121,8 +121,8 @@
             <if test="userId != null">
                 #{userId,jdbcType=BIGINT},
             </if>
-            <if test="everydayFlag != null">
-                #{everydayFlag,jdbcType=BOOLEAN},
+            <if test="1 == 1">
+                1,
             </if>
         </trim>
 

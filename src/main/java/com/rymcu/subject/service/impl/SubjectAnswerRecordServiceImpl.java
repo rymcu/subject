@@ -58,8 +58,8 @@ public class SubjectAnswerRecordServiceImpl implements SubjectAnswerRecordServic
     }
 
     @Override
-    public void insertEveryDayAnswer(SubjectAnswerRecord subjectAnswerRecord, boolean everydayFlag) {
-        subjectAnswerRecordMapper.insertEveryDayAnswer(subjectAnswerRecord,everydayFlag);
+    public int insertEveryDayAnswer(SubjectAnswerRecord subjectAnswerRecord) {
+        return subjectAnswerRecordMapper.insertEveryDayAnswer(subjectAnswerRecord);
     }
 
 }

@@ -60,5 +60,5 @@ public interface SubjectAnswerRecordMapper {
 
     List<SubjectAnswerRecord> getAnswerRecord(long userId, Date now);
 
-    void insertEveryDayAnswer(SubjectAnswerRecord subjectAnswerRecord, boolean everydayFlag);
+    int insertEveryDayAnswer(SubjectAnswerRecord subjectAnswerRecord);
 }
