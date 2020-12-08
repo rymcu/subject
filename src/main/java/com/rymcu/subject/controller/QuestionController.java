@@ -143,7 +143,7 @@ public class QuestionController {
                 .getTodayAnswerRecord(subjectAnswerRecord.getUserId(), now, true);
         final boolean notExists = null == todayAnswerRecordList || todayAnswerRecordList.isEmpty();
         if (!notExists) {
-            return GlobalResultGenerator.genErrorResult("今日已进行答题，不可重复进行答题签到");
+            return GlobalResultGenerator.genSuccessResult(new RespResult("今日已进行答题，不可重复进行答题签到", false, null));
         }
         return this.doAnswer(subjectAnswerRecord, true);
     }
