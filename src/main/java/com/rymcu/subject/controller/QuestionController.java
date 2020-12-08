@@ -8,6 +8,7 @@ import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.SubjectAnswerRecord;
 import com.rymcu.subject.result.GlobalResult;
 import com.rymcu.subject.result.GlobalResultGenerator;
+import com.rymcu.subject.result.RespResult;
 import com.rymcu.subject.service.SubjectAnswerRecordService;
 import com.rymcu.subject.service.SubjectOptionService;
 import com.rymcu.subject.service.SubjectQuestionService;
@@ -74,7 +75,7 @@ public class QuestionController {
     @ResponseBody
     public GlobalResult getQuestion(
             @PathVariable(name = "user-id",
-                    required = false) Long userId
+                          required = false) Long userId
     ) {
         SubjectQuestionDTO subjectQuestionDTO;
         Map<String, Object> map = new HashMap<>();
@@ -95,7 +96,7 @@ public class QuestionController {
     @ResponseBody
     public GlobalResult getQuestionBySqId(
             @PathVariable(name = "sq-id",
-                    required = false) Long sqId
+                          required = false) Long sqId
     ) {
         SubjectQuestionDTO subjectQuestionDto = null;
         if (sqId == null) {
@@ -109,7 +110,8 @@ public class QuestionController {
     }
 
     /**
-     * @param subjectAnswerRecord 答题vo
+     * @param subjectAnswerRecord
+     *         答题vo
      * @return 回答结果：正确or错误
      */
 
@@ -120,11 +122,12 @@ public class QuestionController {
     public GlobalResult answerQuestion(
             @RequestBody SubjectAnswerRecord subjectAnswerRecord
     ) {
-        return this.doAnswer(subjectAnswerRecord);
+        return this.doAnswer(subjectAnswerRecord, false);
     }
 
     /**
-     * @param subjectAnswerRecord 答题vo
+     * @param subjectAnswerRecord
+     *         答题vo
      * @return 回答结果：正确or错误
      */
 
@@ -142,7 +145,7 @@ public class QuestionController {
         if (!notExists) {
             return GlobalResultGenerator.genErrorResult("今日已进行答题，不可重复进行答题签到");
         }
-        return this.doEveryDayAnswer(subjectAnswerRecord);
+        return this.doAnswer(subjectAnswerRecord, true);
     }
 
 
@@ -159,19 +162,7 @@ public class QuestionController {
         if (questionOptionList.isEmpty()) {
             return GlobalResultGenerator.genErrorResult("该题不存在");
         }
-        if (questionOptionList.size() == 1) {
-            return GlobalResultGenerator.genSuccessResult(questionOptionList.get(0).getOptionContent());
-        }
-        if (questionOptionList.size() > 1) {
-            String[] subjectAnswer = {""};
-            final Map<String, Object> correctAnswer = new HashMap<>();
-            correctAnswer.put("correctAnswer", subjectAnswer[0]);
-            questionOptionList.stream()
-                    .filter(AnswerOptionDTO::isAnswerFlag)
-                    .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
-            return GlobalResultGenerator.genSuccessResult(correctAnswer);
-        }
-        return GlobalResultGenerator.genErrorResult("unknown  error");
+        return GlobalResultGenerator.genSuccessResult(new RespResult("正确答案", true, getCorrectAnswer(questionOptionList)));
     }
 
 
@@ -245,53 +236,17 @@ public class QuestionController {
             //设置答案
             if (answerOptionDTOList == null || answerOptionDTOList.isEmpty()) {
                 subjectQuestionDto.setCorrectAnswer(null);
+            } else {
+                subjectQuestionDto.setCorrectAnswer(getCorrectAnswer(answerOptionDTOList));
             }
-            if (answerOptionDTOList.size() == 1) {
-                subjectQuestionDto.setCorrectAnswer(answerOptionDTOList.get(0).getOptionContent());
-            }
-            if (answerOptionDTOList.size() > 1) {
-                String[] subjectAnswer = {""};
-                answerOptionDTOList.stream()
-                        .filter(AnswerOptionDTO::isAnswerFlag)
-                        .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
-                subjectQuestionDto.setCorrectAnswer(subjectAnswer[0]);
-            }
-        } else {
-            return;
         }
     }
 
-    private GlobalResult doEveryDayAnswer(SubjectAnswerRecord subjectAnswerRecord) {
-        final String answer = subjectAnswerRecord.getAnswer();
-        final Long userId = subjectAnswerRecord.getUserId();
-        subjectAnswerRecord.setCreatedTime(new Date());
-        final long sqId = subjectAnswerRecord.getSubjectQuestionId();
-        if (userId == null || userId == 0L) {
-            return GlobalResultGenerator.genErrorResult("答题用户编号不能为空");
-        }
-        if (answer == null || answer.isBlank()) {
-            return GlobalResultGenerator.genErrorResult("格式错误");
-        }
-        final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
-        if (questionOptionList.isEmpty()) {
-            return GlobalResultGenerator.genErrorResult("题库此题记录异常");
-        }
-        this.subjectAnswerRecordService.insertEveryDayAnswer(subjectAnswerRecord);
-        if (questionOptionList.size() == 1) {
-            return GlobalResultGenerator.genSuccessResult(answer.equals(questionOptionList.get(0).getOptionContent()));
-        }
-        if (questionOptionList.size() > 1) {
-            final String[] subjectAnswer = new String[]{""};
-            questionOptionList.stream()
-                    .filter(AnswerOptionDTO::isAnswerFlag)
-                    .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
 
-            return GlobalResultGenerator.genSuccessResult(answer.toUpperCase().equals(subjectAnswer[0].toUpperCase()));
-        }
-        return GlobalResultGenerator.genSuccessResult(answer.equals(questionOptionList.get(0).getOptionContent()));
-    }
-
-    private GlobalResult doAnswer(SubjectAnswerRecord subjectAnswerRecord) {
+    private GlobalResult doAnswer(
+            SubjectAnswerRecord subjectAnswerRecord,
+            boolean everydayFlag
+    ) {
         final String answer = subjectAnswerRecord.getAnswer();
         final Long userId = subjectAnswerRecord.getUserId();
         subjectAnswerRecord.setCreatedTime(new Date());
@@ -306,18 +261,31 @@ public class QuestionController {
         if (questionOptionList.isEmpty()) {
             return GlobalResultGenerator.genErrorResult("题库此题记录异常");
         }
-        this.subjectAnswerRecordService.insertSelective(subjectAnswerRecord);
+
+        // 如果不是每日答题则普通插入，否则记录答题标志1
+        if (!everydayFlag) {
+            this.subjectAnswerRecordService.insertSelective(subjectAnswerRecord);
+        } else {
+            this.subjectAnswerRecordService.insertEveryDayAnswer(subjectAnswerRecord);
+
+        }
+
+        final String correctAnswer = getCorrectAnswer(questionOptionList);
+        final boolean isTrue = correctAnswer.toUpperCase().equals(answer.toUpperCase());
+        return GlobalResultGenerator.genSuccessResult(new RespResult("答题成功", true, isTrue));
+    }
+
+    private String getCorrectAnswer(List<AnswerOptionDTO> questionOptionList) {
+        final String[] correctAnswer = new String[]{""};
         if (questionOptionList.size() == 1) {
-            return GlobalResultGenerator.genSuccessResult(answer.equals(questionOptionList.get(0).getOptionContent()));
-        }
-        if (questionOptionList.size() > 1) {
-            final String[] subjectAnswer = new String[]{""};
+            correctAnswer[0] = questionOptionList.get(0).getOptionContent();
+        } else {
             questionOptionList.stream()
-                    .filter(AnswerOptionDTO::isAnswerFlag)
-                    .forEach(questionOption -> subjectAnswer[0] = subjectAnswer[0] + questionOption.getOptionName());
-            return GlobalResultGenerator.genSuccessResult(answer.toUpperCase().equals(subjectAnswer[0].toUpperCase()));
+                              .filter(AnswerOptionDTO::isAnswerFlag)
+                              .forEach(questionOption -> correctAnswer[0] = correctAnswer[0] + questionOption.getOptionName());
+
         }
-        return GlobalResultGenerator.genSuccessResult(answer.equals(questionOptionList.get(0).getOptionContent()));
+        return correctAnswer[0];
 
     }
 }
