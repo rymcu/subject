@@ -1,0 +1,23 @@
+<!-- https://logback.qos.ch/manual/configuration.html#syntax -->
+<configuration>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%clr(%d{yyyy-MM-dd HH:mm:ssZ}){cyan} [%highlight(%-5p)] %clr(%C{40}){yellow} \(%F:%L\) - %clr(%m){magenta}%n
+            </pattern>
+        </encoder>
+    </appender>
+    <root level="warn">
+        <appender-ref ref="console"/>
+    </root>
+    <logger name="org.springframework.util" level="info"/>
+    <logger name="org.springframework.security.web.access.ExceptionTranslationFilter" level="info"/>
+    <logger name="org.springframework.security.web.util" level="info"/>
+    <logger name="org.springframework.security.web.header" level="info"/>
+    <logger name="org.springframework.web.servlet.mvc" level="info"/>
+    <logger name="org.springframework.security.web.FilterChainProxy" level="info"/>
+    <logger name="org.springframework.web.servlet.DispatcherServlet" level="info"/>
+    <logger name="com.rymcu.subject.mapper" level="debug"/>
+    <logger name="com.rymcu.subject" level="trace"/>
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+</configuration>
