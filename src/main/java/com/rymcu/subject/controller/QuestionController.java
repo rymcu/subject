@@ -2,6 +2,7 @@ package com.rymcu.subject.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rymcu.subject.dto.AddSignErrDTO;
 import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.dto.SubjectQuestionDTO;
@@ -12,6 +13,7 @@ import com.rymcu.subject.result.RespResult;
 import com.rymcu.subject.service.SubjectAnswerRecordService;
 import com.rymcu.subject.service.SubjectOptionService;
 import com.rymcu.subject.service.SubjectQuestionService;
+import com.rymcu.subject.service.SubjectSignErrService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -43,7 +45,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @Controller
 @RequestMapping("/question")
 public class QuestionController {
-
+    @Autowired
+    private SubjectSignErrService subjectSignErrService;
     @Autowired
     private SubjectQuestionService subjectQuestionService;
 
@@ -209,6 +212,19 @@ public class QuestionController {
         return GlobalResultGenerator.genSuccessResult(map);
     }
 
+
+    /**
+     * 标记错题
+     */
+    @ApiOperation("标记错题")
+    @PostMapping("/sign")
+    @ResponseBody
+    public GlobalResult postSubjectSignErr(
+            @RequestBody AddSignErrDTO signErr
+    ) {
+        return GlobalResultGenerator.genSuccessResult(this.subjectSignErrService.postSubjectSignErr(signErr));
+    }
+
     private void setQuestionOption(
             SubjectQuestionDTO subjectQuestionDto,
             boolean setAnswer
@@ -271,7 +287,7 @@ public class QuestionController {
         }
 
         final String correctAnswer = getCorrectAnswer(questionOptionList);
-        final boolean isTrue = correctAnswer.toUpperCase().equals(answer.toUpperCase());
+        final boolean isTrue = correctAnswer.equalsIgnoreCase(answer);
         return GlobalResultGenerator.genSuccessResult(new RespResult("答题成功", true, isTrue));
     }
 
@@ -286,6 +302,5 @@ public class QuestionController {
 
         }
         return correctAnswer[0];
-
     }
 }
