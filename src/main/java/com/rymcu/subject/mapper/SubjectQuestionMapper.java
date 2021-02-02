@@ -10,7 +10,8 @@ public interface SubjectQuestionMapper {
     /**
      * delete by primary key
      *
-     * @param id primaryKey
+     * @param id
+     *         primaryKey
      * @return deleteCount
      */
     int deleteByPrimaryKey(Long id);
@@ -18,7 +19,8 @@ public interface SubjectQuestionMapper {
     /**
      * insert record to table
      *
-     * @param record the record
+     * @param record
+     *         the record
      * @return insert count
      */
     int insert(SubjectQuestion record);
@@ -26,7 +28,8 @@ public interface SubjectQuestionMapper {
     /**
      * insert record to table selective
      *
-     * @param record the record
+     * @param record
+     *         the record
      * @return insert count
      */
     int insertSelective(SubjectQuestion record);
@@ -43,7 +46,8 @@ public interface SubjectQuestionMapper {
     /**
      * update record selective
      *
-     * @param record the updated record
+     * @param record
+     *         the updated record
      * @return update count
      */
     int updateByPrimaryKeySelective(SubjectQuestion record);
@@ -51,29 +55,48 @@ public interface SubjectQuestionMapper {
     /**
      * update record
      *
-     * @param record the updated record
+     * @param record
+     *         the updated record
      * @return update count
      */
     int updateByPrimaryKey(SubjectQuestion record);
 
     /**
      * get count of all records
+     *
      * @return count of all records
      */
     long getAllCount();
 
     /**
      * get sqId by question order
-     * @param nextOrder next question order
+     *
+     * @param nextOrder
+     *         next question order
      * @return sqId
      */
     long getSqIdByNextOrder(long nextOrder);
 
     /**
      * check is repeat by sqId and userId
-     * @param sqId subject_question id
-     * @param userId userId
+     *
+     * @param sqId
+     *         subject_question id
+     * @param userId
+     *         userId
      * @return sqId
      */
-    boolean isRepeatBySqIdAndUserId(@Param("sqId")long sqId, @Param("userId")long userId);
+    boolean isRepeatBySqIdAndUserId(
+            @Param("sqId") long sqId,
+            @Param("userId") long userId
+    );
+
+    /**
+     * 通过题目编号判断题目是否存在
+     *
+     * @param id
+     *         题目编号
+     * @return
+     */
+    boolean existsBySqId(long id);
 }

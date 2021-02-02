@@ -157,26 +157,33 @@
     <update id="updateByPrimaryKey" parameterType="com.rymcu.subject.entity.SubjectQuestion">
 
         update subject_question
-        set QUESTION_TYPE = #{questionType,jdbcType=INTEGER},
-        QUESTION_LEVEL = #{questionLevel,jdbcType=INTEGER},
-        REMARK = #{remark,jdbcType=VARCHAR},
-        QUESTION_URL = #{questionUrl,jdbcType=VARCHAR},
-        QUESTION_URL_REMARK = #{questionUrlRemark,jdbcType=VARCHAR},
-        SRC_TYPE = #{srcType,jdbcType=VARCHAR},
-        CREATED_BY = #{userId,jdbcType=BIGINT},
-        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
-        UPDATED_BY = #{updatedBy,jdbcType=BIGINT},
-        UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
-        QUESTION_CONTENT = #{questionContent,jdbcType=VARCHAR}
+        set QUESTION_TYPE       = #{questionType,jdbcType=INTEGER},
+            QUESTION_LEVEL      = #{questionLevel,jdbcType=INTEGER},
+            REMARK              = #{remark,jdbcType=VARCHAR},
+            QUESTION_URL        = #{questionUrl,jdbcType=VARCHAR},
+            QUESTION_URL_REMARK = #{questionUrlRemark,jdbcType=VARCHAR},
+            SRC_TYPE            = #{srcType,jdbcType=VARCHAR},
+            CREATED_BY          = #{userId,jdbcType=BIGINT},
+            CREATED_TIME        = #{createdTime,jdbcType=TIMESTAMP},
+            UPDATED_BY          = #{updatedBy,jdbcType=BIGINT},
+            UPDATED_TIME        = #{updatedTime,jdbcType=TIMESTAMP},
+            QUESTION_CONTENT    = #{questionContent,jdbcType=VARCHAR}
         where ID = #{id,jdbcType=BIGINT}
     </update>
-
-    <select id="getAllCount" resultType="long">
-        SELECT COUNT(*) FROM subject_question
+    <select id="existsBySqId" resultType="boolean">
+        SELECT count(*)
+        from subject_question
+        where id = #{id}
     </select>
 
-    <select id="getSqIdByNextOrder" resultType="long" >
-        SELECT ID  FROM subject_question LIMIT  #{nextOrder} ,1
+    <select id="getAllCount" resultType="long">
+        SELECT COUNT(*)
+        FROM subject_question
+    </select>
+
+    <select id="getSqIdByNextOrder" resultType="long">
+        SELECT ID
+        FROM subject_question LIMIT #{nextOrder} ,1
     </select>
 
 
