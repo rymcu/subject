@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rymcu.subject.mapper.SubjectSignErrMapper">
+    <resultMap id="BaseResultMap" type="com.rymcu.subject.entity.SubjectSignErr">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sq_id" jdbcType="BIGINT" property="sqId"/>
+        <result column="err_content" jdbcType="VARCHAR" property="errContent"/>
+        <result column="err_dec" jdbcType="VARCHAR" property="errDec"/>
+        <result column="fixed" jdbcType="CHAR" property="fixed"/>
+        <result column="fixed_time" jdbcType="TIMESTAMP" property="fixedTime"/>
+        <result column="fixed_by" jdbcType="BIGINT" property="fixedBy"/>
+        <result column="fixed_summary" jdbcType="VARCHAR" property="fixedSummary"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+    </resultMap>
+    <insert id="insertSignErr">
+        insert into subject_sign_err(sq_id, err_dec, err_content, created_by, created_time)
+        values (#{sqId}, #{errDec}, #{errContent}, #{createdBy}, #{createdTime})
+    </insert>
+    <update id="updateSignErr">
+        update subject_sign_err
+        set err_dec      = #{errDec},
+            err_content  = #{errContent},
+            created_by   = #{createdBy},
+            created_time = #{createdTime}
+        where id = #{id}
+
+    </update>
+
+</mapper>
