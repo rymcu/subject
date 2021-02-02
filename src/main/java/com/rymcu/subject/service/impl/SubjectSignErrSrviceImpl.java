@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,5 +51,10 @@ public class SubjectSignErrSrviceImpl implements SubjectSignErrService {
                                         signErr.getCreatedBy(), signErr.getCreatedTime());
         }
         return map;
+    }
+
+    @Override
+    public List<AddSignErrDTO> listSignErr() {
+        return signErrMapper.listSignErr();
     }
 }

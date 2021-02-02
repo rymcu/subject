@@ -212,6 +212,14 @@ public class QuestionController {
         return GlobalResultGenerator.genSuccessResult(map);
     }
 
+    /**
+     * 当前版本仅返回未修复的错题列表
+     */
+    @ApiOperation("查阅错题列表")
+    @GetMapping()
+    public GlobalResult listSignErr() {
+        return GlobalResultGenerator.genSuccessResult(this.subjectSignErrService.listSignErr());
+    }
 
     /**
      * 标记错题

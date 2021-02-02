@@ -1,9 +1,11 @@
 package com.rymcu.subject.mapper;
 
+import com.rymcu.subject.dto.AddSignErrDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 🐛
@@ -57,4 +59,9 @@ public interface SubjectSignErrMapper {
             @Param("createdBy") Long createdBy,
             @Param("createdTime") Date createdTime
     );
+
+    /**
+     * 当前版本仅返回未修复的错题列表
+     */
+    List<AddSignErrDTO> listSignErr();
 }

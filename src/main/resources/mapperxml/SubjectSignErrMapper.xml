@@ -13,6 +13,16 @@
         <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
     </resultMap>
+
+    <resultMap id="AddSignErrMap" type="com.rymcu.subject.dto.AddSignErrDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sq_id" jdbcType="BIGINT" property="sqId"/>
+        <result column="err_content" jdbcType="VARCHAR" property="errContent"/>
+        <result column="err_dec" jdbcType="VARCHAR" property="errDec"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+    </resultMap>
+
     <insert id="insertSignErr">
         insert into subject_sign_err(sq_id, err_dec, err_content, created_by, created_time)
         values (#{sqId}, #{errDec}, #{errContent}, #{createdBy}, #{createdTime})
@@ -26,5 +36,10 @@
         where id = #{id}
 
     </update>
+    <select id="listSignErr" resultMap="AddSignErrMap">
+        select *
+        from subject_sign_err
+        where fixed = 0
+    </select>
 
 </mapper>

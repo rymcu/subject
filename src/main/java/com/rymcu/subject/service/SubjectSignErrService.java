@@ -2,6 +2,7 @@ package com.rymcu.subject.service;
 
 import com.rymcu.subject.dto.AddSignErrDTO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +17,6 @@ public interface SubjectSignErrService {
      * @return 返回标记错题的内容
      */
     Map postSubjectSignErr(AddSignErrDTO signErr);
+
+    List<AddSignErrDTO> listSignErr();
 }
