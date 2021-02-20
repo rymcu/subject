@@ -295,8 +295,8 @@ public class QuestionController {
         }
 
         final String correctAnswer = getCorrectAnswer(questionOptionList);
-        final var answerFlag = correctAnswer.equalsIgnoreCase(answer) ? "回答正确" : "回答错误";
-        return GlobalResultGenerator.genResult(true, answerFlag, "答题成功");
+        final boolean answerFlag = correctAnswer.equalsIgnoreCase(answer);
+        return GlobalResultGenerator.genResult(true, answerFlag, answerFlag ? "回答正确" : "回答错误");
     }
 
     private String getCorrectAnswer(List<AnswerOptionDTO> questionOptionList) {
