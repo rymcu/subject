@@ -37,11 +37,11 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * 题库系统控制服务
+ * forestAnswerApi接口
  *
  * @author 🐛
  */
-@Api(tags = "题库服务")
+@Api(tags = "forestAnswerApi")
 @Controller
 @RequestMapping("/question")
 public class QuestionController {
