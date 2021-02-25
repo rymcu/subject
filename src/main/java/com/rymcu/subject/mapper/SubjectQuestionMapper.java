@@ -2,8 +2,11 @@ package com.rymcu.subject.mapper;
 
 import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.SubjectQuestion;
+import com.rymcu.subject.entity.SubjectQuestionInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface SubjectQuestionMapper {
@@ -62,9 +65,16 @@ public interface SubjectQuestionMapper {
     int updateByPrimaryKey(SubjectQuestion record);
 
     /**
-     * get count of all records
+     * get show count of all records
      *
      * @return count of all records
+     */
+    long getShowCount();
+
+    /**
+     * get all count of all records
+     *
+     * @return all count of all records
      */
     long getAllCount();
 
@@ -96,7 +106,14 @@ public interface SubjectQuestionMapper {
      *
      * @param id
      *         题目编号
-     * @return
+     * @return boolean
      */
     boolean existsBySqId(long id);
+
+    /**
+     * 展示答题库
+     *
+     * @return list
+     */
+    List<SubjectQuestionInfo> list();
 }

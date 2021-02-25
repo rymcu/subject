@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author 🐛
+ * @author aCaterpillar
  * @Entity com.rymcu.subject.entity.SubjectSignErr
  */
 @Mapper

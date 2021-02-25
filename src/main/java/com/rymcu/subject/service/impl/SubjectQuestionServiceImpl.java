@@ -2,11 +2,13 @@ package com.rymcu.subject.service.impl;
 
 import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.SubjectQuestion;
+import com.rymcu.subject.entity.SubjectQuestionInfo;
 import com.rymcu.subject.mapper.SubjectQuestionMapper;
 import com.rymcu.subject.service.SubjectQuestionService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class SubjectQuestionServiceImpl implements SubjectQuestionService {
@@ -69,6 +71,14 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
     }
 
     /**
+     * 获取题列表info
+     */
+    @Override
+    public List<SubjectQuestionInfo> list() {
+        return this.subjectQuestionMapper.list();
+    }
+
+    /**
      * get question id
      *
      * @param userId
@@ -89,7 +99,7 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
      * @return sqId
      */
     private long getNextSqId() {
-        final long count = this.subjectQuestionMapper.getAllCount();
+        final long count = this.subjectQuestionMapper.getShowCount();
         final long nextOrder = (long) (Math.random() * count) + 1L;
         final long nextSqId = this.subjectQuestionMapper.getSqIdByNextOrder(nextOrder);
         return nextSqId;

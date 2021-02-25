@@ -10,6 +10,18 @@
         <result column="SRC_TYPE" jdbcType="VARCHAR" property="srcType"/>
         <result column="QUESTION_CONTENT" jdbcType="VARCHAR" property="questionContent"/>
     </resultMap>
+
+    <resultMap id="SubjectQuestionInfo" type="com.rymcu.subject.entity.SubjectQuestionInfo">
+
+        <!--@Table subject_question-->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="QUESTION_TYPE" jdbcType="INTEGER" property="questionType"/>
+        <result column="QUESTION_LEVEL" jdbcType="INTEGER" property="questionLevel"/>
+        <result column="SRC_TYPE" jdbcType="VARCHAR" property="srcType"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="error_flag" jdbcType="BOOLEAN" property="errorFlag"/>
+        <result column="show_flag" jdbcType="BOOLEAN" property="showFlag"/>
+    </resultMap>
     <sql id="Base_Column_List">
 
         ID
@@ -23,21 +35,21 @@
         where ID = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-
-        delete from subject_question
+        delete
+        from subject_question
         where ID = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.entity.SubjectQuestion"
             useGeneratedKeys="true">
 
         insert into subject_question (QUESTION_TYPE, QUESTION_LEVEL, REMARK,
-        QUESTION_URL, QUESTION_URL_REMARK, SRC_TYPE,
-        CREATED_BY, CREATED_TIME, UPDATED_BY,
-        UPDATED_TIME, QUESTION_CONTENT)
+                                      QUESTION_URL, QUESTION_URL_REMARK, SRC_TYPE,
+                                      CREATED_BY, CREATED_TIME, UPDATED_BY,
+                                      UPDATED_TIME, QUESTION_CONTENT)
         values (#{questionType,jdbcType=INTEGER}, #{questionLevel,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
-        #{questionUrl,jdbcType=VARCHAR}, #{questionUrlRemark,jdbcType=VARCHAR}, #{srcType,jdbcType=VARCHAR},
-        #{userId,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
-        #{updatedTime,jdbcType=TIMESTAMP}, #{questionContent,jdbcType=VARCHAR})
+                #{questionUrl,jdbcType=VARCHAR}, #{questionUrlRemark,jdbcType=VARCHAR}, #{srcType,jdbcType=VARCHAR},
+                #{userId,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
+                #{updatedTime,jdbcType=TIMESTAMP}, #{questionContent,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id"
             parameterType="com.rymcu.subject.entity.SubjectQuestion" useGeneratedKeys="true">
@@ -174,6 +186,12 @@
         SELECT count(*)
         from subject_question
         where id = #{id}
+          AND show_flag = true
+    </select>
+
+    <select id="getShowCount" resultType="long">
+        SELECT COUNT(*)
+        FROM subject_question AND show_flag = true
     </select>
 
     <select id="getAllCount" resultType="long">
@@ -183,11 +201,13 @@
 
     <select id="getSqIdByNextOrder" resultType="long">
         SELECT ID
-        FROM subject_question LIMIT #{nextOrder} ,1
+        FROM subject_question
+        WHERE show_flag = true LIMIT #{nextOrder}
+            , 1
     </select>
 
 
-    <select id="isRepeatBySqIdAndUserId" resultType="boolean" >
+    <select id="isRepeatBySqIdAndUserId" resultType="boolean">
         SELECT CASE
                    WHEN
                            (
@@ -207,5 +227,15 @@
                        THEN 1
                    ELSE 0 END
         FROM DUAL
+    </select>
+    <select id="list" resultMap="SubjectQuestionInfo">
+        SELECT id,
+               question_type,
+               question_level,
+               src_type,
+               remark,
+               error_flag,
+               show_flag
+        FRom subject_question
     </select>
 </mapper>
