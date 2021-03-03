@@ -1,6 +1,7 @@
 package com.rymcu.subject.controller;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rymcu.subject.dto.AddSignErrDTO;
 import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
@@ -24,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 题库服务： 查阅题库、修复错题、审核错题、标记错题
@@ -35,7 +38,7 @@ import java.util.List;
  */
 @Api(tags = "SubjectAnswerApi")
 @Controller
-@RequestMapping("/subject")
+@RequestMapping("/question")
 public class SubjectController {
 
     @Autowired
@@ -46,27 +49,27 @@ public class SubjectController {
     private SubjectSignErrService subjectSignErrService;
 
     /**
-     * @param page
+     * @param current
      *         页码
-     * @param rows
+     * @param pageSize
      *         行数
      * @return
      */
     @ApiOperation("获取试题列表")
-    @GetMapping({"/list"})
+    @GetMapping("/list")
     @ResponseBody
-    public GlobalResult list(
-            @RequestParam(name = "page",
-                          required = false,
-                          defaultValue = "0") Integer page,
-            @RequestParam(value = "rows",
-                          required = false,
-                          defaultValue = "0") Integer rows
+    public Map list(
+            @RequestParam(defaultValue = "1") Integer current,
+            @RequestParam(defaultValue = "20") Integer pageSize
     ) {
 
-        PageHelper.startPage(page, rows);
+        PageHelper.startPage(current, pageSize);
         final List<SubjectQuestionInfo> infoList = this.subjectQuestionService.list();
-        return GlobalResultGenerator.genSuccessResult(infoList);
+        PageInfo<SubjectQuestionInfo> pageInfo = new PageInfo(infoList);
+        final Map antDesignProResultMap = new HashMap<String, Object>();
+        antDesignProResultMap.put("data", pageInfo.getList());
+        antDesignProResultMap.put("total", pageInfo.getTotal());
+        return antDesignProResultMap;
     }
 
     /**
@@ -74,7 +77,7 @@ public class SubjectController {
      *         试题编号
      * @return
      */
-    @ApiOperation("获取试题列表")
+    @ApiOperation("查看试题详情")
     @GetMapping({"/{sq-id:\\d+}}"})
     @ResponseBody
     public GlobalResult getBySqId(
