@@ -6,7 +6,8 @@ import com.rymcu.subject.dto.AddSignErrDTO;
 import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.dto.SubjectQuestionDTO;
-import com.rymcu.subject.entity.SubjectQuestionInfo;
+import com.rymcu.subject.entity.Question;
+import com.rymcu.subject.entity.QuestionBase;
 import com.rymcu.subject.result.GlobalResult;
 import com.rymcu.subject.result.GlobalResultGenerator;
 import com.rymcu.subject.service.SubjectOptionService;
@@ -64,8 +65,8 @@ public class SubjectController {
     ) {
 
         PageHelper.startPage(current, pageSize);
-        final List<SubjectQuestionInfo> infoList = this.subjectQuestionService.list();
-        PageInfo<SubjectQuestionInfo> pageInfo = new PageInfo(infoList);
+        final List<QuestionBase> infoList = this.subjectQuestionService.list();
+        PageInfo<QuestionBase> pageInfo = new PageInfo(infoList);
         final Map antDesignProResultMap = new HashMap<String, Object>();
         antDesignProResultMap.put("data", pageInfo.getList());
         antDesignProResultMap.put("total", pageInfo.getTotal());
@@ -78,14 +79,13 @@ public class SubjectController {
      * @return
      */
     @ApiOperation("查看试题详情")
-    @GetMapping({"/{sq-id:\\d+}}"})
+    @GetMapping({"/{sq-id:\\d+}"})
     @ResponseBody
     public GlobalResult getBySqId(
             @PathVariable(name = "sq-id") long sqId
     ) {
 
-        final SubjectQuestionDTO question = this.subjectQuestionService.selectByPrimaryKey(sqId);
-        setQuestionOption(question);
+        final Question question = this.subjectQuestionService.selectBySqId(sqId);
         return GlobalResultGenerator.genSuccessResult(question);
     }
 

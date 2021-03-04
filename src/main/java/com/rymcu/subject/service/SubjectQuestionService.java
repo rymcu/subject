@@ -1,8 +1,9 @@
 package com.rymcu.subject.service;
 
 import com.rymcu.subject.dto.SubjectQuestionDTO;
+import com.rymcu.subject.entity.Question;
+import com.rymcu.subject.entity.QuestionBase;
 import com.rymcu.subject.entity.SubjectQuestion;
-import com.rymcu.subject.entity.SubjectQuestionInfo;
 
 import java.util.List;
 
@@ -28,5 +29,11 @@ public interface SubjectQuestionService {
     /**
      * 获取题列表info
      */
-    List<SubjectQuestionInfo> list();
+    List<QuestionBase> list();
+
+    /**
+     * @param sqId
+     * @return
+     */
+    Question selectBySqId(long sqId);
 }

@@ -10,8 +10,26 @@
         <result column="SRC_TYPE" jdbcType="VARCHAR" property="srcType"/>
         <result column="QUESTION_CONTENT" jdbcType="VARCHAR" property="questionContent"/>
     </resultMap>
+    <resultMap id="QuestionMap" type="com.rymcu.subject.entity.Question">
 
-    <resultMap id="SubjectQuestionInfo" type="com.rymcu.subject.entity.SubjectQuestionInfo">
+        <!--@Table subject_question-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="question_type" jdbcType="INTEGER" property="questionType"/>
+        <result column="question_level" jdbcType="INTEGER" property="questionLevel"/>
+        <result column="src_type" jdbcType="VARCHAR" property="srcType"/>
+        <result column="question_content" jdbcType="VARCHAR" property="questionContent"/>
+        <result column="error_flag" jdbcType="BOOLEAN" property="errorFlag"/>
+        <result column="show_flag" jdbcType="BOOLEAN" property="showFlag"/>
+        <collection property="options" ofType="com.rymcu.subject.entity.SubjectOption" column="ID">
+            <id column="so_id" jdbcType="INTEGER" property="id"/>
+            <result column="ID" jdbcType="INTEGER" property="subjectQuestionId"/>
+            <result column="option_name" jdbcType="VARCHAR" property="optionName"/>
+            <result column="option_content" jdbcType="VARCHAR" property="optionContent"/>
+            <result column="is_answer" jdbcType="BOOLEAN" property="answerFlag"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="QuestionList" type="com.rymcu.subject.entity.QuestionBase">
 
         <!--@Table subject_question-->
         <id column="ID" jdbcType="BIGINT" property="id"/>
@@ -228,7 +246,7 @@
                    ELSE 0 END
         FROM DUAL
     </select>
-    <select id="list" resultMap="SubjectQuestionInfo">
+    <select id="list" resultMap="QuestionList">
         SELECT id,
                question_type,
                question_level,
@@ -237,5 +255,23 @@
                error_flag,
                show_flag
         FRom subject_question
+    </select>
+    <select id="selectBySqId" resultMap="QuestionMap">
+        SELECT sq.id,
+               question_type,
+               question_level,
+               question_content,
+               src_type,
+               remark,
+               error_flag,
+               show_flag,
+               so.id so_id,
+               so.option_name,
+               so.option_content,
+               so.is_answer
+        FRom subject_question sq
+                 INNER JOIN subject_option so on sq.id = so.subject_question_id
+        WHERE sq.id = #{sqId}
+
     </select>
 </mapper>

@@ -1,7 +1,5 @@
 package com.rymcu.subject.entity;
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubjectOption implements Serializable {
+public class SubjectOption {
     /**
      * 主键
      */

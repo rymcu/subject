@@ -1,8 +1,9 @@
 package com.rymcu.subject.service.impl;
 
 import com.rymcu.subject.dto.SubjectQuestionDTO;
+import com.rymcu.subject.entity.Question;
+import com.rymcu.subject.entity.QuestionBase;
 import com.rymcu.subject.entity.SubjectQuestion;
-import com.rymcu.subject.entity.SubjectQuestionInfo;
 import com.rymcu.subject.mapper.SubjectQuestionMapper;
 import com.rymcu.subject.service.SubjectQuestionService;
 import org.springframework.stereotype.Service;
@@ -74,8 +75,19 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
      * 获取题列表info
      */
     @Override
-    public List<SubjectQuestionInfo> list() {
+    public List<QuestionBase> list() {
         return this.subjectQuestionMapper.list();
+    }
+
+    /**
+     * 查看试题
+     *
+     * @param sqId
+     * @return
+     */
+    @Override
+    public Question selectBySqId(long sqId) {
+        return this.subjectQuestionMapper.selectBySqId(sqId);
     }
 
     /**

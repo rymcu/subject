@@ -1,8 +1,9 @@
 package com.rymcu.subject.mapper;
 
 import com.rymcu.subject.dto.SubjectQuestionDTO;
+import com.rymcu.subject.entity.Question;
+import com.rymcu.subject.entity.QuestionBase;
 import com.rymcu.subject.entity.SubjectQuestion;
-import com.rymcu.subject.entity.SubjectQuestionInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -115,5 +116,13 @@ public interface SubjectQuestionMapper {
      *
      * @return list
      */
-    List<SubjectQuestionInfo> list();
+    List<QuestionBase> list();
+
+    /**
+     * 查看试题
+     *
+     * @param sqId
+     * @return Question
+     */
+    Question selectBySqId(long sqId);
 }
