@@ -27,13 +27,26 @@ public interface SubjectQuestionService {
     SubjectQuestionDTO getNext();
 
     /**
-     * 获取题列表info
-     */
-    List<QuestionBase> list();
-
-    /**
      * @param sqId
      * @return
      */
     Question selectBySqId(long sqId);
+
+    int countList(QuestionBase questionBase);
+
+    /**
+     * 通过题目编号id来获取题列表
+     *
+     * @param sqIdList
+     * @return
+     */
+    List<Question> listBySqId(List<Integer> sqIdList);
+
+    /**
+     * 查询符合条件的题目编号列表
+     *
+     * @param questionBase
+     * @return
+     */
+    List<Integer> sqIdList(QuestionBase questionBase);
 }

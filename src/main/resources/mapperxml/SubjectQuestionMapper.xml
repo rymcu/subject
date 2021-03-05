@@ -29,7 +29,7 @@
         </collection>
     </resultMap>
 
-    <resultMap id="QuestionList" type="com.rymcu.subject.entity.QuestionBase">
+    <resultMap id="QuestionList" type="com.rymcu.subject.entity.Question">
 
         <!--@Table subject_question-->
         <id column="ID" jdbcType="BIGINT" property="id"/>
@@ -40,8 +40,54 @@
         <result column="error_flag" jdbcType="BOOLEAN" property="errorFlag"/>
         <result column="show_flag" jdbcType="BOOLEAN" property="showFlag"/>
     </resultMap>
-    <sql id="Base_Column_List">
 
+    <sql id="query_sql">
+        where 1= 1
+        <if test="id != null and id != '' ">
+            and id = #{id}
+        </if>
+
+        <if test="questionType != null and questionType != '' ">
+            and question_type = #{questionType}
+        </if>
+
+        <if test="remark != null and remark != '' ">
+            and remark like CONCAT('%',#{remark},'%')
+        </if>
+
+        <if test="questionLevel != null and questionLevel != '' ">
+            and question_level = #{questionLevel}
+        </if>
+
+        <if test="errorFlag != null ">
+            and error_flag = #{errorFlag}
+        </if>
+
+        <if test="showFlag != null ">
+            and show_flag = #{showFlag}
+        </if>
+        <if test="srcType != null and srcType != '' ">
+            and src_type = #{srcType}
+        </if>
+    </sql>
+
+    <sql id="query_question_sql">
+        SELECT sq.id,
+               question_type,
+               question_level,
+               question_content,
+               src_type,
+               remark,
+               error_flag,
+               show_flag,
+               so.id so_id,
+               so.option_name,
+               so.option_content,
+               so.is_answer
+        FRom subject_question sq
+                 INNER JOIN subject_option so on sq.id = so.subject_question_id
+    </sql>
+    <sql id="Base_Column_List">
         ID
         , QUESTION_TYPE, QUESTION_LEVEL, SRC_TYPE, QUESTION_CONTENT
     </sql>
@@ -246,32 +292,29 @@
                    ELSE 0 END
         FROM DUAL
     </select>
-    <select id="list" resultMap="QuestionList">
-        SELECT id,
-               question_type,
-               question_level,
-               src_type,
-               remark,
-               error_flag,
-               show_flag
-        FRom subject_question
-    </select>
+
     <select id="selectBySqId" resultMap="QuestionMap">
-        SELECT sq.id,
-               question_type,
-               question_level,
-               question_content,
-               src_type,
-               remark,
-               error_flag,
-               show_flag,
-               so.id so_id,
-               so.option_name,
-               so.option_content,
-               so.is_answer
-        FRom subject_question sq
-                 INNER JOIN subject_option so on sq.id = so.subject_question_id
+        <include refid="query_question_sql"></include>
         WHERE sq.id = #{sqId}
+
+    </select>
+    <select id="countList" parameterType="com.rymcu.subject.entity.QuestionBase" resultType="java.lang.Integer">
+        select count(ID) FROM subject_question
+        <include refid="query_sql"></include>
+    </select>
+    <select id="listBySqId" parameterType="com.rymcu.subject.entity.QuestionBase" resultMap="QuestionMap">
+        <include refid="query_question_sql"></include>
+        <where>
+            sq.id
+            IN
+            <foreach collection="sqIdList" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+    <select id="sqIdList" resultType="java.lang.Integer">
+        select ID FROM subject_question
+        <include refid="query_sql"></include>
 
     </select>
 </mapper>

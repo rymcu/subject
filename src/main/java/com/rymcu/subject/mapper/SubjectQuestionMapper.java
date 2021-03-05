@@ -111,12 +111,6 @@ public interface SubjectQuestionMapper {
      */
     boolean existsBySqId(long id);
 
-    /**
-     * 展示答题库
-     *
-     * @return list
-     */
-    List<QuestionBase> list();
 
     /**
      * 查看试题
@@ -125,4 +119,10 @@ public interface SubjectQuestionMapper {
      * @return Question
      */
     Question selectBySqId(long sqId);
+
+    int countList(QuestionBase questionBase);
+
+    List<Question> listBySqId(List<Integer> sqIdList);
+
+    List<Integer> sqIdList(QuestionBase questionBase);
 }

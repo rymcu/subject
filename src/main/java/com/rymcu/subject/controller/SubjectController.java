@@ -1,11 +1,11 @@
 package com.rymcu.subject.controller;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.rymcu.subject.dto.AddSignErrDTO;
 import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.dto.SubjectQuestionDTO;
+import com.rymcu.subject.entity.PageInfo;
 import com.rymcu.subject.entity.Question;
 import com.rymcu.subject.entity.QuestionBase;
 import com.rymcu.subject.result.GlobalResult;
@@ -16,6 +16,7 @@ import com.rymcu.subject.service.SubjectSignErrService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 题库服务： 查阅题库、修复错题、审核错题、标记错题
@@ -59,18 +58,22 @@ public class SubjectController {
     @ApiOperation("获取试题列表")
     @GetMapping("/list")
     @ResponseBody
-    public Map list(
+    public PageInfo<Question> list(
             @RequestParam(defaultValue = "1") Integer current,
-            @RequestParam(defaultValue = "20") Integer pageSize
+            @RequestParam(defaultValue = "20") Integer pageSize,
+            @Nullable QuestionBase questionBase
     ) {
-
-        PageHelper.startPage(current, pageSize);
-        final List<QuestionBase> infoList = this.subjectQuestionService.list();
-        PageInfo<QuestionBase> pageInfo = new PageInfo(infoList);
-        final Map antDesignProResultMap = new HashMap<String, Object>();
-        antDesignProResultMap.put("data", pageInfo.getList());
-        antDesignProResultMap.put("total", pageInfo.getTotal());
-        return antDesignProResultMap;
+        final int total = this.subjectQuestionService.countList(questionBase);
+        System.err.println(questionBase);
+        PageInfo<Question> infoList = null;
+        if (total > 0) {
+            PageHelper.startPage(current, pageSize);
+            final List<Integer> sqIdList = this.subjectQuestionService.sqIdList(questionBase);
+            final List<Question> questionList = this.subjectQuestionService.listBySqId(sqIdList);
+            infoList = new PageInfo(questionList);
+            infoList.setTotal(total);
+        }
+        return infoList;
     }
 
     /**

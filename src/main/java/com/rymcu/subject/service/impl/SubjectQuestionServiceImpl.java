@@ -72,14 +72,6 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
     }
 
     /**
-     * 获取题列表info
-     */
-    @Override
-    public List<QuestionBase> list() {
-        return this.subjectQuestionMapper.list();
-    }
-
-    /**
      * 查看试题
      *
      * @param sqId
@@ -88,6 +80,21 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
     @Override
     public Question selectBySqId(long sqId) {
         return this.subjectQuestionMapper.selectBySqId(sqId);
+    }
+
+    @Override
+    public int countList(QuestionBase questionBase) {
+        return this.subjectQuestionMapper.countList(questionBase);
+    }
+
+    @Override
+    public List<Question> listBySqId(List<Integer> sqIdList) {
+        return this.subjectQuestionMapper.listBySqId(sqIdList);
+    }
+
+    @Override
+    public List<Integer> sqIdList(QuestionBase questionBase) {
+        return this.subjectQuestionMapper.sqIdList(questionBase);
     }
 
     /**
