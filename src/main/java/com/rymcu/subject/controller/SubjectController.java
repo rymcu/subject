@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.rymcu.subject.result.GlobalResultGenerator.genResult;
 
 /**
  * 题库服务： 查阅题库、修复错题、审核错题、标记错题
@@ -43,8 +46,6 @@ public class SubjectController {
 
     @Autowired
     private SubjectQuestionService subjectQuestionService;
-    @Autowired
-    private SubjectOptionService subjectOptionService;
     @Autowired
     private SubjectSignErrService subjectSignErrService;
 
@@ -64,7 +65,6 @@ public class SubjectController {
             @Nullable QuestionBase questionBase
     ) {
         final int total = this.subjectQuestionService.countList(questionBase);
-        System.err.println(questionBase);
         PageInfo<Question> infoList = null;
         if (total > 0) {
             PageHelper.startPage(current, pageSize);
@@ -74,6 +74,20 @@ public class SubjectController {
             infoList.setTotal(total);
         }
         return infoList;
+    }
+
+    /**
+     * @return
+     */
+    @ApiOperation("编辑试题")
+    @PostMapping("")
+    @ResponseBody
+    @Transactional
+    public GlobalResult edit(
+            @RequestBody Question question
+    ) {
+       System.err.println(question);
+        return genResult(true,"");
     }
 
     /**
@@ -113,27 +127,4 @@ public class SubjectController {
         return GlobalResultGenerator.genSuccessResult(this.subjectSignErrService.postSubjectSignErr(signErr));
     }
 
-
-    private void setQuestionOption(
-            SubjectQuestionDTO subjectQuestionDto
-    ) {
-        if (subjectQuestionDto == null) {
-            return;
-        }
-        List<AnswerOptionDTO> answerOptionDTOList = subjectOptionService.getSubjectAnswer(subjectQuestionDto.getId());
-        final int questionType = subjectQuestionDto.getQuestionType();
-        if (questionType == 5 || questionType == 4) {
-            subjectQuestionDto.setSubjectOptionDTOList(null);
-        } else {
-            if (answerOptionDTOList.size() < 2) {
-                subjectQuestionDto.setSubjectOptionDTOList(null);
-            } else {
-                final List<SubjectOptionDTO> subjectOptionDTOS = new ArrayList<>();
-                answerOptionDTOList.forEach(answerOptionDTO -> {
-                    subjectOptionDTOS.add(new SubjectOptionDTO(answerOptionDTO.getOptionName(), answerOptionDTO.getOptionContent()));
-                });
-                subjectQuestionDto.setSubjectOptionDTOList(subjectOptionDTOS);
-            }
-        }
-    }
 }

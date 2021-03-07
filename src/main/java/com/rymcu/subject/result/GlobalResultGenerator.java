@@ -26,6 +26,14 @@ public class GlobalResultGenerator {
         return result;
     }
 
+
+    public static <T> GlobalResult<T> genResult(boolean success, String message) {
+        GlobalResult<T> result = GlobalResult.newInstance();
+        result.setSuccess(success);
+        result.setMessage(message);
+        return result;
+    }
+
     /**
      * success
      *
