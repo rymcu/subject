@@ -17,6 +17,7 @@
         <result column="question_type" jdbcType="INTEGER" property="questionType"/>
         <result column="question_level" jdbcType="INTEGER" property="questionLevel"/>
         <result column="src_type" jdbcType="VARCHAR" property="srcType"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="question_content" jdbcType="VARCHAR" property="questionContent"/>
         <result column="error_flag" jdbcType="BOOLEAN" property="errorFlag"/>
         <result column="show_flag" jdbcType="BOOLEAN" property="showFlag"/>
@@ -343,10 +344,10 @@
                 #{item}
             </foreach>
         </where>
+        ORDER BY sq.id,so.id so_id
     </select>
     <select id="sqIdList" resultType="java.lang.Integer">
         select ID FROM subject_question
         <include refid="query_sql"></include>
-
     </select>
 </mapper>
