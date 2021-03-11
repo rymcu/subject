@@ -20,6 +20,7 @@
         <result column="question_content" jdbcType="VARCHAR" property="questionContent"/>
         <result column="error_flag" jdbcType="BOOLEAN" property="errorFlag"/>
         <result column="show_flag" jdbcType="BOOLEAN" property="showFlag"/>
+        <result column="answer" jdbcType="VARCHAR" property="answer"/>
         <collection property="options" ofType="com.rymcu.subject.entity.SubjectOption" column="ID">
             <id column="so_id" jdbcType="INTEGER" property="id"/>
             <result column="ID" jdbcType="INTEGER" property="subjectQuestionId"/>
@@ -80,6 +81,7 @@
                remark,
                error_flag,
                show_flag,
+               answer,
                so.id so_id,
                so.option_name,
                so.option_content,
@@ -109,15 +111,14 @@
         insert into subject_question (QUESTION_TYPE, QUESTION_LEVEL, REMARK,
                                       QUESTION_URL, QUESTION_URL_REMARK, SRC_TYPE,
                                       CREATED_BY, CREATED_TIME, UPDATED_BY,
-                                      UPDATED_TIME, QUESTION_CONTENT)
+                                      UPDATED_TIME, QUESTION_CONTENT, ANSWER)
         values (#{questionType,jdbcType=INTEGER}, #{questionLevel,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
                 #{questionUrl,jdbcType=VARCHAR}, #{questionUrlRemark,jdbcType=VARCHAR}, #{srcType,jdbcType=VARCHAR},
                 #{userId,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=BIGINT},
-                #{updatedTime,jdbcType=TIMESTAMP}, #{questionContent,jdbcType=VARCHAR})
+                #{updatedTime,jdbcType=TIMESTAMP}, #{questionContent,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id"
             parameterType="com.rymcu.subject.entity.SubjectQuestion" useGeneratedKeys="true">
-
         insert into subject_question
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="questionType != null">
@@ -153,6 +154,16 @@
             <if test="questionContent != null">
                 QUESTION_CONTENT,
             </if>
+            <if test="errorFlag != null ">
+                ERR_FLAG,
+            </if>
+
+            <if test="showFlag != null ">
+                SHOW_FLAG,
+            </if>
+            <if test="answer != null ">
+                answer,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="questionType != null">
@@ -186,7 +197,17 @@
                 #{updatedTime,jdbcType=TIMESTAMP},
             </if>
             <if test="questionContent != null">
-                #{questionContent,jdbcType=VARCHAR},
+                #{questionContent},
+            </if>
+            <if test="errorFlag != null ">
+                #{errorFlag},
+            </if>
+
+            <if test="showFlag != null ">
+                #{showFlag},
+            </if>
+            <if test="answer != null ">
+                #{answer},
             </if>
         </trim>
     </insert>
@@ -227,6 +248,16 @@
             <if test="questionContent != null">
                 QUESTION_CONTENT = #{questionContent,jdbcType=VARCHAR},
             </if>
+            <if test="errorFlag != null ">
+                ERROR_FLAG = #{errorFlag},
+            </if>
+
+            <if test="showFlag != null ">
+                SHOW_FLAG = #{showFlag},
+            </if>
+            <if test="answer != null">
+                answer = #{answer,jdbcType=VARCHAR},
+            </if>
         </set>
         where ID = #{id,jdbcType=BIGINT}
     </update>
@@ -243,7 +274,8 @@
             CREATED_TIME        = #{createdTime,jdbcType=TIMESTAMP},
             UPDATED_BY          = #{updatedBy,jdbcType=BIGINT},
             UPDATED_TIME        = #{updatedTime,jdbcType=TIMESTAMP},
-            QUESTION_CONTENT    = #{questionContent,jdbcType=VARCHAR}
+            QUESTION_CONTENT    = #{questionContent,jdbcType=VARCHAR},
+            ANSWER              = #{answer,jdbcType=VARCHAR}
         where ID = #{id,jdbcType=BIGINT}
     </update>
     <select id="existsBySqId" resultType="boolean">

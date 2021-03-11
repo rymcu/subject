@@ -66,4 +66,6 @@ public interface SubjectOptionMapper {
     List<SubjectOptionDTO> queryListBySqId(Long sqId);
 
     List<AnswerOptionDTO> getSubjectAnswer(Long sqId);
+
+    int deleteBySqId(long sqId);
 }

@@ -40,10 +40,14 @@ public class Question implements Serializable {
      */
     private String remark;
 
+    /**
+     * 试题答案
+     */
+    private String answer;
+
 
     /**
      * 来源类型 0-默认，1-系统，2-管理员，3-用户，4-脚本
-
      */
     private String srcType;
 

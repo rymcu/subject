@@ -24,4 +24,6 @@ public interface SubjectOptionService {
     List<SubjectOptionDTO> queryListBySqId(Long id);
 
     List<AnswerOptionDTO> getSubjectAnswer(Long sqId);
+
+    int deleteBySqId(long l);
 }

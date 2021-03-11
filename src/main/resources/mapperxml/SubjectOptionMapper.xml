@@ -37,16 +37,22 @@
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 
-        delete from subject_option
+        delete
+        from subject_option
         where ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteBySqId">
+        delete
+        from subject_option
+        where SUBJECT_QUESTION_ID = #{sqId}
     </delete>
     <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.entity.SubjectOption"
             useGeneratedKeys="true">
 
         insert into subject_option (SUBJECT_QUESTION_ID, OPTION_NAME, OPTION_CONTENT,
-        IS_ANSWER)
+                                    IS_ANSWER)
         values (#{subjectQuestionId,jdbcType=BIGINT}, #{optionName,jdbcType=VARCHAR}, #{optionContent,jdbcType=VARCHAR},
-        #{answerFlag,jdbcType=CHAR})
+                #{answerFlag,jdbcType=CHAR})
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.rymcu.subject.entity.SubjectOption"
             useGeneratedKeys="true">

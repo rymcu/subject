@@ -14,7 +14,7 @@ public interface SubjectQuestionService {
 
     int insert(SubjectQuestion record);
 
-    int insertSelective(SubjectQuestion record);
+    long insertSelective(SubjectQuestion record);
 
     SubjectQuestionDTO selectByPrimaryKey(Long id);
 

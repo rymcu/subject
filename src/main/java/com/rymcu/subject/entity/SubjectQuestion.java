@@ -1,12 +1,12 @@
 package com.rymcu.subject.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 题目表 题目表
@@ -72,6 +72,40 @@ public class SubjectQuestion implements Serializable {
     private Date updatedTime;
 
     private String questionContent;
+
+    /**
+     * 错题标志： 1-错题，0-正常
+     */
+    private Boolean errorFlag;
+
+    /**
+     * 展示标志： 1-展示，0-隐藏
+     */
+    private Boolean showFlag;
+
+    /**
+     * 展示标志： 1-展示，0-隐藏
+     */
+    private String answer;
+
+
+    public SubjectQuestion(Question question, boolean createFlag) {
+        this.id = question.getId();
+        this.questionType = question.getQuestionType();
+        this.questionLevel = question.getQuestionLevel();
+        this.questionContent = question.getQuestionContent();
+        this.remark = question.getRemark();
+        this.errorFlag = question.getErrorFlag();
+        this.showFlag = question.getShowFlag();
+        this.answer = question.getAnswer();
+        if (createFlag) {
+            this.createdTime = new Date();
+            this.userId = 1210L;
+        } else {
+            this.updatedTime = new Date();
+            this.updatedBy = 1211L;
+        }
+    }
 
     private static final long serialVersionUID = 1L;
 }

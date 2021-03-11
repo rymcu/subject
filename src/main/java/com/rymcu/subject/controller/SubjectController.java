@@ -2,12 +2,10 @@ package com.rymcu.subject.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.rymcu.subject.dto.AddSignErrDTO;
-import com.rymcu.subject.dto.AnswerOptionDTO;
-import com.rymcu.subject.dto.SubjectOptionDTO;
-import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.PageInfo;
 import com.rymcu.subject.entity.Question;
 import com.rymcu.subject.entity.QuestionBase;
+import com.rymcu.subject.entity.SubjectQuestion;
 import com.rymcu.subject.result.GlobalResult;
 import com.rymcu.subject.result.GlobalResultGenerator;
 import com.rymcu.subject.service.SubjectOptionService;
@@ -19,18 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.rymcu.subject.result.GlobalResultGenerator.genResult;
+import static org.apache.logging.log4j.util.Strings.isEmpty;
 
 /**
  * 题库服务： 查阅题库、修复错题、审核错题、标记错题
@@ -49,11 +41,12 @@ public class SubjectController {
     @Autowired
     private SubjectSignErrService subjectSignErrService;
 
+    @Autowired
+    private SubjectOptionService subjectOptionService;
+
     /**
-     * @param current
-     *         页码
-     * @param pageSize
-     *         行数
+     * @param current  页码
+     * @param pageSize 行数
      * @return
      */
     @ApiOperation("获取试题列表")
@@ -80,19 +73,80 @@ public class SubjectController {
      * @return
      */
     @ApiOperation("编辑试题")
-    @PostMapping("")
+    @PostMapping("/{sq-id:\\d+}")
     @ResponseBody
     @Transactional
     public GlobalResult edit(
+            @PathVariable("sq-id") long sqId,
             @RequestBody Question question
     ) {
-       System.err.println(question);
-        return genResult(true,"");
+        System.err.print(question);
+        System.err.print(sqId + "-----------");
+        if (isEmpty(question.getAnswer())) {
+            return genResult(false, "答案不嫩为空");
+        }
+        String optionName = "ABCDEFG";
+        switch (question.getQuestionType()) {
+            case 1:
+            case 2:
+                if (question.getOptions() == null || question.getOptions().isEmpty() || question.getOptions().size() < 2) {
+                    return genResult(false, "单选题、多选题选项必须>1");
+                }
+                if (optionName.indexOf(question.getAnswer().toUpperCase()) < 0) {
+                    return genResult(false, "单选题、多选题答案必须为A~G递增");
+                }
+                if (question.getOptions().size() > 7) {
+                    return genResult(false, "最多允许添加7个选项");
+                }
+                break;
+            case 3:
+                if ("1" != question.getAnswer() || "0" != question.getAnswer()) {
+                    return genResult(false, "判断题答案必须是1、0");
+                }
+                if (question.getOptions() == null || question.getOptions().isEmpty()) {
+                    break;
+                }
+                return genResult(false, "判断题：不能存在选项");
+            case 4:
+            case 5:
+                if (question.getOptions() == null || question.getOptions().isEmpty()) {
+                    break;
+                }
+                return genResult(false, "填空、问答：不能存在选项");
+            default:
+                return genResult(false, "试题类型错误");
+        }
+
+        final long[] editSqId = {0};
+        if (sqId == 0 && question.getId() == null) {
+            editSqId[0] = this.subjectQuestionService.insertSelective(new SubjectQuestion(question, true));
+            if (editSqId[0] < 1) {
+                return genResult(false, "插入试题失败");
+            }
+        } else {
+            int updateCount = this.subjectQuestionService.updateByPrimaryKeySelective(new SubjectQuestion(question, false));
+            if (updateCount < 1) {
+                return genResult(false, "更新试题失败");
+            }
+            editSqId[0] = question.getId();
+        }
+        this.subjectOptionService.deleteBySqId(editSqId[0]);
+
+        question.getOptions().forEach(obj ->
+        {
+            final int index = question.getOptions().indexOf(obj);
+            obj.setOptionName(String.valueOf(optionName.indexOf(index)));
+            obj.setSubjectQuestionId(editSqId[0]);
+            this.subjectOptionService.insertSelective(obj);
+        });
+        return
+
+                genResult(true, "");
+
     }
 
     /**
-     * @param sqId
-     *         试题编号
+     * @param sqId 试题编号
      * @return
      */
     @ApiOperation("查看试题详情")

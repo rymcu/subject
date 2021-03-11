@@ -28,8 +28,8 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
     }
 
     @Override
-    public int insertSelective(SubjectQuestion record) {
-        return subjectQuestionMapper.insertSelective(record);
+    public long insertSelective(SubjectQuestion record) {
+        return subjectQuestionMapper.insertSelective(record) == 0 ? -1 : record.getId();
     }
 
     @Override

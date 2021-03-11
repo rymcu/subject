@@ -56,4 +56,15 @@ public class SubjectOptionServiceImpl implements SubjectOptionService {
         return subjectOptionMapper.getSubjectAnswer(sqId);
     }
 
+    /**
+     * 通过sqId清空试题选项
+     *
+     * @param sqId
+     * @return
+     */
+    @Override
+    public int deleteBySqId(long sqId) {
+        return subjectOptionMapper.deleteBySqId(sqId);
+    }
+
 }

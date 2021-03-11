@@ -32,11 +32,10 @@ public interface SubjectQuestionMapper {
     /**
      * insert record to table selective
      *
-     * @param record
-     *         the record
+     * @param record the record
      * @return insert count
      */
-    int insertSelective(SubjectQuestion record);
+    long insertSelective(SubjectQuestion record);
 
     /**
      * select by primary key
