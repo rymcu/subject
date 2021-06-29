@@ -27,7 +27,6 @@
             <result column="ID" jdbcType="INTEGER" property="subjectQuestionId"/>
             <result column="option_name" jdbcType="VARCHAR" property="optionName"/>
             <result column="option_content" jdbcType="VARCHAR" property="optionContent"/>
-            <result column="is_answer" jdbcType="BOOLEAN" property="answerFlag"/>
         </collection>
     </resultMap>
 
@@ -41,6 +40,13 @@
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="error_flag" jdbcType="BOOLEAN" property="errorFlag"/>
         <result column="show_flag" jdbcType="BOOLEAN" property="showFlag"/>
+    </resultMap>
+
+    <resultMap id="QuestionAnswer" type="com.rymcu.subject.entity.QuestionAnswer">
+
+        <!--@Table subject_question-->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="answer" jdbcType="VARCHAR" property="answer"/>
     </resultMap>
 
     <sql id="query_sql">
@@ -86,7 +92,6 @@
                so.id so_id,
                so.option_name,
                so.option_content,
-               so.is_answer
         FRom subject_question sq
                  INNER JOIN subject_option so on sq.id = so.subject_question_id
     </sql>
@@ -350,4 +355,9 @@
         select ID FROM subject_question
         <include refid="query_sql"></include>
     </select>
+
+    <select id="getQuestionAnswer" resultMap="QuestionAnswer">
+        select ID, ANSWER FROM subject_question where id = #{sqId}
+    </select>
+
 </mapper>

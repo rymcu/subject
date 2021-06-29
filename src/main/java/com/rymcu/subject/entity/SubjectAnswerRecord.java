@@ -1,12 +1,12 @@
 package com.rymcu.subject.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 答题记录表
@@ -40,6 +40,11 @@ public class SubjectAnswerRecord implements Serializable {
      * 答题人
      */
     private Long userId;
+
+    /**
+     * 答题是否正确
+     */
+    private Boolean answerFlag;
 
     private static final long serialVersionUID = 1L;
 }

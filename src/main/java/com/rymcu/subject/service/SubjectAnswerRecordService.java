@@ -16,10 +16,6 @@ public interface SubjectAnswerRecordService {
 
     SubjectAnswerRecord selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(SubjectAnswerRecord record);
-
-    int updateByPrimaryKey(SubjectAnswerRecord record);
-
     List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now, boolean everydayFlag);
 
     List<SubjectAnswerRecord> getAnswerRecord(long userId, Date now);

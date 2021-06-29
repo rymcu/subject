@@ -2,6 +2,7 @@ package com.rymcu.subject.mapper;
 
 import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.Question;
+import com.rymcu.subject.entity.QuestionAnswer;
 import com.rymcu.subject.entity.QuestionBase;
 import com.rymcu.subject.entity.SubjectQuestion;
 import org.apache.ibatis.annotations.Mapper;
@@ -124,4 +125,6 @@ public interface SubjectQuestionMapper {
     List<Question> listBySqId(List<Integer> sqIdList);
 
     List<Integer> sqIdList(QuestionBase questionBase);
+
+    QuestionAnswer getQuestionAnswer(Long sqId);
 }

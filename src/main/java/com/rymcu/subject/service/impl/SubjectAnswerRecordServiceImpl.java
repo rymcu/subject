@@ -1,13 +1,11 @@
 package com.rymcu.subject.service.impl;
 
+import com.rymcu.subject.entity.SubjectAnswerRecord;
+import com.rymcu.subject.mapper.SubjectAnswerRecordMapper;
+import com.rymcu.subject.service.SubjectAnswerRecordService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
-import com.rymcu.subject.mapper.SubjectAnswerRecordMapper;
-import com.rymcu.subject.entity.SubjectAnswerRecord;
-import com.rymcu.subject.service.SubjectAnswerRecordService;
-
 import java.util.Date;
 import java.util.List;
 
@@ -37,15 +35,6 @@ public class SubjectAnswerRecordServiceImpl implements SubjectAnswerRecordServic
         return subjectAnswerRecordMapper.selectByPrimaryKey(id);
     }
 
-    @Override
-    public int updateByPrimaryKeySelective(SubjectAnswerRecord record) {
-        return subjectAnswerRecordMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public int updateByPrimaryKey(SubjectAnswerRecord record) {
-        return subjectAnswerRecordMapper.updateByPrimaryKey(record);
-    }
 
     @Override
     public List<SubjectAnswerRecord> getTodayAnswerRecord(long userId, Date now, boolean everydayFlag) {

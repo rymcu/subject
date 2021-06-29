@@ -33,10 +33,5 @@ public class SubjectOption {
      */
     private String optionContent;
 
-    /**
-     * 是否是答案 1-正确选项，0-正常选项
-     */
-    private boolean answerFlag;
-
     private static final long serialVersionUID = 1L;
 }

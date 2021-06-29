@@ -2,6 +2,7 @@ package com.rymcu.subject.service;
 
 import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.Question;
+import com.rymcu.subject.entity.QuestionAnswer;
 import com.rymcu.subject.entity.QuestionBase;
 import com.rymcu.subject.entity.SubjectQuestion;
 
@@ -49,4 +50,7 @@ public interface SubjectQuestionService {
      * @return
      */
     List<Integer> sqIdList(QuestionBase questionBase);
+
+
+    QuestionAnswer getQuestionAnswer(Long sqId);
 }

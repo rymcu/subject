@@ -2,6 +2,7 @@ package com.rymcu.subject.service.impl;
 
 import com.rymcu.subject.dto.SubjectQuestionDTO;
 import com.rymcu.subject.entity.Question;
+import com.rymcu.subject.entity.QuestionAnswer;
 import com.rymcu.subject.entity.QuestionBase;
 import com.rymcu.subject.entity.SubjectQuestion;
 import com.rymcu.subject.mapper.SubjectQuestionMapper;
@@ -95,6 +96,11 @@ public class SubjectQuestionServiceImpl implements SubjectQuestionService {
     @Override
     public List<Integer> sqIdList(QuestionBase questionBase) {
         return this.subjectQuestionMapper.sqIdList(questionBase);
+    }
+
+    @Override
+    public QuestionAnswer getQuestionAnswer(Long sqId) {
+        return this.subjectQuestionMapper.getQuestionAnswer(sqId);
     }
 
     /**

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.rymcu.subject.dto.AnswerOptionDTO;
 import com.rymcu.subject.dto.SubjectOptionDTO;
 import com.rymcu.subject.dto.SubjectQuestionDTO;
+import com.rymcu.subject.entity.QuestionAnswer;
 import com.rymcu.subject.entity.SubjectAnswerRecord;
 import com.rymcu.subject.result.GlobalResult;
 import com.rymcu.subject.result.GlobalResultGenerator;
@@ -45,16 +46,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public class QuestionController {
 
 
+    private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
     @Autowired
     private SubjectQuestionService subjectQuestionService;
-
     @Autowired
     private SubjectOptionService subjectOptionService;
-
     @Autowired
     private SubjectAnswerRecordService subjectAnswerRecordService;
-
-    private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
     public static Map<String, Object> getAnswerRecordGlobalResult(PageInfo<SubjectQuestionDTO> pageInfo) {
         Map<String, Object> map = new HashMap(2);
@@ -159,11 +157,11 @@ public class QuestionController {
     public GlobalResult getAnswer(
             @PathVariable(name = "sq-id") Long sqId
     ) {
-        final List<AnswerOptionDTO> questionOptionList = this.subjectOptionService.getSubjectAnswer(sqId);
-        if (questionOptionList.isEmpty()) {
+        final QuestionAnswer questionAnswer = this.subjectQuestionService.getQuestionAnswer(sqId);
+        if (questionAnswer == null) {
             return GlobalResultGenerator.genErrorResult("该题不存在");
         }
-        return GlobalResultGenerator.genSuccessResult(new RespResult("正确答案", true, getCorrectAnswer(questionOptionList)));
+        return GlobalResultGenerator.genSuccessResult(new RespResult("正确答案", true, questionAnswer.getAnswer()));
     }
 
 
@@ -211,7 +209,6 @@ public class QuestionController {
     }
 
 
-
     private void setQuestionOption(
             SubjectQuestionDTO subjectQuestionDto,
             boolean setAnswer
@@ -223,25 +220,19 @@ public class QuestionController {
         final int questionType = subjectQuestionDto.getQuestionType();
         if (questionType == 5 || questionType == 4) {
             subjectQuestionDto.setSubjectOptionDTOList(null);
+        } else if (answerOptionDTOList.size() < 2) {
+            subjectQuestionDto.setSubjectOptionDTOList(null);
         } else {
-            if (answerOptionDTOList.size() < 2) {
-                subjectQuestionDto.setSubjectOptionDTOList(null);
-            } else {
-                final List<SubjectOptionDTO> subjectOptionDTOS = new ArrayList<>();
-                answerOptionDTOList.forEach(answerOptionDTO -> {
-                    subjectOptionDTOS.add(new SubjectOptionDTO(answerOptionDTO.getOptionName(), answerOptionDTO.getOptionContent()));
-                });
-                subjectQuestionDto.setSubjectOptionDTOList(subjectOptionDTOS);
-            }
+            final List<SubjectOptionDTO> subjectOptionDTOS = new ArrayList<>();
+            answerOptionDTOList.forEach(answerOptionDTO -> {
+                subjectOptionDTOS.add(new SubjectOptionDTO(answerOptionDTO.getOptionName(), answerOptionDTO.getOptionContent()));
+            });
+            subjectQuestionDto.setSubjectOptionDTOList(subjectOptionDTOS);
 
         }
         if (setAnswer) {
             //设置答案
-            if (answerOptionDTOList == null || answerOptionDTOList.isEmpty()) {
-                subjectQuestionDto.setCorrectAnswer(null);
-            } else {
-                subjectQuestionDto.setCorrectAnswer(getCorrectAnswer(answerOptionDTOList));
-            }
+            subjectQuestionDto.setCorrectAnswer(this.subjectQuestionService.getQuestionAnswer(subjectQuestionDto.getId()).getAnswer());
         }
     }
 
@@ -265,6 +256,9 @@ public class QuestionController {
             return GlobalResultGenerator.genErrorResult("题库此题记录异常");
         }
 
+        // 设置答题是否正确
+        final Boolean answerFlag = subjectQuestionService.getQuestionAnswer(sqId).getAnswer().equals(subjectAnswerRecord.getAnswer());
+        subjectAnswerRecord.setAnswerFlag(answerFlag);
         // 如果不是每日答题则普通插入，否则记录答题标志1
         if (!everydayFlag) {
             this.subjectAnswerRecordService.insertSelective(subjectAnswerRecord);
@@ -273,21 +267,7 @@ public class QuestionController {
 
         }
 
-        final String correctAnswer = getCorrectAnswer(questionOptionList);
-        final boolean answerFlag = correctAnswer.equalsIgnoreCase(answer);
         return GlobalResultGenerator.genResult(true, answerFlag, answerFlag ? "回答正确" : "回答错误");
     }
 
-    private String getCorrectAnswer(List<AnswerOptionDTO> questionOptionList) {
-        final String[] correctAnswer = new String[]{""};
-        if (questionOptionList.size() == 1) {
-            correctAnswer[0] = questionOptionList.get(0).getOptionContent();
-        } else {
-            questionOptionList.stream()
-                              .filter(AnswerOptionDTO::isAnswerFlag)
-                              .forEach(questionOption -> correctAnswer[0] = correctAnswer[0] + questionOption.getOptionName());
-
-        }
-        return correctAnswer[0];
-    }
 }
