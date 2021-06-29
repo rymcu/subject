@@ -293,7 +293,7 @@
 
     <select id="getShowCount" resultType="long">
         SELECT COUNT(*)
-        FROM subject_question AND show_flag = 1
+        FROM subject_question where show_flag = 1
     </select>
 
     <select id="getAllCount" resultType="long">
