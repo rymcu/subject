@@ -2,7 +2,7 @@ spring:
   datasource:
     platform: mysql
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://local:3306/subject?autoReconnect=true&useSSL=false&serverTimezone=GMT%2b8&initConnectionSqls=UTF8mb4
+    url: jdbc:mysql://localhost:3306/subject?autoReconnect=true&useSSL=false&serverTimezone=GMT%2b8&initConnectionSqls=UTF8mb4
     username: subject
     password: 1234
   jackson:
