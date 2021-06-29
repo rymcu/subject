@@ -91,7 +91,7 @@
                answer,
                so.id so_id,
                so.option_name,
-               so.option_content,
+        so.option_content
         FRom subject_question sq
                  INNER JOIN subject_option so on sq.id = so.subject_question_id
     </sql>
